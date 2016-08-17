@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Kai.Yang&#39; Blog</title>
+  <subtitle>生命不止、奋斗不息</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://www.yangkai0725.com/"/>
+  <updated>2016-08-17T09:27:18.665Z</updated>
+  <id>http://www.yangkai0725.com/</id>
+  
+  <author>
+    <name>kaiyang</name>
+    <email>fox520527088@163.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>揭秘Redis持久化</title>
+    <link href="http://www.yangkai0725.com/posts/handbook/20160816/05%E6%8F%AD%E7%A7%98Redis%E6%8C%81%E4%B9%85%E5%8C%96.html"/>
+    <id>http://www.yangkai0725.com/posts/handbook/20160816/05揭秘Redis持久化.html</id>
+    <published>2016-08-16T04:54:34.000Z</published>
+    <updated>2016-08-17T09:27:18.665Z</updated>
+    
+    <content type="html"><![CDATA[<p>什么是持久化，简单来讲就是将数据放到断电后数据不会丢失的设备中。也就是我们通常理解的硬盘上。<br><a id="more"></a></p>
+<h1 id="写操作的流程"><a href="#写操作的流程" class="headerlink" title="写操作的流程"></a>写操作的流程</h1><hr>
+<p>首先我们来看一下数据库在进行写操作时到底做了哪些事，主要有下面五个过程。</p>
+<ol>
+<li>客户端向服务端发送写操作（数据在客户端的内存中）</li>
+<li>数据库服务端接收到写请求的数据（数据在服务端的内存中）</li>
+<li>服务端调用write(2) 这个系统调用，将数据往磁盘上写（数据在系统内存的缓冲区中）</li>
+<li>操作系统将缓冲区中的数据转移到磁盘控制器上（数据在磁盘缓存中）</li>
+<li>磁盘控制器将数据写到磁盘的物理介质中（数据真正落到磁盘上）</li>
+</ol>
+<p>写操作大致有上面5个流程，下面我们结合上面的5个流程看一下各种级别的故障。</p>
+<ul>
+<li>当数据库系统故障时，这时候系统内核还是OK的，那么此时只要我们执行完了第3步，那么数据就是安全的，因为后续操作系统会来完成后面几步，保证数据最终会落到磁盘上。</li>
+<li><p>当系统断电，这时候上面5项中提到的所有缓存都会失效，并且数据库和操作系统都会停止工作。所以只有当数据在完成第5步后，机器断电才能保证数据不丢失，在上述四步中的数据都会丢失。<br>通过上面5步的了解，可能我们会希望搞清下面一些问题：</p>
+</li>
+<li><p>数据库多长时间调用一次write(2)，将数据写到内核缓冲区</p>
+</li>
+<li>内核多长时间会将系统缓冲区中的数据写到磁盘控制器</li>
+<li>磁盘控制器又在什么时候把缓存中的数据写到物理介质上<br>对于第一个问题，通常数据库层面会进行全面控制。而对第二个问题，操作系统有其默认的策略，但是我们也可以通过POSIX API提供的fsync系列命令强制操作系统将数据从内核区写到磁盘控制器上。对于第三个问题，好像数据库已经无法触及，但实际上，大多数情况下磁盘缓存是被设置关闭的。或者是只开启为读缓存，也就是写操作不会进行缓存，直接写到磁盘。建议的做法是仅仅当你的磁盘设备有备用电池时才开启写缓存。</li>
+</ul>
+<p>所谓数据损坏，就是数据无法恢复，上面我们讲的都是如何保证数据是确实写到磁盘上去，但是写到磁盘上可能并不意味着数据不会损坏。比如我们可能一次写请求会进行两次不同的写操作，当意外发生时，可能会导致一次写操作安全完成，但是另一次还没有进行。如果数据库的数据文件结构组织不合理，可能就会导致数据完全不能恢复的状况出现。</p>
+<p>这里通常也有三种策略来组织数据，以防止数据文件损坏到无法恢复的情况：</p>
+<ol>
+<li>第一种是最粗糙的处理，就是不通过数据的组织形式保证数据的可恢复性。而是通过配置数据同步备份的方式，在数据文件损坏后通过数据备份来进行恢复。实际上MongoDB在不开启journaling日志，通过配置Replica Sets时就是这种情况。</li>
+<li>另一种是在上面基础上添加一个操作日志，每次操作时记一下操作的行为，这样我们可以通过操作日志来进行数据恢复。因为操作日志是顺序追加的方式写的，所以不会出现操作日志也无法恢复的情况。这也类似于MongoDB开启了journaling日志的情况。</li>
+<li>更保险的做法是数据库不进行老数据的修改，只是以追加方式去完成写操作，这样数据本身就是一份日志，这样就永远不会出现数据无法恢复的情况了。实际上CouchDB就是此做法的优秀范例。</li>
+</ol>
+<h1 id="RDB快照"><a href="#RDB快照" class="headerlink" title="RDB快照"></a>RDB快照</h1><hr>
+<p>下面我们说一下Redis的第一个持久化策略，RDB快照。Redis支持将当前数据的快照存成一个数据文件的持久化机制。而一个持续写入的数据库如何生成快照呢。Redis借助了fork命令的copy on write机制。在生成快照时，将当前进程fork出一个子进程，然后在子进程中循环所有的数据，将数据写成为RDB文件。</p>
+<p>我们可以通过Redis的save指令来配置RDB快照生成的时机，比如你可以配置当10分钟以内有100次写入就生成快照，也可以配置当1小时内有1000次写入就生成快照，也可以多个规则一起实施。这些规则的定义就在Redis的配置文件中，你也可以通过Redis的CONFIG SET命令在Redis运行时设置规则，不需要重启Redis。</p>
+<p>Redis的RDB文件不会坏掉，因为其写操作是在一个新进程中进行的，当生成一个新的RDB文件时，Redis生成的子进程会先将数据写到一个临时文件中，然后通过原子性rename系统调用将临时文件重命名为RDB文件，这样在任何时候出现故障，Redis的RDB文件都总是可用的。</p>
+<p>同时，Redis的RDB文件也是Redis主从同步内部实现中的一环。</p>
+<p>但是，我们可以很明显的看到，RDB有他的不足，就是一旦数据库出现问题，那么我们的RDB文件中保存的数据并不是全新的，从上次RDB文件生成到Redis停机这段时间的数据全部丢掉了。在某些业务下，这是可以忍受的，我们也推荐这些业务使用RDB的方式进行持久化，因为开启RDB的代价并不高。但是对于另外一些对数据安全性要求极高的应用，无法容忍数据丢失的应用，RDB就无能为力了，所以Redis引入了另一个重要的持久化机制：AOF 日志。</p>
+<h1 id="AOF日志"><a href="#AOF日志" class="headerlink" title="AOF日志"></a>AOF日志</h1><p>aof日志的全称是append only file，从名字上我们就能看出来，它是一个追加写入的日志文件。与一般数据库的binlog不同的是，AOF文件是可识别的纯文本，它的内容就是一个个的Redis标准命令。<br>比如我们进行如下实验，使用Redis2.6版本，在启动命令参数中设置开启aof功能：</p>
+<pre><code>./redis-server --appendonly yes
+</code></pre><p>然后我们执行如下的命令：</p>
+<pre><code>redis 127.0.0.1:6379&gt; set key1 Hello
+OK
+redis 127.0.0.1:6379&gt; append key1 &quot; World!&quot;
+(integer) 12
+redis 127.0.0.1:6379&gt; del key1
+(integer) 1
+redis 127.0.0.1:6379&gt; del non_existing_key
+(integer) 0
+</code></pre><p>这时我们查看AOF日志文件，就会得到如下内容：</p>
+<pre><code>$ cat appendonly.aof
+*2
+$6
+SELECT
+$1
+0
+*3
+$3
+set
+$4
+key1
+$5
+Hello
+*3
+$6
+append
+$4
+key1
+$7
+World!
+*2
+$3
+del
+$4
+key1
+</code></pre><p>可以看到，写操作都生成了一条相应的命令作为日志。其中值得注意的是最后一个del命令，它并没有被记录在AOF日志中，这是因为Redis判断出这个命令不会对当前数据集做出修改。所以不需要记录这个无用的写命令。另外AOF日志也不是完全按客户端的请求来生成日志的，比如命令INCRBYFLOAT在记AOF日志时就被记成一条SET记录，因为浮点数操作可能在不同的系统上会不同，所以为了避免同一份日志在不同的系统上生成不同的数据集，所以这里只将操作后的结果通过SET来记录。</p>
+<h1 id="AOF重写"><a href="#AOF重写" class="headerlink" title="AOF重写"></a>AOF重写</h1><hr>
+<p>你可以会想，每一条写命令都生成一条日志，那么AOF文件是不是会很大？答案是肯定的，AOF文件会越来越大，所以Redis又提供了一个功能，叫做AOF rewrite。其功能就是重新生成一份AOF文件，新的AOF文件中一条记录的操作只会有一次，而不像一份老文件那样，可能记录了对同一个值的多次操作。其生成过程和RDB类似，也是fork一个进程，直接遍历数据，写入新的AOF临时文件。在写入新文件的过程中，所有的写操作日志还是会写到原来老的AOF文件中，同时还会记录在内存缓冲区中。当重完操作完成后，会将所有缓冲区中的日志一次性写入到临时文件中。然后调用原子性的rename命令用新的AOF文件取代老的AOF文件。</p>
+<p>从上面的流程我们能够看到，RDB和AOF操作都是顺序IO操作，性能都很高。而同时在通过RDB文件或者AOF日志进行数据库恢复的时候，也是顺序的读取数据加载到内存中。所以也不会造成磁盘的随机读。</p>
+<h1 id="AOF可靠性设置"><a href="#AOF可靠性设置" class="headerlink" title="AOF可靠性设置"></a>AOF可靠性设置</h1><hr>
+<p>AOF是一个写文件操作，其目的是将操作日志写到磁盘上，所以它也同样会遇到我们上面说的写操作的5个流程。那么写AOF的操作安全性又有多高呢。实际上这是可以设置的，在Redis中对AOF调用write(2)写入后，何时再调用fsync将其写到磁盘上，通过appendfsync 选项来控制，下面appendfsync的三个设置项，安全强度逐渐变强。</p>
+<h1 id="appendfsync-no"><a href="#appendfsync-no" class="headerlink" title="appendfsync no"></a>appendfsync no</h1><hr>
+<p>当设置appendfsync为no的时候，Redis不会主动调用fsync去将AOF日志内容同步到磁盘，所以这一切就完全依赖于操作系统的调试了。对大多数Linux操作系统，是每30秒进行一次fsync，将缓冲区中的数据写到磁盘上。</p>
+<h1 id="appendfsync-everysec"><a href="#appendfsync-everysec" class="headerlink" title="appendfsync everysec"></a>appendfsync everysec</h1><hr>
+<p>当设置appendfsync为everysec的时候，Redis会默认每隔一秒进行一次fsync调用，将缓冲区中的数据写到磁盘。但是当这一次的fsync调用时长超过1秒时。Redis会采取延迟fsync的策略，再等一秒钟。也就是在两秒后再进行fsync，这一次的fsync就不管会执行多长时间都会进行。这时候由于在fsync时文件描述符会被阻塞，所以当前的写操作就会阻塞。 所以，结论就是，在绝大多数情况下，Redis会每隔一秒进行一次fsync。在最坏的情况下，两秒钟会进行一次fsync操作。</p>
+<p>这一操作在大多数数据库系统中被称为group commit，就是组合多次写操作的数据，一次性将日志写到磁盘。</p>
+<h1 id="appednfsync-always"><a href="#appednfsync-always" class="headerlink" title="appednfsync always"></a>appednfsync always</h1><hr>
+<p>当设置appendfsync为always时，每一次写操作都会调用一次fsync，这时数据是最安全的，当然，由于每次都会执行fsync，所以其性能也会受到影响。</p>
+<h1 id="对于pipelining有什么不同"><a href="#对于pipelining有什么不同" class="headerlink" title="对于pipelining有什么不同"></a>对于pipelining有什么不同</h1><hr>
+<p>对于pipelining的操作，其具体过程是客户端一次性发送N个命令，然后等待这N个命令的返回结果被一起返回。通过采用pipilining就意味着放弃了对每一个命令的返回值确认。由于在这种情况下，N个命令是在同一个执行过程中执行的。所以当设置appendfsync为everysec时，可能会有一些偏差，因为这N个命令可能执行时间超过1秒甚至2秒。但是可以保证的是，最长时间不会超过这N个命令的执行时间和。</p>
+<h1 id="与postgreSQL和MySQL的比较"><a href="#与postgreSQL和MySQL的比较" class="headerlink" title="与postgreSQL和MySQL的比较"></a>与postgreSQL和MySQL的比较</h1><hr>
+<p>这一块就不多说了，由于上面操作系统层面的数据安全已经讲了很多，所以其实不同的数据库在实现上都大同小异。 总之最后的结论就是，在Redis开启AOF的情况下，其单机数据安全性并不比这些成熟的SQL数据库弱。</p>
+<p>这些持久化的数据有什么用，当然是用于重启后的数据恢复。 Redis是一个内存数据库，无论是RDB还是AOF，都只是其保证数据恢复的措施。 所以Redis在利用RDB和AOF进行恢复的时候，都会读取RDB或AOF文件，重新加载到内存中。 相对于MySQL等数据库的启动时间来说，会长很多，因为MySQL本来是不需要将数据加载到内存中的。</p>
+<p>但是相对来说，MySQL启动后提供服务时，其被访问的热数据也会慢慢加载到内存中，通常我们称之为预热，而在预热完成前，其性能都不会太高。而Redis的好处是一次性将数据加载到内存中，一次性预热。这样只要Redis启动完成，那么其提供服务的速度都是非常快的。</p>
+<p>而在利用RDB和利用AOF启动上，其启动时间有一些差别。RDB的启动时间会更短，原因有两个，一是RDB文件中每一条数据只有一条记录，不会像AOF日志那样可能有一条数据的多次操作记录。所以每条数据只需要写一次就行了。另一个原因是RDB文件的存储格式和Redis数据在内存中的编码格式是一致的，不需要再进行数据编码工作。在CPU消耗上要远小于AOF日志的加载。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;什么是持久化，简单来讲就是将数据放到断电后数据不会丢失的设备中。也就是我们通常理解的硬盘上。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="handbook" scheme="http://www.yangkai0725.com/categories/handbook/"/>
+    
+    
+      <category term="redis" scheme="http://www.yangkai0725.com/tags/redis/"/>
+    
+      <category term="database" scheme="http://www.yangkai0725.com/tags/database/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo+Github搭建</title>
+    <link href="http://www.yangkai0725.com/posts/note/20160810/01%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2%E6%A8%A1%E6%9D%BF.html"/>
+    <id>http://www.yangkai0725.com/posts/note/20160810/01搭建Hexo博客模板.html</id>
+    <published>2016-08-10T09:37:58.000Z</published>
+    <updated>2016-08-17T09:27:18.662Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="搭建参考地址"><a href="#搭建参考地址" class="headerlink" title="搭建参考地址"></a>搭建参考地址</h1><p><a href="http://jianbing.github.io/2016/03/03/set-up-blog/" target="_blank" rel="external">http://jianbing.github.io/2016/03/03/set-up-blog/</a><br><a id="more"></a></p>
+<h1 id="Hexo-Landscape主题的字体和JS库优化"><a href="#Hexo-Landscape主题的字体和JS库优化" class="headerlink" title="Hexo Landscape主题的字体和JS库优化"></a>Hexo Landscape主题的字体和JS库优化</h1><p><a href="http://www.jianshu.com/p/ffcdc4fec6ec" target="_blank" rel="external">http://www.jianshu.com/p/ffcdc4fec6ec</a></p>
+<h1 id="修改blog-config-yml"><a href="#修改blog-config-yml" class="headerlink" title="修改blog/_config.yml"></a>修改blog/_config.yml</h1><pre><code>deploy:
+    type: git
+    repository: git@github.com:eagleless/eagleless.github.io.git          
+    branch: master
+</code></pre><h1 id="生成SSH密钥过程"><a href="#生成SSH密钥过程" class="headerlink" title="生成SSH密钥过程"></a>生成SSH密钥过程</h1><ol>
+<li>查看是否已经有了ssh密钥：cd ~/.ssh<br>如果没有密钥则不会有此文件夹，有则备份删除</li>
+<li>生存密钥：<br>$ ssh-keygen -t rsa -C “fox520527088@163.com”<br>按3个回车，密码为空。</li>
+</ol>
+<p>Your identification has been saved in /home/tekkub/.ssh/id_rsa.<br>Your public key has been saved in /home/tekkub/.ssh/id_rsa.pub.<br>The key fingerprint is:<br>………………</p>
+<p>最后得到了两个文件：id_rsa和id_rsa.pub</p>
+<ol>
+<li>添加密钥到ssh：ssh-add 文件名<br>需要之前输入密码。</li>
+<li>在github上添加ssh密钥，这要添加的是“id_rsa.pub”里面的公钥。<br>打开<a href="https://github.com/" target="_blank" rel="external">https://github.com/</a> ，登录添加SSHKey。</li>
+</ol>
+<h1 id="常用hexo命令"><a href="#常用hexo命令" class="headerlink" title="常用hexo命令"></a>常用hexo命令</h1><pre><code>hexo n &quot;HelloWorld&quot;
+hexo g
+hexo d
+hexo g -d
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;搭建参考地址&quot;&gt;&lt;a href=&quot;#搭建参考地址&quot; class=&quot;headerlink&quot; title=&quot;搭建参考地址&quot;&gt;&lt;/a&gt;搭建参考地址&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;http://jianbing.github.io/2016/03/03/set-up-blog/&quot;&gt;http://jianbing.github.io/2016/03/03/set-up-blog/&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="note" scheme="http://www.yangkai0725.com/categories/note/"/>
+    
+    
+      <category term="git" scheme="http://www.yangkai0725.com/tags/git/"/>
+    
+      <category term="hexo" scheme="http://www.yangkai0725.com/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MarkDown语法</title>
+    <link href="http://www.yangkai0725.com/posts/handbook/20160810/04markdown%E8%AF%AD%E6%B3%95%E7%A4%BA%E4%BE%8B.html"/>
+    <id>http://www.yangkai0725.com/posts/handbook/20160810/04markdown语法示例.html</id>
+    <published>2016-08-10T08:16:01.000Z</published>
+    <updated>2016-08-17T09:27:18.664Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Markdown语法说明中文版"><a href="#Markdown语法说明中文版" class="headerlink" title="Markdown语法说明中文版"></a>Markdown语法说明中文版</h1><p><a href="http://www.appinn.com/markdown/" target="_blank" rel="external">http://www.appinn.com/markdown/</a></p>
+<a id="more"></a>
+<p>Here is an example of AppleScript:</p>
+<pre><code>tell application &quot;Foo&quot;
+    beep
+end tell
+</code></pre><h1 id="Markdown表示h1-h6使用语法"><a href="#Markdown表示h1-h6使用语法" class="headerlink" title="Markdown表示h1-h6使用语法"></a>Markdown表示h1-h6使用语法</h1><p>类 Atx 形式则是在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶</p>
+<pre><code># 这是 H1
+## 这是 H2
+###### 这是 H6
+</code></pre><h1 id="链接语法"><a href="#链接语法" class="headerlink" title="链接语法"></a>链接语法</h1><p>Markdown 支持两种形式的链接语法： 行内式和参考式两种形式。</p>
+<p>不管是哪一种，链接文字都是用 [方括号] 来标记。</p>
+<p>要建立一个行内式的链接，只要在方块括号后面紧接着圆括号并插入网址链接即可，如果你还想要加上链接的 title 文字，只要在网址后面，用双引号把 title 文字包起来即可。</p>
+<h1 id="百度一下-你就知道"><a href="#百度一下-你就知道" class="headerlink" title="百度一下,你就知道"></a><a href="www.baidu.com">百度一下,你就知道</a></h1><pre><code>[百度一下,你就知道](www.baidu.com&quot;百度标题&quot;)
+</code></pre><h1 id="Markdow图片"><a href="#Markdow图片" class="headerlink" title="Markdow图片"></a><a href="http://image.baidu.com/search/detail?ct=503316480&amp;z=0&amp;ipn=d&amp;word=%E5%9B%BE%E7%89%87&amp;hs=0&amp;pn=7&amp;spn=0&amp;di=147138333760&amp;pi=&amp;rn=1&amp;tn=baiduimagedetail&amp;ie=utf-8&amp;oe=utf-8&amp;cl=2&amp;lm=-1&amp;cs=1257261666%2C1562029974&amp;os=2547077022%2C2864557078&amp;simid=4212753602%2C624021646&amp;adpicid=0&amp;ln=30&amp;fr=ala&amp;fm=&amp;sme=&amp;cg=&amp;bdtype=0&amp;oriquery=&amp;objurl=http%3A%2F%2Fpic3.nipic.com%2F20090709%2F2893198_075124038_2.jpg&amp;fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bgtrtv_z%26e3Bv54AzdH3Ffi5oAzdH3FnAzdH3F0nAzdH3F8klvkdw8vvvbw8bu_z%26e3Bip4s&amp;gsm=0" target="_blank" rel="external">Markdow图片</a></h1><pre><code>[Markdow图片](http://image.baidu.com/search/detail?ct=503316480&amp;z=0&amp;ipn=d&amp;word=%E5%9B%BE%E7%89%87&amp;hs=0&amp;pn=7&amp;spn=0&amp;di=147138333760&amp;pi=&amp;rn=1&amp;tn=baiduimagedetail&amp;ie=utf-8&amp;oe=utf-8&amp;cl=2&amp;lm=-1&amp;cs=1257261666%2C1562029974&amp;os=2547077022%2C2864557078&amp;simid=4212753602%2C624021646&amp;adpicid=0&amp;ln=30&amp;fr=ala&amp;fm=&amp;sme=&amp;cg=&amp;bdtype=0&amp;oriquery=&amp;objurl=http%3A%2F%2Fpic3.nipic.com%2F20090709%2F2893198_075124038_2.jpg&amp;fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bgtrtv_z%26e3Bv54AzdH3Ffi5oAzdH3FnAzdH3F0nAzdH3F8klvkdw8vvvbw8bu_z%26e3Bip4s&amp;gsm=0)
+</code></pre><h1 id="Markdown-Blod加粗显示"><a href="#Markdown-Blod加粗显示" class="headerlink" title="Markdown Blod加粗显示"></a><strong>Markdown Blod加粗显示</strong></h1><pre><code>**Markdown Blod加粗显示**
+</code></pre><h1 id="Markdown-Italic斜体"><a href="#Markdown-Italic斜体" class="headerlink" title="Markdown Italic斜体"></a><em>Markdown Italic斜体</em></h1><pre><code>_Markdown Italic斜体_
+</code></pre><h1 id="有序列表和无序列表"><a href="#有序列表和无序列表" class="headerlink" title="有序列表和无序列表"></a>有序列表和无序列表</h1><p>Markdown 支持有序列表和无序列表。无序列表使用星号、加号或是减号作为列表标记;有序列表则使用数字接着一个英文句点。</p>
+<pre><code>*    Red
+*   Green
+*   Blue
+
+1.  Bird
+2.  McHale
+3.  Parish
+</code></pre><h1 id="Blockquote段落"><a href="#Blockquote段落" class="headerlink" title="Blockquote段落"></a>Blockquote段落</h1><p>Markdown Blockquote段落结构Web界面可以使用Flask框架来搭建，GUI界面可以使用TK，PyQT，wxPython等GUI库来编写，从学习成本来说，命令行界面是最容易上手，这一篇我们来聊一聊命令行界面的实现。</p>
+<blockquote>
+<p>This is the first level of quoting.</p>
+<blockquote>
+<p>This is nested blockquote.</p>
+</blockquote>
+<p>Back to the first level.</p>
+</blockquote>
+<h1 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h1><p>你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。</p>
+<pre><code>* * *
+
+***
+
+*****
+
+- - -
+
+---------------------------------------
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Markdown语法说明中文版&quot;&gt;&lt;a href=&quot;#Markdown语法说明中文版&quot; class=&quot;headerlink&quot; title=&quot;Markdown语法说明中文版&quot;&gt;&lt;/a&gt;Markdown语法说明中文版&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;http://www.appinn.com/markdown/&quot;&gt;http://www.appinn.com/markdown/&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="handbook" scheme="http://www.yangkai0725.com/categories/handbook/"/>
+    
+    
+      <category term="markdown" scheme="http://www.yangkai0725.com/tags/markdown/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GitHub常用命令</title>
+    <link href="http://www.yangkai0725.com/posts/handbook/20160810/03GitHub%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html"/>
+    <id>http://www.yangkai0725.com/posts/handbook/20160810/03GitHub常用命令.html</id>
+    <published>2016-08-10T06:11:15.000Z</published>
+    <updated>2016-08-17T09:27:18.663Z</updated>
+    
+    <content type="html"><![CDATA[<hr>
+<p><strong>用户名配置</strong><br>git config –global user.name <your_name><br>例： $ git config –global user.name “eagleless”<br><a id="more"></a></your_name></p>
+<hr>
+<p><strong>邮箱配置</strong><br>git config –global user.email <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#58;&#121;&#x6f;&#117;&#114;&#x5f;&#x65;&#109;&#97;&#x69;&#x6c;&#x40;&#x2026;">&#121;&#x6f;&#117;&#114;&#x5f;&#x65;&#109;&#97;&#x69;&#x6c;&#x40;&#x2026;</a><br>例： $ git config –global user.email fox22222@163.com</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;用户名配置&lt;/strong&gt;&lt;br&gt;git config –global user.name &lt;your_name&gt;&lt;br&gt;例： $ git config –global user.name “eagleless”&lt;br&gt;
+    
+    </summary>
+    
+      <category term="handbook" scheme="http://www.yangkai0725.com/categories/handbook/"/>
+    
+    
+      <category term="git" scheme="http://www.yangkai0725.com/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo使用简介HelloWorld</title>
+    <link href="http://www.yangkai0725.com/posts/note/20160809/00Hexo%E5%8D%9A%E5%AE%A2%E7%A4%BA%E4%BE%8B.html"/>
+    <id>http://www.yangkai0725.com/posts/note/20160809/00Hexo博客示例.html</id>
+    <published>2016-08-09T09:37:58.000Z</published>
+    <updated>2016-08-17T09:27:18.646Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br><a id="more"></a></p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code>bash
+$ hexo new &quot;My New Post&quot;
+</code></pre><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code>bash
+$ hexo server
+</code></pre><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code>bash
+$ hexo generate
+</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code>bash
+$ hexo deploy
+</code></pre><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;br&gt;
+    
+    </summary>
+    
+      <category term="note" scheme="http://www.yangkai0725.com/categories/note/"/>
+    
+    
+      <category term="hexo" scheme="http://www.yangkai0725.com/tags/hexo/"/>
+    
+  </entry>
+  
+</feed>
