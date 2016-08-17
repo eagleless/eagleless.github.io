@@ -79,7 +79,7 @@
 						<li>Links</li>
 						
 						
-						<li>About</li>
+						<li>Über</li>
 						
 					</ul>
 				</div>
@@ -410,43 +410,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<h1 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h1><blockquote>
-<p>   git clone 拷贝并跟踪远程的master分支。<br>   跟踪的好处是以后可以直接通过pull和push命令来提交或者获取远程最新的代码，而不需要指定远程分支名字。</p>
-</blockquote>
-<h1 id="git-diff"><a href="#git-diff" class="headerlink" title="git diff"></a>git diff</h1><blockquote>
-<p>   对比工作区和stage文件的差异</p>
-</blockquote>
-<h1 id="git-log"><a href="#git-log" class="headerlink" title="git log"></a>git log</h1><blockquote>
-<p>   显示到HEAD所指向的commit为止的所有commit记录 。使用reset HEAD~n 命令使HEAD指针向前移动，会导致HEAD之后的commit记录不会被显示。</p>
-</blockquote>
-<h1 id="创建类命令"><a href="#创建类命令" class="headerlink" title="创建类命令"></a>创建类命令</h1><ul>
-<li>git brach branchName 创建名为branchName的branch </li>
-<li>git checkout branchName 切换到branchName的branch </li>
-<li>git checkout -b 创建并切换，也就是上面两个命令的合并</li>
-<li>git brach branchName ef71 从commit ef71创建名为branchName的branch</li>
-</ul>
-<h1 id="提交类命令"><a href="#提交类命令" class="headerlink" title="提交类命令"></a>提交类命令</h1><ul>
-<li>git add 跟踪新文件或者已有文件的改动，或者用来解决冲突</li>
-<li>git commit 把文件从stage提交到branch</li>
-<li>git commit -a 把修改的文件先提交到stage,然后再从stash提交到branch</li>
-</ul>
-<h1 id="删除类命令"><a href="#删除类命令" class="headerlink" title="删除类命令"></a>删除类命令</h1><ul>
-<li>git rm –cached readme.txt 只从stage中删除，保留物理文件</li>
-<li>git rm readme.txt 不但从stage中删除，同时删除物理文件</li>
-<li>git mv a.txt b.txt 把a.txt改名为b.txt<h1 id="Merge类命令"><a href="#Merge类命令" class="headerlink" title="Merge类命令"></a>Merge类命令</h1></li>
-</ul>
-<blockquote>
-<p>   在冲突状态下，需要解决冲突的文件会从index打回到工作区。</p>
-<p>   1.用工具或者手工解决冲突<br>   2.git add 命令来表明冲突已经解决。<br>   3.再次commit 已解决冲突的文件。</p>
-<p>   $ git reset –hard ORIG_HEAD 用来撤销已经commit 的merge.<br>   $ git reset –hard HEAD 用来撤销还没commit 的merge,其实原理就是放弃index和工作区的改动。</p>
-<p>   git reset –merge ORIG_HEAD，注意其中的–hard 换成了 –merge，这样就可以避免在回滚时清除working tree。</p>
-</blockquote>
-<h1 id="用户名配置"><a href="#用户名配置" class="headerlink" title="用户名配置"></a>用户名配置</h1><pre><code>git config --global user.name &lt;your_name&gt;
-</code></pre><p>例： $ git config –global user.name “eagleless”</p>
-<h1 id="邮箱配置"><a href="#邮箱配置" class="headerlink" title="邮箱配置"></a>邮箱配置</h1><pre><code>git config --global user.email &lt;your_email@…&gt;
-</code></pre><p>例： $ git config –global user.email fox22222@163.com</p>
-
+        <blockquote>
+<p>   git clone<br>   git diff<br>   git log<br>   创建类命令<br>
       
     </div>
     
@@ -463,6 +428,10 @@
 	</div>
 
 
+      
+        <p class="article-more-link">
+          <a  href="/posts/handbook/20160810/03GitHub常用命令.html#more">more >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>

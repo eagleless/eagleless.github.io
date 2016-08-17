@@ -243,11 +243,11 @@ end tell
     <link href="http://www.yangkai0725.com/posts/handbook/20160810/03GitHub%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html"/>
     <id>http://www.yangkai0725.com/posts/handbook/20160810/03GitHub常用命令.html</id>
     <published>2016-08-10T06:11:15.000Z</published>
-    <updated>2016-08-17T09:32:00.463Z</updated>
+    <updated>2016-08-17T10:32:47.150Z</updated>
     
-    <content type="html"><![CDATA[<a id="more"></a>
-<h1 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h1><blockquote>
-<p>   git clone 拷贝并跟踪远程的master分支。<br>   跟踪的好处是以后可以直接通过pull和push命令来提交或者获取远程最新的代码，而不需要指定远程分支名字。</p>
+    <content type="html"><![CDATA[<blockquote>
+<p>   git clone<br>   git diff<br>   git log<br>   创建类命令<br><a id="more"></a></p>
+<h1 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h1><p>   git clone 拷贝并跟踪远程的master分支。<br>   跟踪的好处是以后可以直接通过pull和push命令来提交或者获取远程最新的代码，而不需要指定远程分支名字。</p>
 </blockquote>
 <h1 id="git-diff"><a href="#git-diff" class="headerlink" title="git diff"></a>git diff</h1><blockquote>
 <p>   对比工作区和stage文件的差异</p>
@@ -285,9 +285,8 @@ end tell
     
     <summary type="html">
     
-      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h1 id=&quot;git-clone&quot;&gt;&lt;a href=&quot;#git-clone&quot; class=&quot;headerlink&quot; title=&quot;git clone&quot;&gt;&lt;/a&gt;git clone&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;   git clon
+      &lt;blockquote&gt;
+&lt;p&gt;   git clone&lt;br&gt;   git diff&lt;br&gt;   git log&lt;br&gt;   创建类命令&lt;br&gt;
     
     </summary>
     
