@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yangkai0725.com/"/>
-  <updated>2016-08-17T09:27:18.665Z</updated>
+  <updated>2016-08-22T04:39:44.416Z</updated>
   <id>http://www.yangkai0725.com/</id>
   
   <author>
@@ -16,11 +16,426 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>20160822数据库面试常问的一些基本概念</title>
+    <link href="http://www.yangkai0725.com/20160822/20160822%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9D%A2%E8%AF%95%E5%B8%B8%E9%97%AE%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.html"/>
+    <id>http://www.yangkai0725.com/20160822/20160822数据库面试常问的一些基本概念.html</id>
+    <published>2016-08-22T04:29:12.000Z</published>
+    <updated>2016-08-22T04:39:44.416Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="数据库面试常问的一些基本概念"><a href="#数据库面试常问的一些基本概念" class="headerlink" title="数据库面试常问的一些基本概念"></a>数据库面试常问的一些基本概念</h1><a id="more"></a>
+<h1 id="1-超键、候选键、主键、外键"><a href="#1-超键、候选键、主键、外键" class="headerlink" title="1.  超键、候选键、主键、外键"></a>1.  超键、候选键、主键、外键</h1><p>超键：在关系中能唯一标识元组的属性集称为关系模式的超键。一个属性可以为作为一个超键，多个属性组合在一起也可以作为一个超键。超键包含候选键和主键。</p>
+<p>候选键：是最小超键，即没有冗余元素的超键。</p>
+<p>主键：数据库表中对储存数据对象予以唯一和完整标识的数据列或属性的组合。一个数据列只能有一个主键，且主键的取值不能缺失，即不能为空值（Null）。</p>
+<p>外键：在一个表中存在的另一个表的主键称此表的外键。</p>
+<h1 id="2-什么是事务？什么是锁？"><a href="#2-什么是事务？什么是锁？" class="headerlink" title="2.  什么是事务？什么是锁？"></a>2.  什么是事务？什么是锁？</h1><p>事务：就是被绑定在一起作为一个逻辑工作单元的 SQL 语句分组，如果任何一个语句操作失败那么整个操作就被失败，以后操作就会回滚到操作前状态，或者是上有个节点。为了确保要么执行，要么不执行，就可以使用事务。要将有组语句作为事务考虑，就需要通过 ACID 测试，即原子性，一致性，隔离性和持久性。</p>
+<p>锁：在所以的 DBMS 中，锁是实现事务的关键，锁可以保证事务的完整性和并发性。与现实生活中锁一样，它可以使某些数据的拥有者，在某段时间内不能使用某些数据或数据结构。当然锁还分级别的。</p>
+<h1 id="3-数据库事务的四个特性及含义"><a href="#3-数据库事务的四个特性及含义" class="headerlink" title="3.  数据库事务的四个特性及含义"></a>3.  数据库事务的四个特性及含义</h1><p>原子性：整个事务中的所有操作，要么全部完成，要么全部不完成，不可能停滞在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。</p>
+<p>一致性：在事务开始之前和事务结束以后，数据库的完整性约束没有被破坏。<br>隔离性：隔离状态执行事务，使它们好像是系统在给定时间内执行的唯一操作。如果有两个事务，运行在相同的时间内，执行 相同的功能，事务的隔离性将确保每一事务在系统中认为只有该事务在使用系统。这种属性有时称为串行化，为了防止事务操作间的混淆，必须串行化或序列化请 求，使得在同一时间仅有一个请求用于同一数据。</p>
+<p>持久性：在事务完成以后，该事务所对数据库所作的更改便持久的保存在数据库之中，并不会被回滚。</p>
+<h1 id="40-什么是视图？"><a href="#40-什么是视图？" class="headerlink" title="40.  什么是视图？"></a>40.  什么是视图？</h1><p>视图是一种虚拟的表，具有和物理表相同的功能。可以对视图进行增，改，查，操作，试图通常是有一个表或者多个表的行或列的子集。对视图的修改不影响基本表。它使得我们获取数据更容易，相比多表查询。</p>
+<p>如下两种场景一般会使用到视图：</p>
+<p>（1）不希望访问者获取整个表的信息，只暴露部分字段给访问者，所以就建一个虚表，就是视图。<br>（2）查询的数据来源于不同的表，而查询者希望以统一的方式查询，这样也可以建立一个视图，把多个表查询结果联合起来，查询者只需要直接从视图中获取数据，不必考虑数据来源于不同表所带来的差异。</p>
+<p>注：这个视图是在数据库中创建的 而不是用代码创建的。</p>
+<h1 id="5-触发器的作用？"><a href="#5-触发器的作用？" class="headerlink" title="5.  触发器的作用？"></a>5.  触发器的作用？</h1><p>触发器是一中特殊的存储过程，主要是通过事件来触发而被执行的。它可以强化约束，来维护数据的完整性和一致性，可以跟踪数据库内的操作从而不允许未经许可的更新和变化。可以联级运算。如，某表上的触发器上包含对另一个表的数据操作，而该操作又会导致该表触发器被触发。</p>
+<h1 id="6-维护数据库的完整性和一致性，你喜欢用触发器还是自写业务逻辑？为什么？"><a href="#6-维护数据库的完整性和一致性，你喜欢用触发器还是自写业务逻辑？为什么？" class="headerlink" title="6.  维护数据库的完整性和一致性，你喜欢用触发器还是自写业务逻辑？为什么？"></a>6.  维护数据库的完整性和一致性，你喜欢用触发器还是自写业务逻辑？为什么？</h1><p>尽可能使用约束，如 check, 主键，外键，非空字段等来约束，这样做效率最高，也最方便。其次是使用触发器，这种方法可以保证，无论什么业务系统访问数据库都可以保证数据的完整新和一致性。最后考虑的是自写业务逻辑，但这样做麻烦，编程复杂，效率低下。</p>
+<h1 id="7-索引的作用？和它的优点缺点是什么？"><a href="#7-索引的作用？和它的优点缺点是什么？" class="headerlink" title="7.  索引的作用？和它的优点缺点是什么？"></a>7.  索引的作用？和它的优点缺点是什么？</h1><p>数据库索引，是数据库管理系统中一个排序的数据结构，以协助快速查询、更新数据库表中数据。索引的实现通常使用B树及其变种B+树。</p>
+<p>在数据之外，数据库系统还维护着满足特定查找算法的数据结构，这些数据结构以某种方式引用（指向）数据，这样就可以在这些数据结构上实现高级查找算法。这种数据结构，就是索引。</p>
+<p>为表设置索引要付出代价的：一是增加了数据库的存储空间，二是在插入和修改数据时要花费较多的时间(因为索引也要随之变动)。</p>
+<p>创建索引可以大大提高系统的性能（优点）：</p>
+<p>第一、通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。<br>第二，可以大大加快数据的检索速度，这也是创建索引的最主要的原因。<br>第三，可以加速表和表之间的连接，特别是在实现数据的参考完整性方面特别有意义。<br>第四，在使用分组和排序子句进行数据检索时，同样可以显著减少查询中分组和排序的时间。<br>第五，通过使用索引，可以在查询的过程中，使用优化隐藏器，提高系统的性能。</p>
+<p>也许会有人要问：增加索引有如此多的优点，为什么不对表中的每一个列创建一个索引呢？因为，增加索引也有许多不利的方面：</p>
+<p>第一，创建索引和维护索引要耗费时间，这种时间随着数据量的增加而增加。<br>第二，索引需要占物理空间，除了数据表占数据空间之外，每一个索引还要占一定的物理空间，如果要建立聚簇索引，那么需要的空间就会更大。</p>
+<p>第三，当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，这样就降低了数据的维护速度。</p>
+<p>索引是建立在数据库表中的某些列的上面。在创建索引的时候，应该考虑在哪些列上可以创建索引，在哪些列上不能创建索引。</p>
+<p>一般来说，应该在这些列上创建索引：</p>
+<p>（1）在经常需要搜索的列上，可以加快搜索的速度；<br>（2）在作为主键的列上，强制该列的唯一性和组织表中数据的排列结构；<br>（3）在经常用在连接的列上，这些列主要是一些外键，可以加快连接的速度；<br>（4）在经常需要根据范围进行搜索的列上创建索引，因为索引已经排序，其指定的范围是连续的；<br>（5）在经常需要排序的列上创建索引，因为索引已经排序，这样查询可以利用索引的排序，加快排序查询时间；<br>（6）在经常使用在WHERE子句中的列上面创建索引，加快条件的判断速度。<br>同样，对于有些列不应该创建索引：</p>
+<p>第一，对于那些在查询中很少使用或者参考的列不应该创建索引。这是因为，既然这些列很少使用到，因此有索引或者无索引，并不能提高查询速度。相反，由于增加了索引，反而降低了系统的维护速度和增大了空间需求。</p>
+<p>第二，对于那些只有很少数据值的列也不应该增加索引。这是因为，由于这些列的取值很少，例如人事表的性别列，在查询的结果中，结果集的数据行占了表中数据行的很大比例，即需要在表中搜索的数据行的比例很大。增加索引，并不能明显加快检索速度。</p>
+<p>第三，对于那些定义为text, image和bit数据类型的列不应该增加索引。这是因为，这些列的数据量要么相当大，要么取值很少。</p>
+<p>第四，当修改性能远远大于检索性能时，不应该创建索引。这是因为，修改性能和检索性能是互相矛盾的。当增加索引时，会提高检索性能，但是会降低修改性能。当减少索引时，会提高修改性能，降低检索性能。因此，当修改性能远远大于检索性能时，不应该创建索引。</p>
+<h1 id="8-drop-delete与truncate的区别"><a href="#8-drop-delete与truncate的区别" class="headerlink" title="8.  drop,delete与truncate的区别"></a>8.  drop,delete与truncate的区别</h1><p>drop直接删掉表 。 </p>
+<p>truncate删除表中数据，再插入时自增长id又从1开始 。 </p>
+<p>delete删除表中数据，可以加where字句。</p>
+<p>（1） DELETE语句执行删除的过程是每次从表中删除一行，并且同时将该行的删除操作作为事务记录在日志中保存以便进行进行回滚操作。TRUNCATE TABLE 则一次性地从表中删除所有的数据并不把单独的删除操作记录记入日志保存，删除行是不能恢复的。并且在删除的过程中不会激活与表有关的删除触发器。执行速度快。</p>
+<p>（2） 表和索引所占空间。当表被TRUNCATE 后，这个表和索引所占用的空间会恢复到初始大小，而DELETE操作不会减少表或索引所占用的空间。drop语句将表所占用的空间全释放掉。</p>
+<p>（3） 一般而言，drop &gt; truncate &gt; delete</p>
+<p>（4） 应用范围。TRUNCATE 只能对TABLE；DELETE可以是table和view</p>
+<p>（5） TRUNCATE 和DELETE只删除数据，而DROP则删除整个表（结构和数据）。</p>
+<p>（6） truncate与不带where的delete ：只删除数据，而不删除表的结构（定义）drop语句将删除表的结构被依赖的约束（constrain),触发器（trigger)索引（index);依赖于该表的存储过程/函数将被保留，但其状态会变为：invalid。</p>
+<p>（7） delete语句为DML（data maintain Language),这个操作会被放到 rollback segment中,事务提交后才生效。如果有相应的 tigger,执行的时候将被触发。</p>
+<p>（8） truncate、drop是DLL（data define language),操作立即生效，原数据不放到 rollback segment中，不能回滚。</p>
+<p>（9） 在没有备份情况下，谨慎使用 drop 与 truncate。要删除部分数据行采用delete且注意结合where来约束影响范围。回滚段要足够大。要删除表用drop;若想保留表而将表中数据删除，如果于事务无关，用truncate即可实现。如果和事务有关，或老师想触发trigger,还是用delete。</p>
+<p>（10） Truncate table 表名 速度快,而且效率高,因为: </p>
+<p>truncate table 在功能上与不带 WHERE 子句的 DELETE 语句相同：二者均删除表中的全部行。但 TRUNCATE TABLE 比 DELETE 速度快，且使用的系统和事务日志资源少。DELETE 语句每次删除一行，并在事务日志中为所删除的每行记录一项。TRUNCATE TABLE 通过释放存储表数据所用的数据页来删除数据，并且只在事务日志中记录页的释放。</p>
+<p>（11） TRUNCATE TABLE 删除表中的所有行，但表结构及其列、约束、索引等保持不变。新行标识所用的计数值重置为该列的种子。如果想保留标识计数值，请改用 DELETE。如果要删除表定义及其数据，请使用 DROP TABLE 语句。</p>
+<p>（12） 对于由 FOREIGN KEY 约束引用的表，不能使用 TRUNCATE TABLE，而应使用不带 WHERE 子句的 DELETE 语句。由于 TRUNCATE TABLE 不记录在日志中，所以它不能激活触发器。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;数据库面试常问的一些基本概念&quot;&gt;&lt;a href=&quot;#数据库面试常问的一些基本概念&quot; class=&quot;headerlink&quot; title=&quot;数据库面试常问的一些基本概念&quot;&gt;&lt;/a&gt;数据库面试常问的一些基本概念&lt;/h1&gt;
+    
+    </summary>
+    
+      <category term="interview" scheme="http://www.yangkai0725.com/categories/interview/"/>
+    
+    
+      <category term="database" scheme="http://www.yangkai0725.com/tags/database/"/>
+    
+      <category term="interview" scheme="http://www.yangkai0725.com/tags/interview/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>创建svn服务及svn提交忽略</title>
+    <link href="http://www.yangkai0725.com/20160821/20160821%E5%88%9B%E5%BB%BAsvn%E6%9C%8D%E5%8A%A1.html"/>
+    <id>http://www.yangkai0725.com/20160821/20160821创建svn服务.html</id>
+    <published>2016-08-21T08:16:01.000Z</published>
+    <updated>2016-08-22T01:35:38.567Z</updated>
+    
+    <content type="html"><![CDATA[<p>Windows平台上创建SVN服务，方便启动和关闭。<br><a id="more"></a></p>
+<h1 id="创建svn服务"><a href="#创建svn服务" class="headerlink" title="创建svn服务"></a>创建svn服务</h1><pre><code>sc create svn binpath= &quot;D:\Program Files (x86)\Subversion\bin\svnserve.exe --service -r E:\joiest\svnRepo&quot; displayname= &quot;Subversion Server&quot; depend= tcpip start= auto
+</code></pre><blockquote>
+<p>  开启：net start svn<br>  关闭：net stop svn</p>
+</blockquote>
+<h1 id="Eclipse中svn提交时忽略文件"><a href="#Eclipse中svn提交时忽略文件" class="headerlink" title="Eclipse中svn提交时忽略文件"></a>Eclipse中svn提交时忽略文件</h1><p>Windows –&gt; preferences –&gt; Team –&gt; Ignore Resources –&gt; Add Pattern<br>之后分别添加下面四项，并点击OK</p>
+<pre><code>.classpath
+.project
+target
+.settings
+.externalToolBuilders
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Windows平台上创建SVN服务，方便启动和关闭。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="svn" scheme="http://www.yangkai0725.com/categories/svn/"/>
+    
+    
+      <category term="svn" scheme="http://www.yangkai0725.com/tags/svn/"/>
+    
+      <category term="eclipse" scheme="http://www.yangkai0725.com/tags/eclipse/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据库日期字符串数字转换</title>
+    <link href="http://www.yangkai0725.com/20160821/20160821%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A5%E6%9C%9F%E8%BD%AC%E6%8D%A2.html"/>
+    <id>http://www.yangkai0725.com/20160821/20160821数据库日期转换.html</id>
+    <published>2016-08-21T07:20:24.000Z</published>
+    <updated>2016-08-22T01:35:38.568Z</updated>
+    
+    <content type="html"><![CDATA[<p>日期字符串相互转换。</p>
+<a id="more"></a>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th style="text-align:center">格式</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">期望值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Year</td>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">yy</td>
+<td style="text-align:left">two digits 两位年</td>
+<td style="text-align:left">显示值:07</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">yyy</td>
+<td style="text-align:left">three digits 三位年</td>
+<td style="text-align:left">显示值:007</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">yyyy</td>
+<td style="text-align:left">four digits 四位年</td>
+<td style="text-align:left">显示值:2007</td>
+</tr>
+<tr>
+<td>Month</td>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">mm</td>
+<td style="text-align:left">number     两位月</td>
+<td style="text-align:left">显示值:11</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">mon</td>
+<td style="text-align:left">abbreviated 字符集表示</td>
+<td style="text-align:left">显示值:11月,若是英文版,显示nov</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">month</td>
+<td style="text-align:left">spelled out 字符集表示</td>
+<td style="text-align:left">显示值:11月,若是英文版,显示november</td>
+</tr>
+<tr>
+<td>Day</td>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">dd</td>
+<td style="text-align:left">number 当月第几天</td>
+<td style="text-align:left">显示值:02</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">ddd</td>
+<td style="text-align:left">number 当年第几天</td>
+<td style="text-align:left">显示值:02</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">dy</td>
+<td style="text-align:left">abbreviated 当周第几天简写</td>
+<td style="text-align:left">显示值:星期五,若是英文版,显示fri</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">day</td>
+<td style="text-align:left">spelled out 当周第几天全写</td>
+<td style="text-align:left">显示值:星期五,若是英文版,显示friday</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">ddspth</td>
+<td style="text-align:left">spelled out, ordinal twelfth</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td>Hour</td>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">hh</td>
+<td style="text-align:left">two digits 12小时进制</td>
+<td style="text-align:left">显示值:01</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">hh24</td>
+<td style="text-align:left">two digits 24小时进制</td>
+<td style="text-align:left">显示值:13</td>
+</tr>
+<tr>
+<td>Minute</td>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">mi</td>
+<td style="text-align:left">two digits 60进制</td>
+<td style="text-align:left">显示值:45</td>
+</tr>
+<tr>
+<td>Second</td>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align:center">ss</td>
+<td style="text-align:left">two digits 60进制</td>
+<td style="text-align:left">显示值:25</td>
+</tr>
+</tbody>
+</table>
+<h1 id="时间转化为字符串"><a href="#时间转化为字符串" class="headerlink" title="时间转化为字符串"></a>时间转化为字符串</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> to_char(<span class="keyword">sysdate</span>,<span class="string">'yyyy-mm-dd hh24:mi:ss'</span>) <span class="keyword">as</span> nowTime <span class="keyword">from</span> dual;</div></pre></td></tr></table></figure>
+<h1 id="字符串转化为时间"><a href="#字符串转化为时间" class="headerlink" title="字符串转化为时间"></a>字符串转化为时间</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">to_date</span>(<span class="string">'2004-05-07 13:23:44'</span>,<span class="string">'yyyy-mm-dd hh24:mi:ss'</span>) <span class="keyword">from</span> dual;</div></pre></td></tr></table></figure>
+<h1 id="数字转化为英文"><a href="#数字转化为英文" class="headerlink" title="数字转化为英文"></a>数字转化为英文</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> to_char( <span class="keyword">to_date</span>(<span class="number">456</span>,<span class="string">'J'</span>),<span class="string">'Jsp'</span>) <span class="keyword">from</span> dual;</div></pre></td></tr></table></figure>
+<h1 id="当前时间为周几"><a href="#当前时间为周几" class="headerlink" title="当前时间为周几"></a>当前时间为周几</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> to_char(<span class="keyword">sysdate</span>,<span class="string">'day'</span>) <span class="keyword">from</span> dual;</div></pre></td></tr></table></figure>
+<h1 id="两日期之间的天数"><a href="#两日期之间的天数" class="headerlink" title="两日期之间的天数"></a>两日期之间的天数</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">floor</span>(<span class="keyword">sysdate</span> - <span class="keyword">to_date</span>(<span class="string">'20020405'</span>,<span class="string">'yyyymmdd'</span>)) <span class="keyword">from</span> dual;</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> to_char(<span class="keyword">sysdate</span>,<span class="string">'hh:mi:ss'</span>) <span class="keyword">TIME</span> <span class="keyword">from</span> all_objects <span class="keyword">where</span> <span class="keyword">rownum</span> &lt; <span class="number">2001</span></div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;日期字符串相互转换。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="database" scheme="http://www.yangkai0725.com/categories/database/"/>
+    
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+      <category term="database" scheme="http://www.yangkai0725.com/tags/database/"/>
+    
+      <category term="date" scheme="http://www.yangkai0725.com/tags/date/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis常用命令大全</title>
+    <link href="http://www.yangkai0725.com/20160820/20160820redisOftenUseCommand.html"/>
+    <id>http://www.yangkai0725.com/20160820/20160820redisOftenUseCommand.html</id>
+    <published>2016-08-20T14:30:10.000Z</published>
+    <updated>2016-08-22T01:35:38.566Z</updated>
+    
+    <content type="html"><![CDATA[<p>Key、服务器相关的一些常用redis命令。<br>速查：<a href="http://www.cnblogs.com/kissdodog/p/3599047.html" target="_blank" rel="external">http://www.cnblogs.com/kissdodog/p/3599047.html</a></p>
+<a id="more"></a>
+<h1 id="Key相关命令"><a href="#Key相关命令" class="headerlink" title="Key相关命令"></a>Key相关命令</h1><p>keys * 取出当前所有的key</p>
+<p>exists name 查看n是否有name这个key</p>
+<p>del name 删除key name</p>
+<p>expire confirm 100 设置confirm这个key100秒过期</p>
+<p>ttl confirm 获取confirm 这个key的有效时长</p>
+<p>select 0 选择到0数据库 redis默认的数据库是0~15一共16个数据库</p>
+<p>move confirm 1 将当前数据库中的key移动到其他的数据库中，这里就是把confire这个key从当前数据库中移动到1中</p>
+<p>persist confirm 移除confirm这个key的过期时间</p>
+<p>randomkey 随机返回数据库里面的一个key</p>
+<p>rename key2 key3 重命名key2 为key3</p>
+<p>type key2 返回key的数据类型</p>
+<h1 id="服务器相关命令"><a href="#服务器相关命令" class="headerlink" title="服务器相关命令"></a>服务器相关命令</h1><p>ping PONG返回响应是否连接成功</p>
+<p>echo 在命令行打印一些内容</p>
+<p>select 0~15 编号的数据库</p>
+<p>quit  /exit 退出客户端</p>
+<p>dbsize 返回当前数据库中所有key的数量</p>
+<p>info 返回redis的相关信息</p>
+<p>config get dir/* 实时传储收到的请求</p>
+<p>flushdb 删除当前选择数据库中的所有key</p>
+<p>flushall 删除所有数据库中的数据库</p>
+<pre><code>redis-cli KEYS &quot;pattern&quot; | xargs redis-cli DEL
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Key、服务器相关的一些常用redis命令。&lt;br&gt;速查：&lt;a href=&quot;http://www.cnblogs.com/kissdodog/p/3599047.html&quot;&gt;http://www.cnblogs.com/kissdodog/p/3599047.html&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="handbook" scheme="http://www.yangkai0725.com/categories/handbook/"/>
+    
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+      <category term="redis" scheme="http://www.yangkai0725.com/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mybatis常用方法模板</title>
+    <link href="http://www.yangkai0725.com/20160818/20160818mybatis%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%A8%A1%E6%9D%BF.html"/>
+    <id>http://www.yangkai0725.com/20160818/20160818mybatis常用方法模板.html</id>
+    <published>2016-08-18T13:00:41.000Z</published>
+    <updated>2016-08-22T01:35:38.565Z</updated>
+    
+    <content type="html"><![CDATA[<p><em>常用mybatis模板批量删除、list查询、注解查询@Select。</em></p>
+<a id="more"></a>
+<h1 id="UUID主键"><a href="#UUID主键" class="headerlink" title="UUID主键"></a>UUID主键</h1><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;selectKey keyProperty=<span class="string">"id"</span> resultType=<span class="string">"String"</span> <span class="keyword">order</span>=<span class="string">"BEFORE"</span>&gt;</div><div class="line">   <span class="keyword">select</span> sys_guid() <span class="keyword">from</span> dual</div><div class="line">&lt;/selectKey&gt;</div></pre></td></tr></table></figure>
+<h1 id="根据主键集合删除"><a href="#根据主键集合删除" class="headerlink" title="根据主键集合删除"></a>根据主键集合删除</h1><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public int delete(Object[] ids) throws Exception;</div><div class="line">&lt;delete id="delete"&gt;</div><div class="line">	delete from t_table where id in</div><div class="line">	&lt;foreach collection="array" index="index" item="ids" open="(" separator="," close=")"&gt;</div><div class="line">		#&#123;ids&#125;</div><div class="line">	&lt;/foreach&gt;</div><div class="line">&lt;/delete&gt;</div></pre></td></tr></table></figure>
+<h1 id="根据属性值查找"><a href="#根据属性值查找" class="headerlink" title="根据属性值查找"></a>根据属性值查找</h1><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public List&lt;T&gt; findByList(Map&lt;String, Object&gt; map);</div><div class="line">&lt;sql id="sample_where_clause"&gt;</div><div class="line">	where 1=1</div><div class="line">	&lt;trim suffixOverrides=","&gt;</div><div class="line">		&lt;if test="id !=null and id !=''"&gt;</div><div class="line">			and id = #&#123;id&#125;</div><div class="line">		&lt;/if&gt;</div><div class="line">		&lt;if test="username !=null and username !=''"&gt;</div><div class="line">			and username = #&#123;username&#125;</div><div class="line">		&lt;/if&gt;</div><div class="line">	&lt;/trim&gt;</div><div class="line">&lt;/sql&gt;</div><div class="line">&lt;select id="findByList" resultMap="BaseResultMap" parameterType="Object"&gt;</div><div class="line">	select * from user</div><div class="line">	&lt;include refid="sample_where_clause" /&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
+<h1 id="Select注解"><a href="#Select注解" class="headerlink" title="@Select注解"></a>@Select注解</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Param;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Select;</div><div class="line"><span class="meta">@Select</span>(<span class="string">"select * from work_log where id = #&#123;id&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> WorkLog <span class="title">queryById</span><span class="params">(@Param(<span class="string">"id"</span>)</span>Integer id)</span>;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;em&gt;常用mybatis模板批量删除、list查询、注解查询@Select。&lt;/em&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="database" scheme="http://www.yangkai0725.com/categories/database/"/>
+    
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+      <category term="database" scheme="http://www.yangkai0725.com/tags/database/"/>
+    
+      <category term="mybatis" scheme="http://www.yangkai0725.com/tags/mybatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Freemarker内置对象</title>
+    <link href="http://www.yangkai0725.com/20160818/20160818Freemarker%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1.html"/>
+    <id>http://www.yangkai0725.com/20160818/20160818Freemarker内置对象.html</id>
+    <published>2016-08-18T12:32:48.000Z</published>
+    <updated>2016-08-22T01:35:38.777Z</updated>
+    
+    <content type="html"><![CDATA[<p><em>直接在ftl里使用内置对象:Request,Session,Application,RequestParameters,Parameters。</em></p>
+<a id="more"></a>
+<h1 id="Request-amp-Session-amp-Application"><a href="#Request-amp-Session-amp-Application" class="headerlink" title="Request &amp; Session &amp; Application"></a>Request &amp; Session &amp; Application</h1><blockquote>
+<p>   用于获取Request对象中的attribute对象。<br>   例如：${Request[“method”]}是直接在页面输出属性值。相当于request.getAttribute(“method”);<br>   如果要进行判断    [#if Request[“method”] = “edit”]do something[/#if]</p>
+</blockquote>
+<p><em><strong>Session对应HttpSession,Application对应ServletContext,用法参考Request。</strong></em></p>
+<h1 id="RequestParameters"><a href="#RequestParameters" class="headerlink" title="RequestParameters"></a>RequestParameters</h1><p>用于获取Request对象的parameter,例如${RequestParameters[“method”]}相当于request.getParameter(“method”);</p>
+<h1 id="Parameters"><a href="#Parameters" class="headerlink" title="Parameters"></a>Parameters</h1><p>属性获取，依次从RequestParameters、Request、Session、Application对象中获取对应属性参数，一旦获取则不再往下寻找。例如：Parameters[“method”]</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;em&gt;直接在ftl里使用内置对象:Request,Session,Application,RequestParameters,Parameters。&lt;/em&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="handbook" scheme="http://www.yangkai0725.com/categories/handbook/"/>
+    
+    
+      <category term="freemarker" scheme="http://www.yangkai0725.com/tags/freemarker/"/>
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HTTP 请求返回代码含义</title>
+    <link href="http://www.yangkai0725.com/20160818/20160818httpStatusCode.html"/>
+    <id>http://www.yangkai0725.com/20160818/20160818httpStatusCode.html</id>
+    <published>2016-08-18T12:17:30.000Z</published>
+    <updated>2016-08-22T01:35:38.770Z</updated>
+    
+    <content type="html"><![CDATA[<p><em><strong>HTTP状态码（HTTP Status Code）是用以表示网页服务器HTTP响应状态的3位数字代码。它由 RFC 2616 规范定义的，并得到RFC 2518、RFC 2817、RFC 2295、RFC 2774、RFC 4918等规范扩展。</strong></em></p>
+<a id="more"></a>
+<p>100  Continue  初始的请求已经接受，客户应当继续发送请求的其余部分。（HTTP 1.1新）<br>101  Switching Protocols  服务器将遵从客户的请求转换到另外一种协议（HTTP 1.1新）<br>200  OK  一切正常，对GET和POST请求的应答文档跟在后面。<br>201  Created  服务器已经创建了文档，Location头给出了它的URL。<br>202  Accepted  已经接受请求，但处理尚未完成。<br>203  Non-Authoritative Information  文档已经正常地返回，但一些应答头可能不正确，因为使用的是文档的拷贝（HTTP 1.1新）。<br>204  No Content  没有新文档，浏览器应该继续显示原来的文档。如果用户定期地刷新页面，而Servlet可以确定用户文档足够新，这个状态代码是很有用的。<br>205  Reset Content  没有新的内容，但浏览器应该重置它所显示的内容。用来强制浏览器清除表单输入内容（HTTP 1.1新）。<br>206  Partial Content  客户发送了一个带有Range头的GET请求，服务器完成了它（HTTP 1.1新）。<br>300  Multiple Choices  客户请求的文档可以在多个位置找到，这些位置已经在返回的文档内列出。如果服务器要提出优先选择，则应该在Location应答头指明。<br>301  Moved Permanently  客户请求的文档在其他地方，新的URL在Location头中给出，浏览器应该自动地访问新的URL。<br>302  Found  类似于301，但新的URL应该被视为临时性的替代，而不是永久性的。注意，在HTTP1.0中对应的状态信息是“Moved Temporatily”。<br>出现该状态代码时，浏览器能够自动访问新的URL，因此它是一个很有用的状态代码。<br>注意这个状态代码有时候可以和301替换使用。例如，如果浏览器错误地请求<code>http://host/~user</code>（缺少了后面的斜杠），有的服务器返回301，有的则返回302。<br>严格地说，我们只能假定只有当原来的请求是GET时浏览器才会自动重定向。请参见307。<br>303  See Other  类似于301/302，不同之处在于，如果原来的请求是POST，Location头指定的重定向目标文档应该通过GET提取（HTTP 1.1新）。<br>304  Not Modified  客户端有缓冲的文档并发出了一个条件性的请求（一般是提供If-Modified-Since头表示客户只想比指定日期更新的文档）。服务器告诉客户，原来缓冲的文档还可以继续使用。<br>305  Use Proxy  客户请求的文档应该通过Location头所指明的代理服务器提取（HTTP 1.1新）。<br>307  Temporary Redirect  和302（Found）相同。许多浏览器会错误地响应302应答进行重定向，即使原来的请求是POST，即使它实际上只能在POST请求的应答是303时才能重定向。由于这个原因，HTTP 1.1新增了307，以便更加清除地区分几个状态代码：当出现303应答时，浏览器可以跟随重定向的GET和POST请求；如果是307应答，则浏览器只能跟随对GET请求的重定向。（HTTP 1.1新）<br>400  Bad Request  请求出现语法错误。<br>401  Unauthorized  客户试图未经授权访问受密码保护的页面。应答中会包含一个WWW-Authenticate头，浏览器据此显示用户名字/密码对话框，然后在填写合适的Authorization头后再次发出请求。<br>403  Forbidden  资源不可用。服务器理解客户的请求，但拒绝处理它。通常由于服务器上文件或目录的权限设置导致。<br>404  Not Found  无法找到指定位置的资源。这也是一个常用的应答。<br>405  Method Not Allowed  请求方法（GET、POST、HEAD、DELETE、PUT、TRACE等）对指定的资源不适用。（HTTP 1.1新）<br>406  Not Acceptable  指定的资源已经找到，但它的MIME类型和客户在Accpet头中所指定的不兼容（HTTP 1.1新）。<br>407  Proxy Authentication Required  类似于401，表示客户必须先经过代理服务器的授权。（HTTP 1.1新）<br>408  Request Timeout  在服务器许可的等待时间内，客户一直没有发出任何请求。客户可以在以后重复同一请求。（HTTP 1.1新）<br>409  Conflict  通常和PUT请求有关。由于请求和资源的当前状态相冲突，因此请求不能成功。（HTTP 1.1新）<br>410  Gone  所请求的文档已经不再可用，而且服务器不知道应该重定向到哪一个地址。它和404的不同在于，返回407表示文档永久地离开了指定的位置，而404表示由于未知的原因文档不可用。（HTTP 1.1新）<br>411  Length Required  服务器不能处理请求，除非客户发送一个Content-Length头。（HTTP 1.1新）<br>412  Precondition Failed  请求头中指定的一些前提条件失败（HTTP 1.1新）。<br>413  Request Entity Too Large  目标文档的大小超过服务器当前愿意处理的大小。如果服务器认为自己能够稍后再处理该请求，则应该提供一个Retry-After头（HTTP 1.1新）。<br>414  Request URI Too Long  URI太长（HTTP 1.1新）。<br>416  Requested Range Not Satisfiable  服务器不能满足客户在请求中指定的Range头。（HTTP 1.1新）<br>500  Internal Server Error  服务器遇到了意料不到的情况，不能完成客户的请求。<br>501  Not Implemented  服务器不支持实现请求所需要的功能。例如，客户发出了一个服务器不支持的PUT请求。<br>502  Bad Gateway  服务器作为网关或者代理时，为了完成请求访问下一个服务器，但该服务器返回了非法的应答。<br>503  Service Unavailable  服务器由于维护或者负载过重未能应答。例如，Servlet可能在数据库连接池已满的情况下返回503。服务器返回503时可以提供一个Retry-After头。<br>504  Gateway Timeout  由作为代理或网关的服务器使用，表示不能及时地从远程服务器获得应答。（HTTP 1.1新）<br>505  HTTP Version Not Supported  服务器不支持请求中所指明的HTTP版本。（HTTP 1.1新） </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;em&gt;&lt;strong&gt;HTTP状态码（HTTP Status Code）是用以表示网页服务器HTTP响应状态的3位数字代码。它由 RFC 2616 规范定义的，并得到RFC 2518、RFC 2817、RFC 2295、RFC 2774、RFC 4918等规范扩展。&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="handbook" scheme="http://www.yangkai0725.com/categories/handbook/"/>
+    
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+      <category term="http" scheme="http://www.yangkai0725.com/tags/http/"/>
+    
+  </entry>
+  
+  <entry>
     <title>揭秘Redis持久化</title>
-    <link href="http://www.yangkai0725.com/posts/handbook/20160816/05%E6%8F%AD%E7%A7%98Redis%E6%8C%81%E4%B9%85%E5%8C%96.html"/>
-    <id>http://www.yangkai0725.com/posts/handbook/20160816/05揭秘Redis持久化.html</id>
+    <link href="http://www.yangkai0725.com/20160816/20160816%E6%8F%AD%E7%A7%98Redis%E6%8C%81%E4%B9%85%E5%8C%96.html"/>
+    <id>http://www.yangkai0725.com/20160816/20160816揭秘Redis持久化.html</id>
     <published>2016-08-16T04:54:34.000Z</published>
-    <updated>2016-08-17T09:27:18.665Z</updated>
+    <updated>2016-08-22T01:35:38.783Z</updated>
     
     <content type="html"><![CDATA[<p>什么是持久化，简单来讲就是将数据放到断电后数据不会丢失的设备中。也就是我们通常理解的硬盘上。<br><a id="more"></a></p>
 <h1 id="写操作的流程"><a href="#写操作的流程" class="headerlink" title="写操作的流程"></a>写操作的流程</h1><hr>
@@ -131,10 +546,10 @@ key1
   
   <entry>
     <title>Hexo+Github搭建</title>
-    <link href="http://www.yangkai0725.com/posts/note/20160810/01%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2%E6%A8%A1%E6%9D%BF.html"/>
-    <id>http://www.yangkai0725.com/posts/note/20160810/01搭建Hexo博客模板.html</id>
+    <link href="http://www.yangkai0725.com/20160810/20160810%E6%90%AD%E5%BB%BAHexo%E5%8D%9A%E5%AE%A2%E6%A8%A1%E6%9D%BF.html"/>
+    <id>http://www.yangkai0725.com/20160810/20160810搭建Hexo博客模板.html</id>
     <published>2016-08-10T09:37:58.000Z</published>
-    <updated>2016-08-17T09:27:18.662Z</updated>
+    <updated>2016-08-22T01:35:38.788Z</updated>
     
     <content type="html"><![CDATA[<h1 id="搭建参考地址"><a href="#搭建参考地址" class="headerlink" title="搭建参考地址"></a>搭建参考地址</h1><p><a href="http://jianbing.github.io/2016/03/03/set-up-blog/" target="_blank" rel="external">http://jianbing.github.io/2016/03/03/set-up-blog/</a><br><a id="more"></a></p>
 <h1 id="Hexo-Landscape主题的字体和JS库优化"><a href="#Hexo-Landscape主题的字体和JS库优化" class="headerlink" title="Hexo Landscape主题的字体和JS库优化"></a>Hexo Landscape主题的字体和JS库优化</h1><p><a href="http://www.jianshu.com/p/ffcdc4fec6ec" target="_blank" rel="external">http://www.jianshu.com/p/ffcdc4fec6ec</a></p>
@@ -167,26 +582,24 @@ hexo g -d
       <category term="note" scheme="http://www.yangkai0725.com/categories/note/"/>
     
     
-      <category term="git" scheme="http://www.yangkai0725.com/tags/git/"/>
-    
       <category term="hexo" scheme="http://www.yangkai0725.com/tags/hexo/"/>
+    
+      <category term="git" scheme="http://www.yangkai0725.com/tags/git/"/>
     
   </entry>
   
   <entry>
     <title>MarkDown语法</title>
-    <link href="http://www.yangkai0725.com/posts/handbook/20160810/04markdown%E8%AF%AD%E6%B3%95%E7%A4%BA%E4%BE%8B.html"/>
-    <id>http://www.yangkai0725.com/posts/handbook/20160810/04markdown语法示例.html</id>
+    <link href="http://www.yangkai0725.com/20160810/20160810markdown%E8%AF%AD%E6%B3%95%E7%A4%BA%E4%BE%8B.html"/>
+    <id>http://www.yangkai0725.com/20160810/20160810markdown语法示例.html</id>
     <published>2016-08-10T08:16:01.000Z</published>
-    <updated>2016-08-17T09:27:18.664Z</updated>
+    <updated>2016-08-22T01:35:38.794Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Markdown语法说明中文版"><a href="#Markdown语法说明中文版" class="headerlink" title="Markdown语法说明中文版"></a>Markdown语法说明中文版</h1><p><a href="http://www.appinn.com/markdown/" target="_blank" rel="external">http://www.appinn.com/markdown/</a></p>
 <a id="more"></a>
-<p>Here is an example of AppleScript:</p>
-<pre><code>tell application &quot;Foo&quot;
-    beep
-end tell
-</code></pre><h1 id="Markdown表示h1-h6使用语法"><a href="#Markdown表示h1-h6使用语法" class="headerlink" title="Markdown表示h1-h6使用语法"></a>Markdown表示h1-h6使用语法</h1><p>类 Atx 形式则是在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶</p>
+<h1 id="Java代码格式"><a href="#Java代码格式" class="headerlink" title="Java代码格式"></a>Java代码格式</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"HelloWorld"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="Javascript代码格式"><a href="#Javascript代码格式" class="headerlink" title="Javascript代码格式"></a>Javascript代码格式</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsFunction</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	alert(<span class="string">"javascript function"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="Markdown表示h1-h6使用语法"><a href="#Markdown表示h1-h6使用语法" class="headerlink" title="Markdown表示h1-h6使用语法"></a>Markdown表示h1-h6使用语法</h1><p>类 Atx 形式则是在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶</p>
 <pre><code># 这是 H1
 ## 这是 H2
 ###### 这是 H6
@@ -240,15 +653,15 @@ end tell
   
   <entry>
     <title>GitHub常用命令</title>
-    <link href="http://www.yangkai0725.com/posts/handbook/20160810/03GitHub%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html"/>
-    <id>http://www.yangkai0725.com/posts/handbook/20160810/03GitHub常用命令.html</id>
+    <link href="http://www.yangkai0725.com/20160810/20160810GitHub%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html"/>
+    <id>http://www.yangkai0725.com/20160810/20160810GitHub常用命令.html</id>
     <published>2016-08-10T06:11:15.000Z</published>
-    <updated>2016-08-17T10:32:47.150Z</updated>
+    <updated>2016-08-22T01:35:38.806Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>   git clone<br>   git diff<br>   git log<br>   创建类命令<br><a id="more"></a></p>
-<h1 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h1><p>   git clone 拷贝并跟踪远程的master分支。<br>   跟踪的好处是以后可以直接通过pull和push命令来提交或者获取远程最新的代码，而不需要指定远程分支名字。</p>
 </blockquote>
+<h1 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h1><p>git clone 拷贝并跟踪远程的master分支。<br>跟踪的好处是以后可以直接通过pull和push命令来提交或者获取远程最新的代码，而不需要指定远程分支名字。</p>
 <h1 id="git-diff"><a href="#git-diff" class="headerlink" title="git diff"></a>git diff</h1><blockquote>
 <p>   对比工作区和stage文件的差异</p>
 </blockquote>
@@ -278,10 +691,10 @@ end tell
 <p>   git reset –merge ORIG_HEAD，注意其中的–hard 换成了 –merge，这样就可以避免在回滚时清除working tree。</p>
 </blockquote>
 <h1 id="用户名配置"><a href="#用户名配置" class="headerlink" title="用户名配置"></a>用户名配置</h1><pre><code>git config --global user.name &lt;your_name&gt;
-</code></pre><p>例： $ git config –global user.name “eagleless”</p>
-<h1 id="邮箱配置"><a href="#邮箱配置" class="headerlink" title="邮箱配置"></a>邮箱配置</h1><pre><code>git config --global user.email &lt;your_email@…&gt;
-</code></pre><p>例： $ git config –global user.email fox22222@163.com</p>
-]]></content>
+例： $ git config --global user.name &quot;eagleless&quot;
+</code></pre><h1 id="邮箱配置"><a href="#邮箱配置" class="headerlink" title="邮箱配置"></a>邮箱配置</h1><pre><code>git config --global user.email &lt;your_email@…&gt;
+例： $ git config --global user.email fox22222@163.com
+</code></pre>]]></content>
     
     <summary type="html">
     
@@ -299,15 +712,14 @@ end tell
   
   <entry>
     <title>Hexo使用简介HelloWorld</title>
-    <link href="http://www.yangkai0725.com/posts/note/20160809/00Hexo%E5%8D%9A%E5%AE%A2%E7%A4%BA%E4%BE%8B.html"/>
-    <id>http://www.yangkai0725.com/posts/note/20160809/00Hexo博客示例.html</id>
+    <link href="http://www.yangkai0725.com/20160809/20160809Hexo%E5%8D%9A%E5%AE%A2%E7%A4%BA%E4%BE%8B.html"/>
+    <id>http://www.yangkai0725.com/20160809/20160809Hexo博客示例.html</id>
     <published>2016-08-09T09:37:58.000Z</published>
-    <updated>2016-08-17T09:27:18.646Z</updated>
+    <updated>2016-08-22T01:35:38.812Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br><a id="more"></a></p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code>bash
-$ hexo new &quot;My New Post&quot;
-</code></pre><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">bash</div><div class="line">$ hexo <span class="keyword">new</span> <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code>bash
 $ hexo server
 </code></pre><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>

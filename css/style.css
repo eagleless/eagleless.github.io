@@ -1494,7 +1494,7 @@ a {
 }
 .article-entry .highlight table {
   margin: 0;
-  width: auto;
+  width: 100%;
 }
 .article-entry .highlight td {
   border: none;
@@ -1516,6 +1516,9 @@ a {
 }
 .article-entry .highlight figcaption a {
   float: right;
+}
+.article-entry .highlight .code {
+  width: 100%;
 }
 .article-entry .highlight .gutter pre {
   text-align: right;
