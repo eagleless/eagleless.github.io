@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yangkai0725.com/"/>
-  <updated>2016-08-23T11:38:59.245Z</updated>
+  <updated>2016-08-23T11:42:10.610Z</updated>
   <id>http://www.yangkai0725.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.yangkai0725.com/20160822/20160822linux-less-command.html"/>
     <id>http://www.yangkai0725.com/20160822/20160822linux-less-command.html</id>
     <published>2016-08-22T15:16:03.000Z</published>
-    <updated>2016-08-23T11:38:59.245Z</updated>
+    <updated>2016-08-23T11:42:10.610Z</updated>
     
     <content type="html"><![CDATA[<p>Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分，下面随小编一起来了解下less命令的具体用法吧。</p>
 <a id="more"></a>
@@ -132,8 +132,54 @@ b2015
 
 
 c3333333333333
-</code></pre><p>2016.log (file 1 of 2) (END) - Next: 2015.log<br>    :n…skipping…<br>    2015<br>    2015<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    2015.log (file 2 of 2) (END) </p>
-<blockquote>
+</code></pre><p>2016.log (file 1 of 2) (END) - Next: 2015.log</p>
+<p>:n</p>
+<pre><code>2015
+2015
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+~
+2015.log (file 2 of 2) (END) 
+</code></pre><blockquote>
 <p>　　说明：<br>　　输入 ：n后，切换到 log2014.log<br>　　输入 ：p 后，切换到log2013.log</p>
 </blockquote>
 <h1 id="5．附加备注"><a href="#5．附加备注" class="headerlink" title="5．附加备注"></a>5．附加备注</h1><blockquote>
