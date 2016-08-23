@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yangkai0725.com/"/>
-  <updated>2016-08-23T11:42:10.610Z</updated>
+  <updated>2016-08-23T11:46:10.819Z</updated>
   <id>http://www.yangkai0725.com/</id>
   
   <author>
@@ -20,9 +20,9 @@
     <link href="http://www.yangkai0725.com/20160822/20160822linux-less-command.html"/>
     <id>http://www.yangkai0725.com/20160822/20160822linux-less-command.html</id>
     <published>2016-08-22T15:16:03.000Z</published>
-    <updated>2016-08-23T11:42:10.610Z</updated>
+    <updated>2016-08-23T11:46:10.819Z</updated>
     
-    <content type="html"><![CDATA[<p>Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分，下面随小编一起来了解下less命令的具体用法吧。</p>
+    <content type="html"><![CDATA[<p>Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分。</p>
 <a id="more"></a>
 <p>参考：<a href="http://www.xitongzhijia.net/xtjc/20141209/32242.html" target="_blank" rel="external">http://www.xitongzhijia.net/xtjc/20141209/32242.html</a><br>less 的用法比起 more 更加的有弹性。在 more 的时候，我们并没有办法向前面翻， 只能往后面看，但若使用了 less 时，就可以使用 ［pageup］ ［pagedown］ 等按键的功能来往前往后翻看文件，更容易用来查看一个文件的内容！除此之外，在 less 里头可以拥有更多的搜索功能，不止可以向下搜，也可以向上搜。</p>
 <h1 id="1．命令格式"><a href="#1．命令格式" class="headerlink" title="1．命令格式"></a>1．命令格式</h1><p>　　less［参数］ 文件</p>
@@ -141,55 +141,35 @@ c3333333333333
 ~
 ~
 ~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
-~
 2015.log (file 2 of 2) (END) 
 </code></pre><blockquote>
 <p>　　说明：<br>　　输入 ：n后，切换到 log2014.log<br>　　输入 ：p 后，切换到log2013.log</p>
 </blockquote>
 <h1 id="5．附加备注"><a href="#5．附加备注" class="headerlink" title="5．附加备注"></a>5．附加备注</h1><blockquote>
-<p>  全屏导航<br>　　ctrl + F - 向前移动一屏<br>　　ctrl + B - 向后移动一屏<br>　　ctrl + D - 向前移动半屏<br>　　ctrl + U - 向后移动半屏<br>　单行导航<br>　　j - 向前移动一行<br>　　k - 向后移动一行<br>　　3.其它导航<br>　　G - 移动到最后一行<br>　　g - 移动到第一行<br>　　q / ZZ - 退出 less 命令<br>  其它有用的命令<br>　　v - 使用配置的编辑器编辑当前文件<br>　　h - 显示 less 的帮助文档<br>　　&amp;pattern - 仅显示匹配模式的行，而不是整个文件<br>  标记导航<br>　　当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：<br>　　ma - 使用 a 标记文本的当前位置<br>　　‘a - 导航到标记 a 处</p>
+<p>  全屏导航</p>
+</blockquote>
+<pre><code>ctrl + F - 向前移动一屏
+ctrl + B - 向后移动一屏
+ctrl + D - 向前移动半屏
+ctrl + U - 向后移动半屏
+</code></pre><blockquote>
+<p>　单行导航</p>
+</blockquote>
+<pre><code>j - 向前移动一行
+k - 向后移动一行
+3.其它导航
+G - 移动到最后一行
+g - 移动到第一行
+q / ZZ - 退出 less 命令
+</code></pre><blockquote>
+<p>  其它有用的命令<br>　　<br>    v - 使用配置的编辑器编辑当前文件<br>    h - 显示 less 的帮助文档<br>    &amp;pattern - 仅显示匹配模式的行，而不是整个文件</p>
+<p>  标记导航<br>    当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：<br>    ma - 使用 a 标记文本的当前位置<br>    ‘a - 导航到标记 a 处</p>
 </blockquote>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分，下面随小编一起来了解下less命令的具体用法吧。&lt;/p&gt;
+      &lt;p&gt;Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分。&lt;/p&gt;
     
     </summary>
     
