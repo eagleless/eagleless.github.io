@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yangkai0725.com/"/>
-  <updated>2016-08-22T04:54:18.825Z</updated>
+  <updated>2016-08-23T11:20:48.743Z</updated>
   <id>http://www.yangkai0725.com/</id>
   
   <author>
@@ -16,11 +16,49 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>20160822数据库面试常问的一些基本概念</title>
+    <title>Linux之less命令</title>
+    <link href="http://www.yangkai0725.com/20160822/20160822linux-less-command.html"/>
+    <id>http://www.yangkai0725.com/20160822/20160822linux-less-command.html</id>
+    <published>2016-08-22T15:16:03.000Z</published>
+    <updated>2016-08-23T11:20:48.743Z</updated>
+    
+    <content type="html"><![CDATA[<p>Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分，下面随小编一起来了解下less命令的具体用法吧。</p>
+<a id="more"></a>
+<p>参考：<a href="http://www.xitongzhijia.net/xtjc/20141209/32242.html" target="_blank" rel="external">http://www.xitongzhijia.net/xtjc/20141209/32242.html</a><br>less 的用法比起 more 更加的有弹性。在 more 的时候，我们并没有办法向前面翻， 只能往后面看，但若使用了 less 时，就可以使用 ［pageup］ ［pagedown］ 等按键的功能来往前往后翻看文件，更容易用来查看一个文件的内容！除此之外，在 less 里头可以拥有更多的搜索功能，不止可以向下搜，也可以向上搜。</p>
+<h1 id="1．命令格式"><a href="#1．命令格式" class="headerlink" title="1．命令格式"></a>1．命令格式</h1><p>　　less［参数］ 文件</p>
+<h1 id="2．命令功能"><a href="#2．命令功能" class="headerlink" title="2．命令功能"></a>2．命令功能</h1><p>less与more类似,但使用less可以随意浏览文件，而more仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。</p>
+<h1 id="3．命令参数"><a href="#3．命令参数" class="headerlink" title="3．命令参数"></a>3．命令参数</h1><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby">b 《缓冲区大小》 设置缓冲区的大小</span></div><div class="line">　　-<span class="ruby">e 当文件显示结束后，自动离开</span></div><div class="line">　　-<span class="ruby">f 强迫打开特殊文件，例如外围设备代号、目录和二进制文件</span></div><div class="line">　　-<span class="ruby">g 只标志最后搜索的关键词</span></div><div class="line">　　-<span class="ruby">i 忽略搜索时的大小写</span></div><div class="line">　　-<span class="ruby">m 显示类似more命令的百分比</span></div><div class="line">　　-<span class="ruby">N 显示每行的行号</span></div><div class="line">　　-<span class="ruby">o 《文件名》 将less 输出的内容在指定文件中保存起来</span></div><div class="line">　　-<span class="ruby">Q 不使用警告音</span></div><div class="line">　　-<span class="ruby">s 显示连续空行为一行</span></div><div class="line">　　-<span class="ruby">S 行过长时间将超出部分舍弃</span></div><div class="line">　　-<span class="ruby">x 《数字》 将“tab”键显示为规定的数字空格</span></div><div class="line"><span class="comment">　　/字符串：向下搜索“字符串”的功能</span></div><div class="line">　　？字符串：向上搜索“字符串”的功能</div><div class="line">　　n：重复前一个搜索（与 / 或 ？ 有关）</div><div class="line">　　N：反向重复前一个搜索（与 / 或 ？ 有关）</div><div class="line">　　b 向后翻一页</div><div class="line">　　d 向后翻半页</div><div class="line">　　h 显示帮助界面</div><div class="line">　　Q 退出less 命令</div><div class="line">　　u 向前滚动半页</div><div class="line">　　y 向前滚动一行</div><div class="line">　　空格键 滚动一行</div><div class="line">　　回车键 滚动一页</div><div class="line">　　［pagedown］： 向下翻动一页</div><div class="line">　　［pageup］： 向上翻动一页</div></pre></td></tr></table></figure>
+<h1 id="4．使用实例"><a href="#4．使用实例" class="headerlink" title="4．使用实例"></a>4．使用实例</h1><p>实例1：查看文件<br>    命令：less 2016.log<br>　　<br>输出：<br>    a2016</p>
+<pre><code>b2015
+
+
+c3333333333333
+2016.log (END) 
+</code></pre><p>　　<br>实例2：ps查看进程信息并通过less分页显示<br>    命令：ps -ef |less<br>　　输出：<br>　　 Linux命令之less命令的用法汇总</p>
+<p>实例3：查看命令历史使用记录并通过less分页显示<br>　　命令：<br>　　history | less<br>　　输出：<br>　　［root@localhost test］# history | less<br>　　22 scp -r tomcat6.0.32 root@192.168.120.203:/opt/soft<br>　　23 cd 。。<br>　　24 scp -r web root@192.168.120.203:/opt/<br>　　25 cd soft<br>　　26 ls<br>　　27 scp -r jdk1.6.0_16/ root@192.168.120.203:/opt/soft<br>　　28 clear<br>　　29 vim /etc/profile<br>　　30 vim /etc/profile<br>　　31 cd tomcat6.0.32/bin/<br>　　32 ls<br>　　33 。/shutdown.sh<br>　　34 。/startup.sh<br>　　35 vim startup.sh<br>　　36 ls<br>　　37 echo $JAVA_HOME<br>　　38 java<br>　　39 ls<br>　　40 ls<br>　　41 clear<br>　　42 cd /opt<br>　　43 ls<br>　　44 cp apache-tomcat-6.0.32.tar.gz soft/<br>　　45 ls<br>　　46 rm -f apache-tomcat-6.0.32.tar.gz<br>　　47 ls<br>　　48 cd soft<br>　　49 ls<br>　　50 tar -vzf apache-tomcat-6.0.32.tar.gz<br>　　51 tar -vzfx apache-tomcat-6.0.32.tar.gz<br>　　52 tar -zxvf apache-tomcat-6.0.32.tar.gz<br>　　53 ls<br>　　54 cd apache-tomcat-6.0.32<br>　　55 ls<br>　　56 cd 。。<br>　　57 mv apache-tomcat-6.0.32 tomcat6.0.32<br>　　58 ls<br>　　59 cd tomcat6.0.32/<br>　　60 ls<br>　　实例5：浏览多个文件<br>　　命令：<br>　　Less log2013.log log2014.log<br>　　输出：<br>　　 Linux命令之less命令的用法汇总<br>　　说明：<br>　　输入 ：n后，切换到 log2014.log<br>　　输入 ：p 后，切换到log2013.log<br>　　5．附加备注<br>　　1.全屏导航<br>　　ctrl + F - 向前移动一屏<br>　　ctrl + B - 向后移动一屏<br>　　ctrl + D - 向前移动半屏<br>　　ctrl + U - 向后移动半屏<br>　　2.单行导航<br>　　j - 向前移动一行<br>　　k - 向后移动一行<br>　　3.其它导航<br>　　G - 移动到最后一行<br>　　g - 移动到第一行<br>　　q / ZZ - 退出 less 命令<br>　　4.其它有用的命令<br>　　v - 使用配置的编辑器编辑当前文件<br>　　h - 显示 less 的帮助文档<br>　　&amp;pattern - 仅显示匹配模式的行，而不是整个文件<br>　　5.标记导航<br>　　当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：<br>　　ma - 使用 a 标记文本的当前位置<br>　　‘a - 导航到标记 a 处<br>　　上面就是Linux下less命令的用法介绍了，因为less命令并未在一开始就读入整个文件内容，所以在打开大型文件的时候，less会比较快</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分，下面随小编一起来了解下less命令的具体用法吧。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="linux" scheme="http://www.yangkai0725.com/categories/linux/"/>
+    
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+      <category term="linux" scheme="http://www.yangkai0725.com/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据库面试常问的一些基本概念</title>
     <link href="http://www.yangkai0725.com/20160822/20160822%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9D%A2%E8%AF%95%E5%B8%B8%E9%97%AE%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.html"/>
     <id>http://www.yangkai0725.com/20160822/20160822数据库面试常问的一些基本概念.html</id>
     <published>2016-08-22T04:29:12.000Z</published>
-    <updated>2016-08-22T04:54:18.825Z</updated>
+    <updated>2016-08-23T01:29:15.733Z</updated>
     
     <content type="html"><![CDATA[<ul>
 <li>超键、候选键、主键、外键</li>
@@ -760,6 +798,31 @@ $ hexo deploy
     
     
       <category term="hexo" scheme="http://www.yangkai0725.com/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>参考博客</title>
+    <link href="http://www.yangkai0725.com/20160730/20160730%E5%8F%82%E8%80%83%E5%8D%9A%E5%AE%A2.html"/>
+    <id>http://www.yangkai0725.com/20160730/20160730参考博客.html</id>
+    <published>2016-07-30T14:17:26.000Z</published>
+    <updated>2016-08-23T01:29:15.730Z</updated>
+    
+    <content type="html"><![CDATA[<p>网络博客学习缓存</p>
+<a id="more"></a>
+<h1 id="聊聊高并发系统之HTTP缓存"><a href="#聊聊高并发系统之HTTP缓存" class="headerlink" title="聊聊高并发系统之HTTP缓存"></a>聊聊高并发系统之HTTP缓存</h1><p><a href="http://geek.csdn.net/news/detail/96586" target="_blank" rel="external">http://geek.csdn.net/news/detail/96586</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;网络博客学习缓存&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="note" scheme="http://www.yangkai0725.com/categories/note/"/>
+    
+    
+      <category term="record" scheme="http://www.yangkai0725.com/tags/record/"/>
     
   </entry>
   
