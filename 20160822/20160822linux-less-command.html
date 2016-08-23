@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://www.yangkai0725.com/20160822/20160822linux-less-command.html">
 <meta property="og:site_name" content="Kai.Yang' Blog">
 <meta property="og:description" content="Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分，下面随小编一起来了解下less命令的具体用法吧。">
-<meta property="og:updated_time" content="2016-08-23T11:31:00.696Z">
+<meta property="og:updated_time" content="2016-08-23T11:37:04.901Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux之less命令">
 <meta name="twitter:description" content="Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分，下面随小编一起来了解下less命令的具体用法吧。">
@@ -221,8 +221,33 @@
 <p>参考：<a href="http://www.xitongzhijia.net/xtjc/20141209/32242.html" target="_blank" rel="external">http://www.xitongzhijia.net/xtjc/20141209/32242.html</a><br>less 的用法比起 more 更加的有弹性。在 more 的时候，我们并没有办法向前面翻， 只能往后面看，但若使用了 less 时，就可以使用 ［pageup］ ［pagedown］ 等按键的功能来往前往后翻看文件，更容易用来查看一个文件的内容！除此之外，在 less 里头可以拥有更多的搜索功能，不止可以向下搜，也可以向上搜。</p>
 <h1 id="1．命令格式"><a href="#1．命令格式" class="headerlink" title="1．命令格式"></a>1．命令格式</h1><p>　　less［参数］ 文件</p>
 <h1 id="2．命令功能"><a href="#2．命令功能" class="headerlink" title="2．命令功能"></a>2．命令功能</h1><p>less与more类似,但使用less可以随意浏览文件，而more仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。</p>
-<h1 id="3．命令参数"><a href="#3．命令参数" class="headerlink" title="3．命令参数"></a>3．命令参数</h1><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby">b 《缓冲区大小》 设置缓冲区的大小</span></div><div class="line">　　-<span class="ruby">e 当文件显示结束后，自动离开</span></div><div class="line">　　-<span class="ruby">f 强迫打开特殊文件，例如外围设备代号、目录和二进制文件</span></div><div class="line">　　-<span class="ruby">g 只标志最后搜索的关键词</span></div><div class="line">　　-<span class="ruby">i 忽略搜索时的大小写</span></div><div class="line">　　-<span class="ruby">m 显示类似more命令的百分比</span></div><div class="line">　　-<span class="ruby">N 显示每行的行号</span></div><div class="line">　　-<span class="ruby">o 《文件名》 将less 输出的内容在指定文件中保存起来</span></div><div class="line">　　-<span class="ruby">Q 不使用警告音</span></div><div class="line">　　-<span class="ruby">s 显示连续空行为一行</span></div><div class="line">　　-<span class="ruby">S 行过长时间将超出部分舍弃</span></div><div class="line">　　-<span class="ruby">x 《数字》 将“tab”键显示为规定的数字空格</span></div><div class="line"><span class="comment">　　/字符串：向下搜索“字符串”的功能</span></div><div class="line">　　？字符串：向上搜索“字符串”的功能</div><div class="line">　　n：重复前一个搜索（与 / 或 ？ 有关）</div><div class="line">　　N：反向重复前一个搜索（与 / 或 ？ 有关）</div><div class="line">　　b 向后翻一页</div><div class="line">　　d 向后翻半页</div><div class="line">　　h 显示帮助界面</div><div class="line">　　Q 退出less 命令</div><div class="line">　　u 向前滚动半页</div><div class="line">　　y 向前滚动一行</div><div class="line">　　空格键 滚动一行</div><div class="line">　　回车键 滚动一页</div><div class="line">　　［pagedown］： 向下翻动一页</div><div class="line">　　［pageup］： 向上翻动一页</div></pre></td></tr></table></figure>
-<h1 id="4．使用实例"><a href="#4．使用实例" class="headerlink" title="4．使用实例"></a>4．使用实例</h1><blockquote>
+<h1 id="3．命令参数"><a href="#3．命令参数" class="headerlink" title="3．命令参数"></a>3．命令参数</h1><pre><code>-b 《缓冲区大小》 设置缓冲区的大小
+-e 当文件显示结束后，自动离开
+-f 强迫打开特殊文件，例如外围设备代号、目录和二进制文件
+-g 只标志最后搜索的关键词
+-i 忽略搜索时的大小写
+-m 显示类似more命令的百分比
+-N 显示每行的行号
+-o 《文件名》 将less 输出的内容在指定文件中保存起来
+-Q 不使用警告音
+-s 显示连续空行为一行
+-S 行过长时间将超出部分舍弃
+-x 《数字》 将“tab”键显示为规定的数字空格
+/字符串：向下搜索“字符串”的功能
+？字符串：向上搜索“字符串”的功能
+n：重复前一个搜索（与 / 或 ？ 有关）
+N：反向重复前一个搜索（与 / 或 ？ 有关）
+b 向后翻一页
+d 向后翻半页
+h 显示帮助界面
+Q 退出less 命令
+u 向前滚动半页
+y 向前滚动一行
+空格键 滚动一行
+回车键 滚动一页
+[pagedown］： 向下翻动一页
+［pageup］： 向上翻动一页
+</code></pre><h1 id="4．使用实例"><a href="#4．使用实例" class="headerlink" title="4．使用实例"></a>4．使用实例</h1><blockquote>
 <p> 实例1：查看文件</p>
 </blockquote>
 <pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ less 2016.log 
@@ -291,7 +316,20 @@ root        25     2  0 Jul30 ?        00:00:00 [md/0]
 73  cd ..
 74  cd yangkai/
 </code></pre><blockquote>
-<p>  实例4：浏览多个文件<br>　　命令：<br>　　Less log2013.log log2014.log<br>　　输出：<br>　　 Linux命令之less命令的用法汇总<br>　　说明：<br>　　输入 ：n后，切换到 log2014.log<br>　　输入 ：p 后，切换到log2013.log<br>　　5．附加备注<br>　　1.全屏导航<br>　　ctrl + F - 向前移动一屏<br>　　ctrl + B - 向后移动一屏<br>　　ctrl + D - 向前移动半屏<br>　　ctrl + U - 向后移动半屏<br>　　2.单行导航<br>　　j - 向前移动一行<br>　　k - 向后移动一行<br>　　3.其它导航<br>　　G - 移动到最后一行<br>　　g - 移动到第一行<br>　　q / ZZ - 退出 less 命令<br>　　4.其它有用的命令<br>　　v - 使用配置的编辑器编辑当前文件<br>　　h - 显示 less 的帮助文档<br>　　&amp;pattern - 仅显示匹配模式的行，而不是整个文件<br>　　5.标记导航<br>　　当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：<br>　　ma - 使用 a 标记文本的当前位置<br>　　‘a - 导航到标记 a 处<br>　　上面就是Linux下less命令的用法介绍了，因为less命令并未在一开始就读入整个文件内容，所以在打开大型文件的时候，less会比较快</p>
+<p>  实例4：浏览多个文件</p>
+</blockquote>
+<pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ less 2016.log 2015.log 
+a2016
+
+
+b2015
+
+
+c3333333333333
+</code></pre><p>2016.log (file 1 of 2) (END) - Next: 2015.log<br>    :n…skipping…<br>    2015<br>    2015<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    ~<br>    2015.log (file 2 of 2) (END) </p>
+<blockquote>
+<p>　　说明：<br>　　输入 ：n后，切换到 log2014.log<br>　　输入 ：p 后，切换到log2013.log</p>
+<h1 id="5．附加备注"><a href="#5．附加备注" class="headerlink" title="5．附加备注"></a>5．附加备注</h1><p>　　1.全屏导航<br>　　ctrl + F - 向前移动一屏<br>　　ctrl + B - 向后移动一屏<br>　　ctrl + D - 向前移动半屏<br>　　ctrl + U - 向后移动半屏<br>　　2.单行导航<br>　　j - 向前移动一行<br>　　k - 向后移动一行<br>　　3.其它导航<br>　　G - 移动到最后一行<br>　　g - 移动到第一行<br>　　q / ZZ - 退出 less 命令<br>　　4.其它有用的命令<br>　　v - 使用配置的编辑器编辑当前文件<br>　　h - 显示 less 的帮助文档<br>　　&amp;pattern - 仅显示匹配模式的行，而不是整个文件<br>　　5.标记导航<br>　　当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：<br>　　ma - 使用 a 标记文本的当前位置<br>　　‘a - 导航到标记 a 处<br>　　上面就是Linux下less命令的用法介绍了，因为less命令并未在一开始就读入整个文件内容，所以在打开大型文件的时候，less会比较快</p>
 </blockquote>
 
       
