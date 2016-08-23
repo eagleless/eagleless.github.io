@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yangkai0725.com/"/>
-  <updated>2016-08-23T12:12:20.888Z</updated>
+  <updated>2016-08-23T12:20:14.181Z</updated>
   <id>http://www.yangkai0725.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.yangkai0725.com/20160823/20160823Oracle%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0.html"/>
     <id>http://www.yangkai0725.com/20160823/20160823Oracle常用函数.html</id>
     <published>2016-08-23T11:56:30.000Z</published>
-    <updated>2016-08-23T12:12:20.888Z</updated>
+    <updated>2016-08-23T12:20:14.181Z</updated>
     
     <content type="html"><![CDATA[<p>N表示数字型，C表示字符型，D表示日期型，[]表示内中参数可被忽略，fmt表示格式。</p>
 <a id="more"></a>
@@ -51,27 +51,50 @@
 </li>
 <li><p>UPPER(c) 将指定字符串内字符变为大写，支持CHAR,VARCHAR2,NCHAR,NVARCHAR2,CLOB,NCLOB类型<br>例如：SELECT UPPER(‘WhaT is tHis’) FROM DUAL; </p>
 </li>
-<li><p>LPAD(c1,n[,c2])<br>返回指定长度=n的字符串，需要注意的有几点：<br> 如果n<c1.length则从右到左截取指定长度返回； ="" 如果n="">c1.length and c2 is null，以空格从左向右补充字符长度至n并返回；<br> 如果n&gt;c1.length and c2 is not null，以指定字符c2从左向右补充c1长度至n并返回；<br>例如：SELECT LPAD(‘WhaT is tHis’,5),LPAD(‘WhaT is tHis’,25),LPAD(‘WhaT is tHis’,25,’-‘) FROM DUAL;<br>最后大家再猜一猜，如果n&lt;0，结果会怎么样 </c1.length则从右到左截取指定长度返回；></p>
-</li>
-<li><p>RPAD(c1,n[,c2])<br>返回指定长度=n的字符串，基本与上同，不过补充字符是从右向左方向正好与上相反；<br>例如：SELECT RPAD(‘WhaT is tHis’,5),RPAD(‘WhaT is tHis’,25),RPAD(‘WhaT is tHis’,25,’-‘) FROM DUAL; </p>
-</li>
-<li><p>TRIM([[LEADING||TRAILING||BOTH] c2 FROM] c1) 哈哈，被俺无敌的形容方式搞晕头了吧，这个地方还是看图更明了一些。<br>看起来很复杂，理解起来很简单：<br> 如果没有指定任何参数则oracle去除c1头尾空格<br>例如：SELECT TRIM(‘ WhaT is tHis ‘) FROM DUAL;<br> 如果指定了c2参数，则oracle去掉c1头尾c2(这个建议细致测试，有多种不同情形的哟)<br>例如：SELECT TRIM(‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL;<br> 如果指定了leading参数则会去掉c1头部c2<br>例如：SELECT TRIM(leading ‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL;<br> 如果指定了trailing参数则会去掉c1尾部c2<br>例如：SELECT TRIM(trailing ‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL;<br> 如果指定了both参数则会去掉c1头尾c2(跟不指定有区别吗？没区别！)<br>例如：SELECT TRIM(both ‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL; </p>
+<li><p>LPAD(c1,n[,c2])<br>返回指定长度=n的字符串，需要注意的有几点： </p>
 </li>
 </ol>
-<p>注意：c2长度=1 </p>
+<ul>
+<li>如果n&lt;c1.length则从右到左截取指定长度返回； </li>
+<li>如果n&gt;c1.length and c2 is null，以空格从左向右补充字符长度至n并返回； </li>
+<li>如果n&gt;c1.length and c2 is not null，以指定字符c2从左向右补充c1长度至n并返回；<br>例如：SELECT LPAD(‘WhaT is tHis’,5),LPAD(‘WhaT is tHis’,25),LPAD(‘WhaT is tHis’,25,’-‘) FROM DUAL;<br>最后大家再猜一猜，如果n&lt;0，结果会怎么样 </li>
+</ul>
 <ol>
-<li><p>LTRIM(c1[,c2]) 千万表以为与上面那个长的像，功能也与上面的类似，本函数是从字符串c1左侧截取掉与指定字符串c2相同的字符并返回。如果c2为空则默认截取空格。<br>例如：SELECT LTRIM(‘WWhhhhhaT is tHis w W’,’Wh’) FROM DUAL; </p>
+<li><p>RPAD(c1,n[,c2])<br>返回指定长度=n的字符串，基本与上同，不过补充字符是从右向左方向正好与上相反；<br>例如：SELECT RPAD(‘WhaT is tHis’,5),RPAD(‘WhaT is tHis’,25),RPAD(‘WhaT is tHis’,25,’-‘) FROM DUAL; </p>
 </li>
-<li><p>RTRIM(c1,c2)与上同，不过方向相反<br>例如：SELECT RTRIM(‘WWhhhhhaT is tHis w W’,’W w’) FROM DUAL; </p>
+<li><p>TRIM([[LEADING||TRAILING||BOTH] c2 FROM] c1) 哈哈，被俺无敌的形容方式搞晕头了吧，这个地方还是看图更明了一些。<br>看起来很复杂，理解起来很简单： </p>
 </li>
-<li><p>REPLACE(c1,c2[,c3]) 将c1字符串中的c2替换为c3，如果c3为空，则从c1中删除所有c2。<br>例如：SELECT REPLACE(‘WWhhhhhaT is tHis w W’,’W’,’-‘) FROM DUAL; </p>
-</li>
-<li><p>SOUNDEX(c) 神奇的函数啊，该函数返回字符串参数的语音表示形式，对于比较一些读音相同，但是拼写不同的单词非常有用。计算语音的算法如下：<br> 保留字符串首字母，但删除a、e、h、i、o、w、y。<br> 将下表中的数字赋给相对应的字母：<br>1：b、f、p、v<br>2：c、g、k、q、s、x、z<br>3：d、t<br>4：l<br>5：m、n<br>6：R<br> 如果字符串中存在拥有相同数字的2个以上（包含2个）的字母在一起（例如b和f），或者只有h或w，则删除其他的，只保留1个；<br> 只返回前4个字节，不够用0填充<br>例如：SELECT SOUNDEX(‘dog’),soundex(‘boy’) FROM DUAL; </p>
-</li>
-<li><p>SUBSTR(c1,n1[,n2]) 截取指定长度的字符串。稍不注意就可能充满了陷阱的函数。<br>n1=开始长度；<br>n2=截取的字符串长度，如果为空，默认截取到字符串结尾；<br> 如果n1=0 then n1=1<br> 如果n1&gt;0，则oracle从左向右确认起始位置截取<br>例如：SELECT SUBSTR(‘What is this’,5,3) FROM DUAL;<br> 如果n1<0，则oracle从右向左数确认起始位置 例如：select="" substr('what="" is="" this',-5,3)="" from="" dual;="" ="" 如果n1="">c1.length则返回空<br>例如：SELECT SUBSTR(‘What is this’,50,3) FROM DUAL;<br>然后再请你猜猜，如果n2&lt;1，会如何返回值呢 </0，则oracle从右向左数确认起始位置></p>
-</li>
-<li><p>TRANSLATE(c1,c2,c3) 就功能而言，此函数与replace有些相似。但需要注意的一点是，translate是绝对匹配替换，这点与replace函数具有非常大区别。什么是绝对匹配替换呢？简单的说，是将字符串c1中按一定的格式c2替换为c3。如果文字形容仍然无法理解，我们通过几具实例来说明：<br>例如：<br>SELECT TRANSLATE(‘What is this’,’’,’-‘) FROM DUAL;<br>SELECT TRANSLATE(‘What is this’,’-‘,’’) FROM DUAL;<br>结果都是空。来试试这个：<br>SELECT TRANSLATE(‘What is this’,’ ‘,’ ‘) FROM DUAL;<br>再来看这个：<br>SELECT TRANSLATE(‘What is this’,’ait’,’-*’) FROM DUAL;<br>是否明白了点呢？Replace函数理解比较简单，它是将字符串中指定字符替换成其它字符，它的字符必须是连续的。而translate中，则是指定字符串c1中出现的c2，将c2中各个字符替换成c3中位置顺序与其相同的c3中的字符。明白了？Replace是替换，而translate则像是过滤 </p>
-</li>
+</ol>
+<ul>
+<li>如果没有指定任何参数则oracle去除c1头尾空格<br>例如：SELECT TRIM(‘ WhaT is tHis ‘) FROM DUAL; </li>
+<li>如果指定了c2参数，则oracle去掉c1头尾c2(这个建议细致测试，有多种不同情形的哟)<br>例如：SELECT TRIM(‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL; </li>
+<li>如果指定了leading参数则会去掉c1头部c2<br>例如：SELECT TRIM(leading ‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL; </li>
+<li>如果指定了trailing参数则会去掉c1尾部c2<br>例如：SELECT TRIM(trailing ‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL; </li>
+<li>如果指定了both参数则会去掉c1头尾c2(跟不指定有区别吗？没区别！)<br>例如：SELECT TRIM(both ‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL;<br>注意：c2长度=1 </li>
+</ul>
+<ol>
+<li>LTRIM(c1[,c2]) 千万表以为与上面那个长的像，功能也与上面的类似，本函数是从字符串c1左侧截取掉与指定字符串c2相同的字符并返回。如果c2为空则默认截取空格。<br>例如：SELECT LTRIM(‘WWhhhhhaT is tHis w W’,’Wh’) FROM DUAL; </li>
+<li>RTRIM(c1,c2)与上同，不过方向相反<br>例如：SELECT RTRIM(‘WWhhhhhaT is tHis w W’,’W w’) FROM DUAL; </li>
+<li>REPLACE(c1,c2[,c3]) 将c1字符串中的c2替换为c3，如果c3为空，则从c1中删除所有c2。<br>例如：SELECT REPLACE(‘WWhhhhhaT is tHis w W’,’W’,’-‘) FROM DUAL; </li>
+<li>SOUNDEX(c) 神奇的函数啊，该函数返回字符串参数的语音表示形式，对于比较一些读音相同，但是拼写不同的单词非常有用。计算语音的算法如下： </li>
+</ol>
+<ul>
+<li>保留字符串首字母，但删除a、e、h、i、o、w、y。 </li>
+<li>将下表中的数字赋给相对应的字母：<br>  1：b、f、p、v<br>  2：c、g、k、q、s、x、z<br>  3：d、t<br>  4：l<br>  5：m、n<br>  6：R </li>
+<li>如果字符串中存在拥有相同数字的2个以上（包含2个）的字母在一起（例如b和f），或者只有h或w，则删除其他的，只保留1个； </li>
+<li>只返回前4个字节，不够用0填充<br>例如：SELECT SOUNDEX(‘dog’),soundex(‘boy’) FROM DUAL; </li>
+</ul>
+<ol>
+<li>SUBSTR(c1,n1[,n2]) 截取指定长度的字符串。稍不注意就可能充满了陷阱的函数。<br>n1=开始长度；<br>n2=截取的字符串长度，如果为空，默认截取到字符串结尾； </li>
+</ol>
+<ul>
+<li>如果n1=0 then n1=1 </li>
+<li>如果n1&gt;0，则oracle从左向右确认起始位置截取<br>例如：SELECT SUBSTR(‘What is this’,5,3) FROM DUAL; </li>
+<li>如果n1&lt;0，则oracle从右向左数确认起始位置<br>例如：SELECT SUBSTR(‘What is this’,-5,3) FROM DUAL; </li>
+<li>如果n1&gt;c1.length则返回空<br>例如：SELECT SUBSTR(‘What is this’,50,3) FROM DUAL;<br>然后再请你猜猜，如果n2&lt;1，会如何返回值呢 </li>
+</ul>
+<ol>
+<li>TRANSLATE(c1,c2,c3) 就功能而言，此函数与replace有些相似。但需要注意的一点是，translate是绝对匹配替换，这点与replace函数具有非常大区别。什么是绝对匹配替换呢？简单的说，是将字符串c1中按一定的格式c2替换为c3。如果文字形容仍然无法理解，我们通过几具实例来说明：<br>例如：<br>SELECT TRANSLATE(‘What is this’,’’,’-‘) FROM DUAL;<br>SELECT TRANSLATE(‘What is this’,’-‘,’’) FROM DUAL;<br>结果都是空。来试试这个：<br>SELECT TRANSLATE(‘What is this’,’ ‘,’ ‘) FROM DUAL;<br>再来看这个：<br>SELECT TRANSLATE(‘What is this’,’ait’,’-*’) FROM DUAL;<br>是否明白了点呢？Replace函数理解比较简单，它是将字符串中指定字符替换成其它字符，它的字符必须是连续的。而translate中，则是指定字符串c1中出现的c2，将c2中各个字符替换成c3中位置顺序与其相同的c3中的字符。明白了？Replace是替换，而translate则像是过滤 </li>
 </ol>
 <p><strong><em>字符型函数返回数字值(Character Functions Returning Number Values)</em></strong><br>本类函数支持所有的数据类型 </p>
 <ol>
@@ -102,10 +125,13 @@
 <p><strong><em>转换函数(Conversion Functions) </em></strong></p>
 <p>转换函数将指定字符从一种类型转换为另一种，通常这类函数遵循如下惯例：函数名称后面跟着待转换类型以及输出类型。 </p>
 <ol>
-<li>TO_CHAR() 本函数又可以分三小类，分别是<br> 转换字符-&gt;字符TO_CHAR(c)：将nchar,nvarchar2,clob,nclob类型转换为char类型；<br>例如：SELECT TO_CHAR(‘AABBCC’) FROM DUAL; </li>
+<li>TO_CHAR() 本函数又可以分三小类，分别是 </li>
 </ol>
-<p> 转换时间-&gt;字符TO_CHAR(d[,fmt])：将指定的时间(data,timestamp,timestamp with time zone)按照指定格式转换为varchar2类型；<br>例如：SELECT TO_CHAR(sysdate,’yyyy-mm-dd hh24:mi:ss’) FROM DUAL; </p>
-<p> 转换数值-&gt;字符TO_CHAR(n[,fmt])：将指定数值n按照指定格式fmt转换为varchar2类型并返回；<br>例如：SELECT TO_CHAR(-100, ‘L99G999D99MI’) FROM DUAL; </p>
+<ul>
+<li>转换字符-&gt;字符TO_CHAR(c)：将nchar,nvarchar2,clob,nclob类型转换为char类型；<br>例如：SELECT TO_CHAR(‘AABBCC’) FROM DUAL; </li>
+<li>转换时间-&gt;字符TO_CHAR(d[,fmt])：将指定的时间(data,timestamp,timestamp with time zone)按照指定格式转换为varchar2类型；<br>例如：SELECT TO_CHAR(sysdate,’yyyy-mm-dd hh24:mi:ss’) FROM DUAL; </li>
+<li>转换数值-&gt;字符TO_CHAR(n[,fmt]):将指定数值n按照指定格式fmt转换为varchar2类型并返回;例如：SELECT TO_CHAR(-100, ‘L99G999D99MI’) FROM DUAL; </li>
+</ul>
 <ol>
 <li>TO_DATE(c[,fmt[,nls]]) 将char,nchar,varchar2,nvarchar2转换为日期类型，如果fmt参数不为空，则按照fmt中指定格式进行转换。注意这里的fmt参数。如果ftm为’J’则表示按照公元制(Julian day)转换，c则必须为大于0并小于5373484的正整数。<br>例如：<br>SELECT TO_DATE(2454336, ‘J’) FROM DUAL;<br>SELECT TO_DATE(‘2007-8-23 23:25:00’, ‘yyyy-mm-dd hh24:mi:ss’) FROM DUAL; </li>
 </ol>
