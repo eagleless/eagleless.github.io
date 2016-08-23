@@ -12,7 +12,7 @@
 <meta property="og:url" content="http://www.yangkai0725.com/20160822/20160822linux-less-command.html">
 <meta property="og:site_name" content="Kai.Yang' Blog">
 <meta property="og:description" content="Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分，下面随小编一起来了解下less命令的具体用法吧。">
-<meta property="og:updated_time" content="2016-08-23T11:20:48.743Z">
+<meta property="og:updated_time" content="2016-08-23T11:24:31.314Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux之less命令">
 <meta name="twitter:description" content="Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分，下面随小编一起来了解下less命令的具体用法吧。">
@@ -74,10 +74,10 @@
 				<div class="tips-box hide">
 					<div class="tips-arrow"></div>
 					<ul class="tips-inner">
-						<li>菜单</li>
+						<li>Menu</li>
 						<li>Tags</li>
 						
-						<li>友情链接</li>
+						<li>Links</li>
 						
 						
 						<li>About Me</li>
@@ -222,14 +222,45 @@
 <h1 id="1．命令格式"><a href="#1．命令格式" class="headerlink" title="1．命令格式"></a>1．命令格式</h1><p>　　less［参数］ 文件</p>
 <h1 id="2．命令功能"><a href="#2．命令功能" class="headerlink" title="2．命令功能"></a>2．命令功能</h1><p>less与more类似,但使用less可以随意浏览文件，而more仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。</p>
 <h1 id="3．命令参数"><a href="#3．命令参数" class="headerlink" title="3．命令参数"></a>3．命令参数</h1><figure class="highlight haml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">-<span class="ruby">b 《缓冲区大小》 设置缓冲区的大小</span></div><div class="line">　　-<span class="ruby">e 当文件显示结束后，自动离开</span></div><div class="line">　　-<span class="ruby">f 强迫打开特殊文件，例如外围设备代号、目录和二进制文件</span></div><div class="line">　　-<span class="ruby">g 只标志最后搜索的关键词</span></div><div class="line">　　-<span class="ruby">i 忽略搜索时的大小写</span></div><div class="line">　　-<span class="ruby">m 显示类似more命令的百分比</span></div><div class="line">　　-<span class="ruby">N 显示每行的行号</span></div><div class="line">　　-<span class="ruby">o 《文件名》 将less 输出的内容在指定文件中保存起来</span></div><div class="line">　　-<span class="ruby">Q 不使用警告音</span></div><div class="line">　　-<span class="ruby">s 显示连续空行为一行</span></div><div class="line">　　-<span class="ruby">S 行过长时间将超出部分舍弃</span></div><div class="line">　　-<span class="ruby">x 《数字》 将“tab”键显示为规定的数字空格</span></div><div class="line"><span class="comment">　　/字符串：向下搜索“字符串”的功能</span></div><div class="line">　　？字符串：向上搜索“字符串”的功能</div><div class="line">　　n：重复前一个搜索（与 / 或 ？ 有关）</div><div class="line">　　N：反向重复前一个搜索（与 / 或 ？ 有关）</div><div class="line">　　b 向后翻一页</div><div class="line">　　d 向后翻半页</div><div class="line">　　h 显示帮助界面</div><div class="line">　　Q 退出less 命令</div><div class="line">　　u 向前滚动半页</div><div class="line">　　y 向前滚动一行</div><div class="line">　　空格键 滚动一行</div><div class="line">　　回车键 滚动一页</div><div class="line">　　［pagedown］： 向下翻动一页</div><div class="line">　　［pageup］： 向上翻动一页</div></pre></td></tr></table></figure>
-<h1 id="4．使用实例"><a href="#4．使用实例" class="headerlink" title="4．使用实例"></a>4．使用实例</h1><p>实例1：查看文件<br>    命令：less 2016.log<br>　　<br>输出：<br>    a2016</p>
-<pre><code>b2015
+<h1 id="4．使用实例"><a href="#4．使用实例" class="headerlink" title="4．使用实例"></a>4．使用实例</h1><h2 id="实例1：查看文件"><a href="#实例1：查看文件" class="headerlink" title="实例1：查看文件"></a>实例1：查看文件</h2><pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ less 2016.log 
+a2016
+
+
+b2015
 
 
 c3333333333333
 2016.log (END) 
-</code></pre><p>　　<br>实例2：ps查看进程信息并通过less分页显示<br>    命令：ps -ef |less<br>　　输出：<br>　　 Linux命令之less命令的用法汇总</p>
-<p>实例3：查看命令历史使用记录并通过less分页显示<br>　　命令：<br>　　history | less<br>　　输出：<br>　　［root@localhost test］# history | less<br>　　22 scp -r tomcat6.0.32 root@192.168.120.203:/opt/soft<br>　　23 cd 。。<br>　　24 scp -r web root@192.168.120.203:/opt/<br>　　25 cd soft<br>　　26 ls<br>　　27 scp -r jdk1.6.0_16/ root@192.168.120.203:/opt/soft<br>　　28 clear<br>　　29 vim /etc/profile<br>　　30 vim /etc/profile<br>　　31 cd tomcat6.0.32/bin/<br>　　32 ls<br>　　33 。/shutdown.sh<br>　　34 。/startup.sh<br>　　35 vim startup.sh<br>　　36 ls<br>　　37 echo $JAVA_HOME<br>　　38 java<br>　　39 ls<br>　　40 ls<br>　　41 clear<br>　　42 cd /opt<br>　　43 ls<br>　　44 cp apache-tomcat-6.0.32.tar.gz soft/<br>　　45 ls<br>　　46 rm -f apache-tomcat-6.0.32.tar.gz<br>　　47 ls<br>　　48 cd soft<br>　　49 ls<br>　　50 tar -vzf apache-tomcat-6.0.32.tar.gz<br>　　51 tar -vzfx apache-tomcat-6.0.32.tar.gz<br>　　52 tar -zxvf apache-tomcat-6.0.32.tar.gz<br>　　53 ls<br>　　54 cd apache-tomcat-6.0.32<br>　　55 ls<br>　　56 cd 。。<br>　　57 mv apache-tomcat-6.0.32 tomcat6.0.32<br>　　58 ls<br>　　59 cd tomcat6.0.32/<br>　　60 ls<br>　　实例5：浏览多个文件<br>　　命令：<br>　　Less log2013.log log2014.log<br>　　输出：<br>　　 Linux命令之less命令的用法汇总<br>　　说明：<br>　　输入 ：n后，切换到 log2014.log<br>　　输入 ：p 后，切换到log2013.log<br>　　5．附加备注<br>　　1.全屏导航<br>　　ctrl + F - 向前移动一屏<br>　　ctrl + B - 向后移动一屏<br>　　ctrl + D - 向前移动半屏<br>　　ctrl + U - 向后移动半屏<br>　　2.单行导航<br>　　j - 向前移动一行<br>　　k - 向后移动一行<br>　　3.其它导航<br>　　G - 移动到最后一行<br>　　g - 移动到第一行<br>　　q / ZZ - 退出 less 命令<br>　　4.其它有用的命令<br>　　v - 使用配置的编辑器编辑当前文件<br>　　h - 显示 less 的帮助文档<br>　　&amp;pattern - 仅显示匹配模式的行，而不是整个文件<br>　　5.标记导航<br>　　当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：<br>　　ma - 使用 a 标记文本的当前位置<br>　　‘a - 导航到标记 a 处<br>　　上面就是Linux下less命令的用法介绍了，因为less命令并未在一开始就读入整个文件内容，所以在打开大型文件的时候，less会比较快</p>
+</code></pre><p>　　</p>
+<h2 id="实例2：ps查看进程信息并通过less分页显示"><a href="#实例2：ps查看进程信息并通过less分页显示" class="headerlink" title="实例2：ps查看进程信息并通过less分页显示"></a>实例2：ps查看进程信息并通过less分页显示</h2><pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ ps -ef |less
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 Jul30 ?        00:00:00 /sbin/init
+root         2     0  0 Jul30 ?        00:00:00 [kthreadd]
+root         3     2  0 Jul30 ?        00:00:00 [migration/0]
+root         4     2  0 Jul30 ?        00:00:03 [ksoftirqd/0]
+root         5     2  0 Jul30 ?        00:00:00 [migration/0]
+root         6     2  0 Jul30 ?        00:00:03 [watchdog/0]
+root         7     2  0 Jul30 ?        00:38:46 [events/0]
+root         8     2  0 Jul30 ?        00:00:00 [cgroup]
+root         9     2  0 Jul30 ?        00:00:00 [khelper]
+root        10     2  0 Jul30 ?        00:00:00 [netns]
+root        11     2  0 Jul30 ?        00:00:00 [async/mgr]
+root        12     2  0 Jul30 ?        00:00:00 [pm]
+root        13     2  0 Jul30 ?        00:00:08 [sync_supers]
+root        14     2  0 Jul30 ?        00:00:08 [bdi-default]
+root        15     2  0 Jul30 ?        00:00:00 [kintegrityd/0]
+root        16     2  0 Jul30 ?        00:00:16 [kblockd/0]
+root        17     2  0 Jul30 ?        00:00:00 [kacpid]
+root        18     2  0 Jul30 ?        00:00:00 [kacpi_notify]
+root        19     2  0 Jul30 ?        00:00:00 [kacpi_hotplug]
+root        20     2  0 Jul30 ?        00:00:00 [ata_aux]
+root        21     2  0 Jul30 ?        00:00:00 [ata_sff/0]
+root        22     2  0 Jul30 ?        00:00:00 [ksuspend_usbd]
+root        23     2  0 Jul30 ?        00:00:00 [khubd]
+root        24     2  0 Jul30 ?        00:00:00 [kseriod]
+root        25     2  0 Jul30 ?        00:00:00 [md/0]
+</code></pre><h2 id="实例3：查看命令历史使用记录并通过less分页显示"><a href="#实例3：查看命令历史使用记录并通过less分页显示" class="headerlink" title="实例3：查看命令历史使用记录并通过less分页显示"></a>实例3：查看命令历史使用记录并通过less分页显示</h2><p>[yxgly@ZC_VM_10_100_138_183 ~]$ history | less<br>   54  cd logs/<br>   55  ll<br>   56  rm catalina.out<br>   57  ll<br>   58  cd ..<br>   59  ll<br>   60  cd work/Catalina/localhost/<br>   61  ll<br>   62  rm -rf <em><br>   63  cd ..<br>   64  ll<br>   65  cd bin/<br>   66  ll<br>   67  vi startup.sh<br>   68  ll<br>   69  cd ..<br>   70  cd conf/<br>   71  ll<br>   72  vi server.xml<br>   73  cd ..<br>   74  cd yangkai/<br>   75  ll<br>   76  cd webapps/<br>   77  ll<br>   78  cd ROOT/<br>   79  ll<br>   80  rm -rf </em><br>   81  cd ..<br>   82  cd ,,<br>   83  cd ..<br>   84  ll<br>   85  cd /<br>   86  ll<br>   87  cd /home/yxgly/tool/tomcat7-web/logs/<br>   88  ll<br>   89  tail -f catalina.out<br>   90  mv /app/xinghuo.txt.bak /app/xinghuo.txt<br>   91  tail -f catalina.out<br>   92  ll<br>   93  ll -h<br>   94  du -sh *<br>   95  ll -h<br>   96  tail -f catalina.out<br>   97  cd tool/tomcat7-web/logs/</p>
+<h2 id="实例5：浏览多个文件"><a href="#实例5：浏览多个文件" class="headerlink" title="实例5：浏览多个文件"></a>实例5：浏览多个文件</h2><p>　　命令：<br>　　Less log2013.log log2014.log<br>　　输出：<br>　　 Linux命令之less命令的用法汇总<br>　　说明：<br>　　输入 ：n后，切换到 log2014.log<br>　　输入 ：p 后，切换到log2013.log<br>　　5．附加备注<br>　　1.全屏导航<br>　　ctrl + F - 向前移动一屏<br>　　ctrl + B - 向后移动一屏<br>　　ctrl + D - 向前移动半屏<br>　　ctrl + U - 向后移动半屏<br>　　2.单行导航<br>　　j - 向前移动一行<br>　　k - 向后移动一行<br>　　3.其它导航<br>　　G - 移动到最后一行<br>　　g - 移动到第一行<br>　　q / ZZ - 退出 less 命令<br>　　4.其它有用的命令<br>　　v - 使用配置的编辑器编辑当前文件<br>　　h - 显示 less 的帮助文档<br>　　&amp;pattern - 仅显示匹配模式的行，而不是整个文件<br>　　5.标记导航<br>　　当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：<br>　　ma - 使用 a 标记文本的当前位置<br>　　‘a - 导航到标记 a 处<br>　　上面就是Linux下less命令的用法介绍了，因为less命令并未在一开始就读入整个文件内容，所以在打开大型文件的时候，less会比较快</p>
 
       
     </div>
