@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yangkai0725.com/"/>
-  <updated>2016-08-23T12:35:42.265Z</updated>
+  <updated>2016-08-23T12:37:01.427Z</updated>
   <id>http://www.yangkai0725.com/</id>
   
   <author>
@@ -20,12 +20,12 @@
     <link href="http://www.yangkai0725.com/20160823/20160823Oracle%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0.html"/>
     <id>http://www.yangkai0725.com/20160823/20160823Oracle常用函数.html</id>
     <published>2016-08-23T11:56:30.000Z</published>
-    <updated>2016-08-23T12:35:42.265Z</updated>
+    <updated>2016-08-23T12:37:01.427Z</updated>
     
     <content type="html"><![CDATA[<p>N表示数字型，C表示字符型，D表示日期型，[]表示内中参数可被忽略，fmt表示格式。</p>
 <a id="more"></a>
+<p><strong><em>单值函数在查询中返回单个值，可被应用到select，where子句，start with以及connect by 子句和having子句.</em></strong></p>
 <blockquote>
-<p>  单值函数在查询中返回单个值，可被应用到select，where子句，start with以及connect by 子句和having子句。 </p>
 <blockquote>
 <p> <strong><em>数值型函数(Number Functions)</em></strong> </p>
 </blockquote>
@@ -114,8 +114,10 @@
 </blockquote>
 </blockquote>
 <ol>
-<li><p>DECODE(exp,s1,r1,s2,r2..s,r[,def]) 可以把它理解成一个增强型的if else，只不过它并不通过多行语句，而是在一个函数内实现if else的功能。<br>exp做为初始参数。s做为对比值，相同则返回r，如果s有多个，则持续遍历所有s，直到某个条件为真为止，否则返回默认值def(如果指定了的话)，如果没有默认值，并且前面的对比也都没有为真，则返回空。<br>毫无疑问，decode是个非常重要的函数，在实现行转列等功能时都会用到，需要牢记和熟练使用。<br>例如：select decode(‘a2’,’a1’,’true1’,’a2’,’true2’,’default’) from dual; </p>
-</li>
+<li>DECODE(exp,s1,r1,s2,r2..s,r[,def])</li>
+</ol>
+<p>可以把它理解成一个增强型的if else，只不过它并不通过多行语句，而是在一个函数内实现if else的功能。<br>exp做为初始参数。s做为对比值，相同则返回r，如果s有多个，则持续遍历所有s，直到某个条件为真为止，否则返回默认值def(如果指定了的话)，如果没有默认值，并且前面的对比也都没有为真，则返回空。<br>毫无疑问，decode是个非常重要的函数，在实现行转列等功能时都会用到，需要牢记和熟练使用。<br>例如：select decode(‘a2’,’a1’,’true1’,’a2’,’true2’,’default’) from dual; </p>
+<ol>
 <li><p>GREATEST(n1,n2,…n) 返回序列中的最大值<br>例如：SELECT GREATEST(15,5,75,8) “Greatest” FROM DUAL; </p>
 </li>
 <li><p>LEAST(n1,n2….n) 返回序列中的最小值<br>例如：SELECT LEAST(15,5,75,8) LEAST FROM DUAL; </p>
