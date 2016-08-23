@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yangkai0725.com/"/>
-  <updated>2016-08-23T12:37:01.427Z</updated>
+  <updated>2016-08-23T12:42:31.641Z</updated>
   <id>http://www.yangkai0725.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.yangkai0725.com/20160823/20160823Oracle%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0.html"/>
     <id>http://www.yangkai0725.com/20160823/20160823Oracle常用函数.html</id>
     <published>2016-08-23T11:56:30.000Z</published>
-    <updated>2016-08-23T12:37:01.427Z</updated>
+    <updated>2016-08-23T12:42:31.641Z</updated>
     
     <content type="html"><![CDATA[<p>N表示数字型，C表示字符型，D表示日期型，[]表示内中参数可被忽略，fmt表示格式。</p>
 <a id="more"></a>
@@ -59,7 +59,12 @@
 <li>LTRIM(c1[,c2]) 千万表以为与上面那个长的像，功能也与上面的类似，本函数是从字符串c1左侧截取掉与指定字符串c2相同的字符并返回。如果c2为空则默认截取空格。<br>例如：SELECT LTRIM(‘WWhhhhhaT is tHis w W’,’Wh’) FROM DUAL; </li>
 <li>RTRIM(c1,c2)与上同，不过方向相反<br>例如：SELECT RTRIM(‘WWhhhhhaT is tHis w W’,’W w’) FROM DUAL; </li>
 <li>REPLACE(c1,c2[,c3]) 将c1字符串中的c2替换为c3，如果c3为空，则从c1中删除所有c2。<br>例如：SELECT REPLACE(‘WWhhhhhaT is tHis w W’,’W’,’-‘) FROM DUAL; </li>
-<li>SOUNDEX(c) 神奇的函数啊，该函数返回字符串参数的语音表示形式，对于比较一些读音相同，但是拼写不同的单词非常有用。计算语音的算法如下：<br>保留字符串首字母，但删除a、e、h、i、o、w、y。<br>将下表中的数字赋给相对应的字母：<br> 1：b、f、p、v<br> 2：c、g、k、q、s、x、z<br> 3：d、t<br> 4：l<br> 5：m、n<br> 6：R<br>如果字符串中存在拥有相同数字的2个以上（包含2个）的字母在一起（例如b和f），或者只有h或w，则删除其他的，只保留1个；<br>只返回前4个字节，不够用0填充<br>例如：SELECT SOUNDEX(‘dog’),soundex(‘boy’) FROM DUAL; </li>
+<li><p>SOUNDEX(c) 神奇的函数啊，该函数返回字符串参数的语音表示形式，对于比较一些读音相同，但是拼写不同的单词非常有用。计算语音的算法如下：<br>保留字符串首字母，但删除a、e、h、i、o、w、y。<br>将下表中的数字赋给相对应的字母</p>
+<p> 1：b、f、p、v<br> 2：c、g、k、q、s、x、z<br> 3：d、t<br> 4：l<br> 5：m、n<br> 6：R </p>
+</li>
+</ol>
+<p>如果字符串中存在拥有相同数字的2个以上（包含2个）的字母在一起（例如b和f），或者只有h或w，则删除其他的，只保留1个；<br>只返回前4个字节，不够用0填充<br>例如：SELECT SOUNDEX(‘dog’),soundex(‘boy’) FROM DUAL; </p>
+<ol>
 <li>SUBSTR(c1,n1[,n2]) 截取指定长度的字符串。稍不注意就可能充满了陷阱的函数。<br>n1=开始长度；<br>n2=截取的字符串长度，如果为空，默认截取到字符串结尾；<br>如果n1=0 then n1=1<br>如果n1&gt;0，则oracle从左向右确认起始位置截取<br>例如：SELECT SUBSTR(‘What is this’,5,3) FROM DUAL;<br>如果n1<0，则oracle从右向左数确认起始位置 例如：select="" substr('what="" is="" this',-5,3)="" from="" dual;="" 如果n1="">c1.length则返回空<br>例如：SELECT SUBSTR(‘What is this’,50,3) FROM DUAL;<br>然后再请你猜猜，如果n2&lt;1，会如何返回值呢 </0，则oracle从右向左数确认起始位置></li>
 <li>TRANSLATE(c1,c2,c3) 就功能而言，此函数与replace有些相似。但需要注意的一点是，translate是绝对匹配替换，这点与replace函数具有非常大区别。什么是绝对匹配替换呢？简单的说，是将字符串c1中按一定的格式c2替换为c3。如果文字形容仍然无法理解，我们通过几具实例来说明：<br>例如：<br>SELECT TRANSLATE(‘What is this’,’’,’-‘) FROM DUAL;<br>SELECT TRANSLATE(‘What is this’,’-‘,’’) FROM DUAL;<br>结果都是空。来试试这个：<br>SELECT TRANSLATE(‘What is this’,’ ‘,’ ‘) FROM DUAL;<br>再来看这个：<br>SELECT TRANSLATE(‘What is this’,’ait’,’-*’) FROM DUAL;<br>是否明白了点呢？Replace函数理解比较简单，它是将字符串中指定字符替换成其它字符，它的字符必须是连续的。而translate中，则是指定字符串c1中出现的c2，将c2中各个字符替换成c3中位置顺序与其相同的c3中的字符。明白了？Replace是替换，而translate则像是过滤 </li>
 </ol>
@@ -128,11 +133,10 @@
 </li>
 <li><p>NVL2(c1,c2,c3) 大家可能都用到nvl，但你用过nvl2吗？如果c1非空则返回c2,如果c1为空则返回c3<br>例如：select nvl2(‘a’, ‘b’, ‘c’) isNull,nvl2(null, ‘b’, ‘c’) isNotNull from dual; </p>
 </li>
-<li><p>SYS_CONNECT_BY_PATH(col,c) 该函数只能应用于树状查询。返回通过c1连接的从根到节点的路径。该函数必须与connect by 子句共同使用。<br>例如：<br> create table tmp3(<br> rootcol varchar2(10),<br> nodecol varchar2(10)<br> ); </p>
-<p> insert into tmp3 values (‘’,’a001’);<br> insert into tmp3 values (‘’,’b001’);<br> insert into tmp3 values (‘a001’,’a002’);<br> insert into tmp3 values (‘a002’,’a004’);<br> insert into tmp3 values (‘a001’,’a003’);<br> insert into tmp3 values (‘a003’,’a005’);<br> insert into tmp3 values (‘a005’,’a008’);<br> insert into tmp3 values (‘b001’,’b003’);<br> insert into tmp3 values (‘b003’,’b005’); </p>
-<p> select lpad(‘ ‘, level*10,’=’) ||’&gt;’|| sys_connect_by_path(nodecol,’/‘)<br> from tmp3<br> start with rootcol = ‘a001’<br> connect by prior nodecol =rootcol; </p>
+<li><p>SYS_CONNECT_BY_PATH(col,c) 该函数只能应用于树状查询。返回通过c1连接的从根到节点的路径。该函数必须与connect by 子句共同使用。<br>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> tmp3(rootcol varchar2(<span class="number">10</span>),nodecol varchar2(<span class="number">10</span>)); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">''</span>,<span class="string">'a001'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">''</span>,<span class="string">'b001'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'a001'</span>,<span class="string">'a002'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'a002'</span>,<span class="string">'a004'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'a001'</span>,<span class="string">'a003'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'a003'</span>,<span class="string">'a005'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'a005'</span>,<span class="string">'a008'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'b001'</span>,<span class="string">'b003'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'b003'</span>,<span class="string">'b005'</span>); </div><div class="line"><span class="keyword">select</span> <span class="keyword">lpad</span>(<span class="string">' '</span>, <span class="keyword">level</span>*<span class="number">10</span>,<span class="string">'='</span>) ||<span class="string">'&gt;'</span>|| sys_connect_by_path(nodecol,<span class="string">'/'</span>) </div><div class="line"><span class="keyword">from</span> tmp3 </div><div class="line"><span class="keyword">start</span> <span class="keyword">with</span> rootcol = <span class="string">'a001'</span> </div><div class="line"><span class="keyword">connect</span> <span class="keyword">by</span> <span class="keyword">prior</span> nodecol =rootcol;</div></pre></td></tr></table></figure>
 </li>
-<li><p>SYS_CONTEXT(c1,c2[,n]) 将指定命名空间c1的指定参数c2的值按照指定长度n截取后返回。<br>Oracle9i提供内置了一个命名空间USERENV，描述了当前session的各项信息，其拥有下列参数：<br> CURRENT_SCHEMA:当前模式名；<br> CURRENT_USER:当前用户；<br> IP_ADDRESS:当前客户端IP地址；<br> OS_USER:当前客户端操作系统用户；<br>等等数十项，更详细的参数列还请大家直接参考Oracle Online Documents </p>
+<li><p>SYS_CONTEXT(c1,c2[,n]) 将指定命名空间c1的指定参数c2的值按照指定长度n截取后返回。<br>Oracle9i提供内置了一个命名空间USERENV，描述了当前session的各项信息，其拥有下列参数：<br>CURRENT_SCHEMA:当前模式名<br>CURRENT_USER:当前用户<br>IP_ADDRESS:当前客户端IP地址<br>OS_USER:当前客户端操作系统用户<br>等等数十项，更详细的参数列还请大家直接参考Oracle Online Documents </p>
 </li>
 </ol>
 <p>例如：SELECT SYS_CONTEXT(‘USERENV’, ‘SESSION_USER’) FROM DUAL;<br>注：N表示数字型，C表示字符型，D表示日期型，[]表示内中参数可被忽略，fmt表示格式。 </p>
@@ -183,8 +187,12 @@
 <li><p>SQRT(n) 返回n的平方根,n为弧度。n&gt;=0<br>例如：SELECT SQRT(0.1) FROM DUAL; </p>
 </li>
 </ol>
-<p><strong><em>字符型函数返回字符值(Character Functions Returning Character Values)</em></strong><br>　　该类函数返回与输入类型相同的类型。<br> 返回的CHAR类型值长度不超过2000字节；<br> 返回的VCHAR2类型值长度不超过4000字节；<br>如果上述应返回的字符长度超出，oracle并不会报错而是直接截断至最大可支持长度返回。 </p>
-<p> 返回的CLOB类型值长度不超过4G；<br>对于CLOB类型的函数，如果返回值长度超出，oracle不会返回任何错误而是直接抛出错误。 </p>
+<blockquote>
+<blockquote>
+<p> <strong><em>字符型函数返回字符值(Character Functions Returning Character Values)</em></strong></p>
+</blockquote>
+</blockquote>
+<p>该类函数返回与输入类型相同的类型。<br>返回的CHAR类型值长度不超过2000字节；<br>返回的VCHAR2类型值长度不超过4000字节；<br>如果上述应返回的字符长度超出，oracle并不会报错而是直接截断至最大可支持长度返回。<br>返回的CLOB类型值长度不超过4G；<br>对于CLOB类型的函数，如果返回值长度超出，oracle不会返回任何错误而是直接抛出错误。 </p>
 <ol>
 <li><p>CHR(N[ USING NCHAR_CS]) 返回指定数值在当前字符集中对应的字符<br>例如：SELECT CHR(95) FROM DUAL; </p>
 </li>
@@ -195,11 +203,21 @@
 <li><p>NLS_INITCAP(c) 返回指定字符串，并将字符串中第一个字母变大写，其它字母变小写<br>例如：SELECT NLS_INITCAP(‘中华miNZHu’) FROM DUAL;<br>它还具有一个参数：Nlsparam用来指定排序规则，可以忽略，默认状态该参数为当前session的排序规则。 </p>
 </li>
 </ol>
-<p><strong><em>字符型函数返回数字值(Character Functions Returning Number Values) </em></strong><br>本类函数支持所有的数据类型 </p>
+<blockquote>
+<blockquote>
+<p> <strong><em>字符型函数返回数字值(Character Functions Returning Number Values) </em></strong></p>
+</blockquote>
+</blockquote>
+<p>本类函数支持所有的数据类型 </p>
 <ol>
 <li>ASCII(c) 与chr函数的用途刚刚相反，本函数返回指定字符在当前字符集下对应的数值。<br>例如：SELECT ASCII(‘_’) FROM DUAL; </li>
 </ol>
-<p><strong><em>日期函数(Datetime Functions) </em></strong><br>本类函数中，除months_between返回数值外，其它都将返回日期。 </p>
+<blockquote>
+<blockquote>
+<p> <strong><em>日期函数(Datetime Functions) </em></strong></p>
+</blockquote>
+</blockquote>
+<p>本类函数中，除months_between返回数值外，其它都将返回日期。 </p>
 <ol>
 <li><p>CURRENT_TIMESTAMP([n]) 返回当前session所在时区的日期和时间。n表示毫秒级的精度，不大于6<br>例如：SELECT CURRENT_TIMESTAMP(3) FROM DUAL; </p>
 </li>
@@ -216,7 +234,12 @@
 <li><p>TO_TIMESTAMP(c1[,fmt]) 将指定字符按指定格式转换为timestamp格式。<br>例如：SELECT TO_TIMESTAMP(‘2007-8-22’, ‘YYYY-MM-DD HH:MI:SS’) FROM DUAL; </p>
 </li>
 </ol>
-<p><strong><em>转换函数(Conversion Functions)</em></strong><br>转换函数将指定字符从一种类型转换为另一种，通常这类函数遵循如下惯例：函数名称后面跟着待转换类型以及输出类型。 </p>
+<blockquote>
+<blockquote>
+<p> <strong><em>转换函数(Conversion Functions)</em></strong> </p>
+</blockquote>
+</blockquote>
+<p>转换函数将指定字符从一种类型转换为另一种，通常这类函数遵循如下惯例：函数名称后面跟着待转换类型以及输出类型。 </p>
 <ol>
 <li><p>BIN_TO_NUM(n1,n2…n) 将一组位向量转换为等价的十进制形式。<br>例如：SELECT BIN_TO_NUM(1,1,0) FROM DUAL; </p>
 </li>
@@ -231,15 +254,16 @@
 <li><p>TO_SINGLE_BYTE(c) 将指定字符转换为半角并返回char类型字串<br>例如：SELECT TO_SINGLE_BYTE(‘ＡＢＣ　ａｂｃ中华’) FROM DUAL; </p>
 </li>
 </ol>
-<p><strong><em>其它辅助函数(Miscellaneous Single-Row Functions)</em></strong> </p>
+<blockquote>
+<blockquote>
+<p> <strong><em>其它辅助函数(Miscellaneous Single-Row Functions)</em></strong> </p>
+</blockquote>
+</blockquote>
 <ol>
 <li><p>COALESCE(n1,n2,….n) 返回序列中的第一个非空值<br>例如：SELECT COALESCE(null,5,6,null,9) FROM DUAL; </p>
 </li>
-<li><p>DUMP(exp[,fmt[,start[,length]]])<br>dump是个功能非常强悍的函数，对于深入了解oracle存储的人而言相当有用。所以对于我们这些仅仅只是应用的人而言就不知道能将其应用于何处了。此处仅介绍用法，不对其功能做深入分析。 </p>
+<li><p>DUMP(exp[,fmt[,start[,length]]])<br>dump是个功能非常强悍的函数，对于深入了解oracle存储的人而言相当有用。所以对于我们这些仅仅只是应用的人而言就不知道能将其应用于何处了。此处仅介绍用法，不对其功能做深入分析。如上所示，dump拥有不少参数。其本质是以指定格式，返回指定长度的exp的内部表示形式的varchar2值。fmt含4种格式：8||10||16||17，分别表示8进制，10进制，16进制和单字符，默认为10进制。start参数表示开始位置，length表示以,分隔的字串数。<br>例如：SELECT DUMP(‘abcdefg’,17,2,4) FROM DUAL; </p>
 </li>
-</ol>
-<p>如上所示，dump拥有不少参数。其本质是以指定格式，返回指定长度的exp的内部表示形式的varchar2值。fmt含4种格式：8||10||16||17，分别表示8进制，10进制，16进制和单字符，默认为10进制。start参数表示开始位置，length表示以,分隔的字串数。<br>例如：SELECT DUMP(‘abcdefg’,17,2,4) FROM DUAL; </p>
-<ol>
 <li><p>EMPTY_BLOB,EMPTY_CLOB 这两个函数都是返回空lob类型，通常被用于insert和update等语句以初始化lob列，或者将其置为空。EMPTY表示LOB已经被初始化，只不过还没有用来存储数据。 </p>
 </li>
 <li><p>NLS_CHARSET_NAME(n) 返回指定数值对应的字符集名称。<br>例如：SELECT NLS_CHARSET_NAME(1) FROM DUAL; </p>
@@ -741,9 +765,9 @@ target
       <category term="database" scheme="http://www.yangkai0725.com/categories/database/"/>
     
     
-      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
-    
       <category term="database" scheme="http://www.yangkai0725.com/tags/database/"/>
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
     
       <category term="date" scheme="http://www.yangkai0725.com/tags/date/"/>
     
@@ -790,9 +814,9 @@ target
       <category term="handbook" scheme="http://www.yangkai0725.com/categories/handbook/"/>
     
     
-      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
-    
       <category term="redis" scheme="http://www.yangkai0725.com/tags/redis/"/>
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
     
   </entry>
   
@@ -820,9 +844,9 @@ target
       <category term="database" scheme="http://www.yangkai0725.com/categories/database/"/>
     
     
-      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
-    
       <category term="database" scheme="http://www.yangkai0725.com/tags/database/"/>
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
     
       <category term="mybatis" scheme="http://www.yangkai0725.com/tags/mybatis/"/>
     
@@ -854,9 +878,9 @@ target
       <category term="handbook" scheme="http://www.yangkai0725.com/categories/handbook/"/>
     
     
-      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
-    
       <category term="freemarker" scheme="http://www.yangkai0725.com/tags/freemarker/"/>
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
     
   </entry>
   
