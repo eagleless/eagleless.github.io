@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yangkai0725.com/"/>
-  <updated>2016-08-23T12:26:12.992Z</updated>
+  <updated>2016-08-23T12:26:53.660Z</updated>
   <id>http://www.yangkai0725.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.yangkai0725.com/20160823/20160823Oracle%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0.html"/>
     <id>http://www.yangkai0725.com/20160823/20160823Oracle常用函数.html</id>
     <published>2016-08-23T11:56:30.000Z</published>
-    <updated>2016-08-23T12:26:12.992Z</updated>
+    <updated>2016-08-23T12:26:53.660Z</updated>
     
     <content type="html"><![CDATA[<p>N表示数字型，C表示字符型，D表示日期型，[]表示内中参数可被忽略，fmt表示格式。</p>
 <a id="more"></a>
@@ -128,14 +128,22 @@
 <li><p>TRUNC(d[,fmt]) 与前面介绍的数值型TRUNC原理相同，不过此处也是操作的日期型。<br>例如：SELECT TRUNC(SYSDATE,’HH24’) FROM DUAL; </p>
 </li>
 </ol>
+<blockquote>
+<blockquote>
 <p><strong><em>转换函数(Conversion Functions) </em></strong></p>
+</blockquote>
+</blockquote>
 <p>转换函数将指定字符从一种类型转换为另一种，通常这类函数遵循如下惯例：函数名称后面跟着待转换类型以及输出类型。 </p>
 <ol>
 <li>TO_CHAR() 本函数又可以分三小类，分别是<br>转换字符-&gt;字符TO_CHAR(c)：将nchar,nvarchar2,clob,nclob类型转换为char类型；<br>例如：SELECT TO_CHAR(‘AABBCC’) FROM DUAL;<br>转换时间-&gt;字符TO_CHAR(d[,fmt])：将指定的时间(data,timestamp,timestamp with time zone)按照指定格式转换为varchar2类型；<br>例如：SELECT TO_CHAR(sysdate,’yyyy-mm-dd hh24:mi:ss’) FROM DUAL;<br>转换数值-&gt;字符TO_CHAR(n[,fmt]):将指定数值n按照指定格式fmt转换为varchar2类型并返回;例如：SELECT TO_CHAR(-100, ‘L99G999D99MI’) FROM DUAL; </li>
 <li>TO_DATE(c[,fmt[,nls]]) 将char,nchar,varchar2,nvarchar2转换为日期类型，如果fmt参数不为空，则按照fmt中指定格式进行转换。注意这里的fmt参数。如果ftm为’J’则表示按照公元制(Julian day)转换，c则必须为大于0并小于5373484的正整数。<br>例如：<br>SELECT TO_DATE(2454336, ‘J’) FROM DUAL;<br>SELECT TO_DATE(‘2007-8-23 23:25:00’, ‘yyyy-mm-dd hh24:mi:ss’) FROM DUAL;<br>为什么公元制的话，c的值必须不大于5373484呢？因为Oracle的DATE类型的取值范围是公元前4712年1月1日至公元9999年12月31日。看看下面这个语句：<br>SELECT TO_CHAR(TO_DATE(‘9999-12-31’,’yyyy-mm-dd’),’j’) FROM DUAL; </li>
 <li>TO_NUMBER(c[,fmt[,nls]]) 将char,nchar,varchar2,nvarchar2型字串按照fmt中指定格式转换为数值类型并返回。<br>例如：SELECT TO_NUMBER(‘-100.00’, ‘9G999D99’) FROM DUAL; </li>
 </ol>
-<p><strong><em>其它辅助函数(Miscellaneous Single-Row Functions)</em></strong></p>
+<blockquote>
+<blockquote>
+<p> <strong><em>其它辅助函数(Miscellaneous Single-Row Functions)</em></strong></p>
+</blockquote>
+</blockquote>
 <ol>
 <li>DECODE(exp,s1,r1,s2,r2..s,r[,def]) 可以把它理解成一个增强型的if else，只不过它并不通过多行语句，而是在一个函数内实现if else的功能。<br>exp做为初始参数。s做为对比值，相同则返回r，如果s有多个，则持续遍历所有s，直到某个条件为真为止，否则返回默认值def(如果指定了的话)，如果没有默认值，并且前面的对比也都没有为真，则返回空。<br>毫无疑问，decode是个非常重要的函数，在实现行转列等功能时都会用到，需要牢记和熟练使用。 </li>
 </ol>
