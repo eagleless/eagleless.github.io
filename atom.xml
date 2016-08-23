@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yangkai0725.com/"/>
-  <updated>2016-08-23T12:20:14.181Z</updated>
+  <updated>2016-08-23T12:22:25.079Z</updated>
   <id>http://www.yangkai0725.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.yangkai0725.com/20160823/20160823Oracle%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0.html"/>
     <id>http://www.yangkai0725.com/20160823/20160823Oracle常用函数.html</id>
     <published>2016-08-23T11:56:30.000Z</published>
-    <updated>2016-08-23T12:20:14.181Z</updated>
+    <updated>2016-08-23T12:22:25.079Z</updated>
     
     <content type="html"><![CDATA[<p>N表示数字型，C表示字符型，D表示日期型，[]表示内中参数可被忽略，fmt表示格式。</p>
 <a id="more"></a>
@@ -98,16 +98,22 @@
 </ol>
 <p><strong><em>字符型函数返回数字值(Character Functions Returning Number Values)</em></strong><br>本类函数支持所有的数据类型 </p>
 <ol>
-<li><p>INSTR(c1,c2[,n1[,n2]]) 返回c2在c1中位置<br> c1:原字符串<br> c2:要寻找的字符串<br> n1:查询起始位置，正值表示从左到右，负值表示从右到左 (大小表示位置,比如3表示左面第3处开始,-3表示右面第3处开始)。黑黑，如果为0的话，则返回的也是0<br> n2:第几个匹配项。大于0<br>例如：SELECT INSTR(‘abcdefg’,’e’,-3) FROM DUAL; </p>
-</li>
-<li><p>LENGTH(c) 返回指定字符串的长度。如果<br>例如：SELECT LENGTH(‘A123中’) FROM DUAL;<br>猜猜SELECT LENGTH(‘’) FROM DUAL;的返回值是什么 </p>
-</li>
+<li>INSTR(c1,c2[,n1[,n2]]) 返回c2在c1中位置 </li>
+</ol>
+<ul>
+<li>c1:原字符串 </li>
+<li>c2:要寻找的字符串 </li>
+<li>n1:查询起始位置，正值表示从左到右，负值表示从右到左 (大小表示位置,比如3表示左面第3处开始,-3表示右面第3处开始)。黑黑，如果为0的话，则返回的也是0 </li>
+<li>n2:第几个匹配项。大于0<br>例如：SELECT INSTR(‘abcdefg’,’e’,-3) FROM DUAL; </li>
+</ul>
+<ol>
+<li>LENGTH(c) 返回指定字符串的长度。如果<br>例如：SELECT LENGTH(‘A123中’) FROM DUAL;<br>猜猜SELECT LENGTH(‘’) FROM DUAL;的返回值是什么 </li>
 </ol>
 <p><strong><em>日期函数(Datetime Functions)</em></strong><br>本类函数中，除months_between返回数值外，其它都将返回日期。 </p>
 <ol>
 <li><p>ADD_MONTHS() 返回指定日期月份+n之后的值，n可以为任何整数。<br>例如：SELECT ADD_MONTHS(sysdate,12),ADD_MONTHS(sysdate,-12) FROM DUAL; </p>
 </li>
-<li><p>CURRENT_DATE 返回当前session所在时区的默认时间<br>例如：<br>SQL&gt; alter session set nls_date_format = ‘mm-dd-yyyy’ ;<br>SQL&gt; select current_date from dual; </p>
+<li><p>CURRENT_DATE 返回当前session所在时区的默认时间<br>例如：<br> SQL&gt; alter session set nls_date_format = ‘mm-dd-yyyy’ ;<br> SQL&gt; select current_date from dual; </p>
 </li>
 <li><p>SYSDATE 功能与上相同，返回当前session所在时区的默认时间。但是需要注意的一点是，如果同时使用sysdate与current_date获得的时间不一定相同，某些情况下current_date会比sysdate快一秒。经过与xyf_tck(兄台的大作ORACLE的工作机制写的很好，深入浅出)的短暂交流，我们认为current_date是将current_timestamp中毫秒四舍五入后的返回，虽然没有找到文档支持，但是想来应该八九不离十。同时，仅是某些情况下会有一秒的误差，一般情况下并不会对你的操作造成影响，所以了解即可。<br>例如：SELECT SYSDATE,CURRENT_DATE FROM DUAL; </p>
 </li>
@@ -133,10 +139,7 @@
 <li>转换数值-&gt;字符TO_CHAR(n[,fmt]):将指定数值n按照指定格式fmt转换为varchar2类型并返回;例如：SELECT TO_CHAR(-100, ‘L99G999D99MI’) FROM DUAL; </li>
 </ul>
 <ol>
-<li>TO_DATE(c[,fmt[,nls]]) 将char,nchar,varchar2,nvarchar2转换为日期类型，如果fmt参数不为空，则按照fmt中指定格式进行转换。注意这里的fmt参数。如果ftm为’J’则表示按照公元制(Julian day)转换，c则必须为大于0并小于5373484的正整数。<br>例如：<br>SELECT TO_DATE(2454336, ‘J’) FROM DUAL;<br>SELECT TO_DATE(‘2007-8-23 23:25:00’, ‘yyyy-mm-dd hh24:mi:ss’) FROM DUAL; </li>
-</ol>
-<p>为什么公元制的话，c的值必须不大于5373484呢？因为Oracle的DATE类型的取值范围是公元前4712年1月1日至公元9999年12月31日。看看下面这个语句：<br>SELECT TO_CHAR(TO_DATE(‘9999-12-31’,’yyyy-mm-dd’),’j’) FROM DUAL; </p>
-<ol>
+<li>TO_DATE(c[,fmt[,nls]]) 将char,nchar,varchar2,nvarchar2转换为日期类型，如果fmt参数不为空，则按照fmt中指定格式进行转换。注意这里的fmt参数。如果ftm为’J’则表示按照公元制(Julian day)转换，c则必须为大于0并小于5373484的正整数。<br>例如：<br>SELECT TO_DATE(2454336, ‘J’) FROM DUAL;<br>SELECT TO_DATE(‘2007-8-23 23:25:00’, ‘yyyy-mm-dd hh24:mi:ss’) FROM DUAL;<br>为什么公元制的话，c的值必须不大于5373484呢？因为Oracle的DATE类型的取值范围是公元前4712年1月1日至公元9999年12月31日。看看下面这个语句：<br>SELECT TO_CHAR(TO_DATE(‘9999-12-31’,’yyyy-mm-dd’),’j’) FROM DUAL; </li>
 <li>TO_NUMBER(c[,fmt[,nls]]) 将char,nchar,varchar2,nvarchar2型字串按照fmt中指定格式转换为数值类型并返回。<br>例如：SELECT TO_NUMBER(‘-100.00’, ‘9G999D99’) FROM DUAL; </li>
 </ol>
 <p><strong><em>其它辅助函数(Miscellaneous Single-Row Functions)</em></strong></p>
