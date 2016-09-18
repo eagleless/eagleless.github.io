@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yangkai0725.com/"/>
-  <updated>2016-08-23T12:42:31.641Z</updated>
+  <updated>2016-09-18T07:47:36.946Z</updated>
   <id>http://www.yangkai0725.com/</id>
   
   <author>
@@ -14,6 +14,492 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>20160829Tomcat简介</title>
+    <link href="http://www.yangkai0725.com/20160829/20160829Tomcat%E7%AE%80%E4%BB%8B.html"/>
+    <id>http://www.yangkai0725.com/20160829/20160829Tomcat简介.html</id>
+    <published>2016-08-29T07:59:47.000Z</published>
+    <updated>2016-09-18T07:47:36.946Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+
+    
+    </summary>
+    
+    
+      <category term="tomcat" scheme="http://www.yangkai0725.com/tags/tomcat/"/>
+    
+      <category term="server" scheme="http://www.yangkai0725.com/tags/server/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CXFWebservice暴露方式</title>
+    <link href="http://www.yangkai0725.com/20160828/20160828CXFWebservice%E6%9A%B4%E9%9C%B2%E6%96%B9%E5%BC%8F.html"/>
+    <id>http://www.yangkai0725.com/20160828/20160828CXFWebservice暴露方式.html</id>
+    <published>2016-08-28T14:39:18.000Z</published>
+    <updated>2016-09-18T07:47:36.942Z</updated>
+    
+    <content type="html"><![CDATA[<p>使用注解和XML方式暴露REST风格webservice，使用JAX-WS暴露SOAP风格webservice。<br>使用wsdl2java根据wsdl生成java源码。<br><a id="more"></a></p>
+<blockquote>
+<p>  REST风格 注解方式</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//接口使用注解</span></div><div class="line"><span class="meta">@WebService</span></div><div class="line"><span class="meta">@Path</span>(<span class="string">"/users"</span>)</div><div class="line"><span class="comment">//方法声明如下</span></div><div class="line"><span class="meta">@GET</span>    </div><div class="line"><span class="meta">@Path</span>(<span class="string">"&#123;lastname&#125;"</span>)    </div><div class="line"><span class="function">List&lt;Person&gt; <span class="title">findByLastName</span><span class="params">(@PathParam(<span class="string">"lastname"</span>)</span> String lastName)</span>;     </div><div class="line"><span class="meta">@GET</span>    </div><div class="line"><span class="function">List&lt;Person&gt; <span class="title">getPeople</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>  REST风格 XML配置方式</p>
+</blockquote>
+<p>使用了JAX-RS，无需在接口中声明任何注解<br><code>src/main/webapp/WEB-INF/cxf-servlet.xml</code>中添加</p>
+<pre><code>&lt;jaxrs:serviceBeans&gt;
+    &lt;ref bean=&quot;userManager&quot;/&gt;
+&lt;/jaxrs:serviceBeans&gt;
+</code></pre><p><code>http://localhost:8080/services/api/users.json</code><br>也可以这样访问<code>http://localhost:8080/services/api/users</code><br>但必须给User添加@XmlRootElement注解</p>
+<blockquote>
+<p>  暴露SOAP WebService</p>
+</blockquote>
+<p>SOAP:Simple Object Access Protocol简单对象访问协议<br>接口UserService使用@WebService注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@WebService</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserService</span></span>&#123;</div><div class="line">    <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>实现类UserServiceImpl使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service</span>(<span class="string">"userManager"</span>)</div><div class="line"><span class="meta">@WebService</span>(serviceName = <span class="string">"UserService"</span>,  endpointInterface = <span class="string">"com.joiest.service.UserService"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title">UserService</span></span>&#123;</div><div class="line">    <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最好提供无参构造器，以满足JAX-WS<br><code>src/main/webapp/WEB-INF/cxf-servlet.xml</code> 中添加</p>
+<pre><code>&lt;jaxws:endpoint id=&quot;userService&quot; implementor=&quot;#userManager&quot; address=&quot;/UserService&quot;/&gt;
+</code></pre><p>运行mvn jetty:run<br><a href="http://localhost:8080/services/UserService?wsdl" target="_blank" rel="external">http://localhost:8080/services/UserService?wsdl</a><br>即可查看userService的wsdl描述</p>
+<blockquote>
+<p>  wsdl2java生成java源码</p>
+</blockquote>
+<pre><code>wsdl2java -s E:\myToolsApi\studyTools\tools\webservice\cxf\gen_src\src -uri http://localhost:8088/cxfws/services/Hellows?wsdl
+
+wsimport –s . client http://localhost:8088/cxfws/services/Hellows?wsdl
+
+wsimport -s . http://127.0.0.1:8088/cxfws/services/Hellows?wsdl
+
+wsdl2java -s . -uri http://localhost:8088/cxfws/services/Hellows?wsdl
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用注解和XML方式暴露REST风格webservice，使用JAX-WS暴露SOAP风格webservice。&lt;br&gt;使用wsdl2java根据wsdl生成java源码。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+      <category term="webservice" scheme="http://www.yangkai0725.com/tags/webservice/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RabbitMQ简介</title>
+    <link href="http://www.yangkai0725.com/20160828/20160828RabbitMQ%E7%AE%80%E4%BB%8B.html"/>
+    <id>http://www.yangkai0725.com/20160828/20160828RabbitMQ简介.html</id>
+    <published>2016-08-28T11:10:31.000Z</published>
+    <updated>2016-09-18T07:47:36.945Z</updated>
+    
+    <content type="html"><![CDATA[<p>MQ是消费-生产者模型的一个典型的代表，一端往消息队列中不断写入消息，而另一端则可以读取或者订阅队列中的消息。MQ和JMS类似，但不同的是JMS是JAVA消息中间件服务的一个标准和API定义，而MQ则是遵循了AMQP协议的具体实现和产品。<br><a id="more"></a></p>
+<p>一个exchange能用n条routing-key规则去指向一个queue。<br>如果一个Message符合n条规则去往同一个queue，这个Message只会被投放到这个queue一次。</p>
+<blockquote>
+<p>  概念说明</p>
+</blockquote>
+<p>Broker:简单来说就是消息队列服务器实体。<br>Exchange:消息交换机，它指定消息按什么规则，路由到哪个队列。<br>Queue:消息队列载体，每个消息都会被投入到一个或多个队列。<br>Binding:绑定，它的作用就是把exchange和queue按照路由规则绑定起来。<br>Routing Key:路由关键字，exchange根据这个关键字进行消息投递。<br>vhost:虚拟主机，一个broker里可以开设多个vhost，用作不同用户的权限分离。<br>producer:消息生产者，就是投递消息的程序。<br>consumer:消息消费者，就是接受消息的程序。<br>channel:消息通道，在客户端的每个连接里，可建立多个channel，每个channel代表一个会话任务。</p>
+<blockquote>
+<p>  消息队列的使用过程</p>
+</blockquote>
+<ul>
+<li>客户端连接到消息队列服务器，打开一个channel。</li>
+<li>客户端声明一个exchange，并设置相关属性。</li>
+<li>客户端声明一个queue，并设置相关属性。</li>
+<li>客户端使用<code>routing key</code>，在exchange和queue之间建立好绑定关系。</li>
+<li>客户端投递消息到exchange。</li>
+</ul>
+<blockquote>
+<p>  消息队列持久化</p>
+</blockquote>
+<p>RabbitMQ支持消息的持久化，也就是数据写在磁盘上，为了数据安全考虑，我想大多数用户都会选择持久化。消息队列持久化包括3个部分：</p>
+<ul>
+<li>exchange持久化，在声明时指定durable =&gt; 1</li>
+<li>queue持久化，在声明时指定durable =&gt; 1</li>
+<li>消息持久化，在投递时指定delivery_mode =&gt; 2（1是非持久化）<br>如果exchange和queue都是持久化的，那么它们之间的binding也是持久化的。如果exchange和queue两者之间有一个持久化，一个非持久化，就不允许建立绑定。</li>
+</ul>
+<blockquote>
+<p>  exchange的类型</p>
+</blockquote>
+<p>在实际的情况下，消息发送者不会直接将Message发入queue，而是发入exchange，<code>exchange</code>能通过指定的规则将message放入指定的queue中（<code>public/subscribe</code>模型）。exchange有direct，topic，headers和fanout等几种类型。</p>
+<ul>
+<li>Direct交换机:完全根据key进行投递，例如，绑定时设置了<code>routing key</code>为”abc”，那么客户端提交的消息，只有设置了key为”abc”的才会投递到队列。</li>
+<li>Topic交换机:对key进行模式匹配后进行投递，功能强大，几乎能实现其他exchange的routing规则，符号<code>#</code>匹配一个或多个词，符号<code>*</code>匹配任意一个词。routing-key不能是任意，它必须是一个一些词的数组，用”.”隔开，每个词可以是任意的，但通常是代表某些含义的。这个词的数组不能超过255个字节。例如<code>abc.#</code>匹配<code>abc.def.ghi</code>，<code>abc.*</code>只匹配<code>abc.def</code>。</li>
+<li>Fanout交换机:不需要key的，它采取广播模式，一个消息进来时，将消息派发到所有的绑定到该exchange的queque中。</li>
+</ul>
+<blockquote>
+<p>  JAVA API</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">//connecting to a broker 服务器实体</span></div><div class="line">ConnectionFactory factory = <span class="keyword">new</span> ConnectionFactory();</div><div class="line">factory.setUsername(userName);</div><div class="line">factory.setPassword(password);</div><div class="line">factory.setVirtualHost(virtualHost);</div><div class="line">factory.setHost(hostName);</div><div class="line">factory.setPort(portNumber);</div><div class="line"><span class="comment">//或者factory.setUri("amqp://userName:password@hostName:portNumber/virtualHost");</span></div><div class="line">Connection conn = factory.newConnection();</div><div class="line"><span class="comment">//或者 address array  --com.rabbitmq.client</span></div><div class="line">Address[] addrArr = <span class="keyword">new</span> Address[]&#123; <span class="keyword">new</span> Address(hostname1, portnumber1)</div><div class="line">                                 , <span class="keyword">new</span> Address(hostname2, portnumber2)&#125;;</div><div class="line">Connection conn = factory.newConnection(addrArr);</div><div class="line"><span class="comment">//open a channel</span></div><div class="line">Channel channel = conn.createChannel();</div><div class="line"><span class="comment">//disconnect</span></div><div class="line">channel.colse();</div><div class="line">conn.close();</div><div class="line">consumer thread pool --java.util.concurrent </div><div class="line">ExecutorService es = Executors.newFixedThreadPool(<span class="number">20</span>);</div><div class="line">Connection conn = factory.newConnection(es);</div><div class="line"><span class="comment">//Using exchanges and queues</span></div><div class="line">channel.exchangeDeclare(exchangeName, <span class="string">"direct"</span>, <span class="keyword">true</span>);</div><div class="line">String queueName = channel.queueDeclare().getQueue();</div><div class="line">channel.queueBind(queueName, exchangeName, routingKey);</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;MQ是消费-生产者模型的一个典型的代表，一端往消息队列中不断写入消息，而另一端则可以读取或者订阅队列中的消息。MQ和JMS类似，但不同的是JMS是JAVA消息中间件服务的一个标准和API定义，而MQ则是遵循了AMQP协议的具体实现和产品。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+      <category term="mq" scheme="http://www.yangkai0725.com/tags/mq/"/>
+    
+      <category term="jms" scheme="http://www.yangkai0725.com/tags/jms/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Maven之appfuse模板</title>
+    <link href="http://www.yangkai0725.com/20160828/20160828Maven%E4%B9%8Bappfuse%E6%A8%A1%E6%9D%BF.html"/>
+    <id>http://www.yangkai0725.com/20160828/20160828Maven之appfuse模板.html</id>
+    <published>2016-08-28T10:09:55.000Z</published>
+    <updated>2016-09-18T07:47:36.944Z</updated>
+    
+    <content type="html"><![CDATA[<p>Appfuse是由Matt Raible开发的一个指导性的入门级J2EE框架，它对如何集成流行的Spring、Hibernate、iBatis、struts、Xdoclet、junit 等基础框架给出了示范。提供了对Taperstry和JSF的支持。<br><a id="more"></a></p>
+<blockquote>
+<p>  常用命令</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mvn appfuse:gen-model</td>
+<td style="text-align:left">根据数据库的表生成java类</td>
+</tr>
+<tr>
+<td>mvn appfuse:gen</td>
+<td style="text-align:left">根据 POJOs.生成并安装Tests, DAO, Managers, Controllers and Views</td>
+</tr>
+<tr>
+<td>mvn appfuse:full-source</td>
+<td style="text-align:left">把运行所需要的org.appfuse中的依赖类转换成你的包名称</td>
+</tr>
+<tr>
+<td>mvn eclipse:eclipse</td>
+<td style="text-align:left">生成eclipse的项目的配置文件，用户可以直接把项目导入到eclipse中</td>
+</tr>
+<tr>
+<td>mvn jetty:run-war</td>
+<td style="text-align:left">打包并且发布你的应用程序到Jetty, 查看在 <a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a></td>
+</tr>
+<tr>
+<td>mvn appfuse:install</td>
+<td style="text-align:left">把生成的源代码及配置文件写入到src中</td>
+</tr>
+<tr>
+<td>mvn integration-test</td>
+<td style="text-align:left">启动TOMCAT(或别的服务器)进行测试</td>
+</tr>
+<tr>
+<td>mvn appfuse:remove</td>
+<td style="text-align:left">删除appfuse:gen.生成的代码mvn</td>
+</tr>
+<tr>
+<td>appfuse:clean</td>
+<td style="text-align:left">清除target下的所有内容</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>  生成实体类</p>
+</blockquote>
+<p>mvn appfuse:gen-model</p>
+<blockquote>
+<p>  生成dao、service等</p>
+</blockquote>
+<pre><code>mvn appfuse:gen -Dentity=com.joiest.model.MqConfig
+mvn appfuse:gen -Dentity=YbtTransaction
+</code></pre><blockquote>
+<p>  使用appfuse创建maven项目</p>
+</blockquote>
+<p>使用maven创建项目</p>
+<pre><code>mvn archetype:create -DgroupId=com.joiest -DartifactId=webtest -DarchetypeArtifactId=maven-archetype-webapp
+</code></pre><p><em>说明：DartifactId:项目名称   DgroupId：包结构</em></p>
+<p>生成项目文件生成.classpath,.project,.setting文件</p>
+<pre><code>mvn eclipse:eclipse
+</code></pre><p>更改appFuse的代码生成方式，修改pom中<br>修改生成代码方式，找到 </p>
+<pre><code>&lt;genericCore&gt;${amp.genericCore}&lt;/genericCore&gt; 
+&lt;fullSource&gt;${amp.fullSource}&lt;/fullSource&gt; 
+</code></pre><p>修改成：</p>
+<pre><code> &lt;genericCore&gt;false&lt;/genericCore&gt; 
+&lt;fullSource&gt;true&lt;/fullSource&gt; 
+</code></pre><p>注意，这里必须吧pom.xml中的genericCore属性设为false 否则只会生成Action<br>数据库配置信息(mysql在最底下)</p>
+<p>执行项目创建命令后，进入项目主目录后，更改AppFuse到全源代码模式</p>
+<pre><code>mvn appfuse:full-source
+</code></pre><p>生成Model类</p>
+<pre><code>mvn appfuse:gen-mode
+
+
+mvn appfuse:gen -Dentity=com.joiest.model.YbtAccount 
+</code></pre><p>把生成的配置文件写入到src目录下的配置文件中</p>
+<pre><code>mvn appfuse:install
+</code></pre><p>下载项目的依赖jar包到本地，并进行集成测试</p>
+<pre><code>mvn
+</code></pre><p>打包并运行项目</p>
+<pre><code>mvn jetty:run-war
+</code></pre><p>通过浏览器访问admin/admin</p>
+<pre><code>http://localhost:8080
+</code></pre><p>修改pom.xml</p>
+<pre><code>&lt;artifactId&gt;maven-eclipse-plugin&lt;/artifactId&gt;
+&lt;version&gt;2.4&lt;/version&gt;
+</code></pre><p>配置repositories,M2_REPO</p>
+<p>运行服务器查看生成的crud实例</p>
+<pre><code>mvn jetty:run
+</code></pre><blockquote>
+<p>  下面是创建不同种类项目的Archetype Command：</p>
+</blockquote>
+<p><strong><em>JSF Basic</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-jsf -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Spring MVC Basic</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-spring -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Struts 2 Basic</em></strong> </p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-struts -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Tapestry Basic</em></strong> </p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-tapestry -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>JSF Modula</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-jsf -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Spring MVC Modular</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-spring -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Struts 2 Modular</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-struts -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Tapestry Modular</em></strong> </p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-tapestry -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Core(backend only)</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-core -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Appfuse是由Matt Raible开发的一个指导性的入门级J2EE框架，它对如何集成流行的Spring、Hibernate、iBatis、struts、Xdoclet、junit 等基础框架给出了示范。提供了对Taperstry和JSF的支持。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="maven" scheme="http://www.yangkai0725.com/categories/maven/"/>
+    
+    
+      <category term="maven" scheme="http://www.yangkai0725.com/tags/maven/"/>
+    
+      <category term="appfuse" scheme="http://www.yangkai0725.com/tags/appfuse/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Maven之pom简介</title>
+    <link href="http://www.yangkai0725.com/20160827/20160827Maven%E4%B9%8Bpom%E7%AE%80%E4%BB%8B.html"/>
+    <id>http://www.yangkai0725.com/20160827/20160827Maven之pom简介.html</id>
+    <published>2016-08-27T10:52:54.000Z</published>
+    <updated>2016-09-18T07:47:36.940Z</updated>
+    
+    <content type="html"><![CDATA[<p>pom.xml简介。</p>
+<a id="more"></a>
+<blockquote>
+<p>  pom.xml 文件基本节点介绍</p>
+</blockquote>
+<p><code>&lt;project&gt;</code>：文件的根节点<br><code>&lt;modelversion&gt;</code> ： pom.xml 使用的对象模型版本<br><code>&lt;groupId&gt;</code> ：创建项目的组织或团体的唯一 Id<br><code>&lt;artifactId&gt;</code> ：项目的唯一 Id, 可视为项目名<br><code>&lt;packaging&gt;</code> ：打包物的扩展名，一般有 JAR,WAR,EAR 等<br><code>&lt;version&gt;</code> ：产品的版本号<br><code>&lt;name&gt;</code> ：项目的显示名，常用于 Maven 生成的文档。<br><code>&lt;url&gt;</code> ：组织的站点，常用于 Maven 生成的文档。<br><code>&lt;description&gt;</code> ：项目的描述，常用于 Maven 生成的文档。<br><code>&lt;finalName&gt;</code>:项目打包的名称。</p>
+<blockquote>
+<p>  Maven自定义源码目录</p>
+</blockquote>
+<pre><code>&lt;build&gt;
+    &lt;sourceDirectory&gt;src/java&lt;/sourceDirectory&gt;
+&lt;/build&gt;
+</code></pre><p>如此源码目录就变成了src/java，而不是默认的src/main/java</p>
+<blockquote>
+<p>  超级POM</p>
+</blockquote>
+<p>对于maven3，超级POM位于<br><code>$MAVEN_HOME/lib/maven-model-builder-x.x.x.jar</code><br>中的<code>org\apache\maven\model\pom-4.0.0.xml</code><br>超级POM中定义了诸多关于项目目录</p>
+<p>项目的主输出目录directory：<code>${project.basedir}/target</code></p>
+<p>主代码输入目录outputDirectory:<code>${project.build.directory}/classes</code></p>
+<p>最终构建的名称格式finalName：<code>${project.artifactId}-${project.version}</code></p>
+<p>测试代码输出目录testOutputDirectory：<code>${project.build.directory}/test-classes</code></p>
+<p>主源码目录sourceDirectory：<code>${project.basedir}/src/main/java</code></p>
+<p>脚本源码目录scriptSourceDirectory：<code>src/main/scripts</code></p>
+<p>测试源码目录testSourceDirectory：<code>${project.basedir}/src/test/java</code></p>
+<p>主资源目录</p>
+<pre><code>&lt;resources&gt;
+      &lt;resource&gt;
+        &lt;directory&gt;${project.basedir}/src/main/resources&lt;/directory&gt;
+      &lt;/resource&gt;
+&lt;/resources&gt;
+</code></pre><p>测试资源目录</p>
+<pre><code>&lt;testResources&gt;
+      &lt;testResource&gt;
+        &lt;directory&gt;${project.basedir}/src/test/resources&lt;/directory&gt;
+      &lt;/testResource&gt;
+&lt;/testResources&gt;
+</code></pre><blockquote>
+<p>  跳过测试</p>
+</blockquote>
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+    &lt;configuration&gt;
+        &lt;skip&gt;true&lt;/skip&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;pom.xml简介。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="maven" scheme="http://www.yangkai0725.com/categories/maven/"/>
+    
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+      <category term="maven" scheme="http://www.yangkai0725.com/tags/maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Maven简介及常用命令</title>
+    <link href="http://www.yangkai0725.com/20160827/20160827Maven%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html"/>
+    <id>http://www.yangkai0725.com/20160827/20160827Maven简介及常用命令.html</id>
+    <published>2016-08-27T10:11:14.000Z</published>
+    <updated>2016-09-18T07:47:36.941Z</updated>
+    
+    <content type="html"><![CDATA[<p>Maven的核心思想：约定大于配置。<br>找那个jar的pom配置：<a href="http://mvnrepository.com/" target="_blank" rel="external">http://mvnrepository.com/</a><br>找jar包：www.findjar.com<br><a id="more"></a></p>
+<blockquote>
+<p>  maven打包package</p>
+</blockquote>
+<pre><code>mvn clean package -DskipTests
+</code></pre><p>为了生成可执行的jar需要依赖maven-shade-plugin<br>如果pom中没有指定，则默认打jar包</p>
+<blockquote>
+<p>  安装任务install</p>
+</blockquote>
+<pre><code>mvn clean install
+</code></pre><blockquote>
+<p>  编译compile</p>
+</blockquote>
+<pre><code>mvn clean compile
+</code></pre><blockquote>
+<p>  测试test</p>
+</blockquote>
+<pre><code>mvn clean test
+</code></pre><p>执行顺序：compile–&gt;test–&gt;package–&gt;install</p>
+<blockquote>
+<p>  maven安装jar包到仓库</p>
+</blockquote>
+<pre><code>mvn install:install-file -DgroupId=com.yk -DartifactId=zxing-core -Dversion=2.0 -Dpackaging=jar -Dfile=E:\my\jars\zxing\zxing-core-2.0.jar
+</code></pre><p>如果要上传源码把packaging=jar,jar改成java-source</p>
+<blockquote>
+<p>  maven命令创建web项目</p>
+</blockquote>
+<pre><code>mvn archetype:create -DgroupId=com.joiest -DartifactId=webtest -DarchetypeArtifactId=maven-archetype-webapp
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Maven的核心思想：约定大于配置。&lt;br&gt;找那个jar的pom配置：&lt;a href=&quot;http://mvnrepository.com/&quot;&gt;http://mvnrepository.com/&lt;/a&gt;&lt;br&gt;找jar包：www.findjar.com&lt;br&gt;
+    
+    </summary>
+    
+      <category term="maven" scheme="http://www.yangkai0725.com/categories/maven/"/>
+    
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+      <category term="maven" scheme="http://www.yangkai0725.com/tags/maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Javascript键盘事件</title>
+    <link href="http://www.yangkai0725.com/20160827/20160827Javascript%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6.html"/>
+    <id>http://www.yangkai0725.com/20160827/20160827Javascript键盘事件.html</id>
+    <published>2016-08-27T10:00:06.000Z</published>
+    <updated>2016-09-18T07:47:36.939Z</updated>
+    
+    <content type="html"><![CDATA[<p>Javascript键盘事件。</p>
+<a id="more"></a>
+<blockquote>
+<p>  keyup键盘弹起事件</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"input[name='password']"</span>,loginForm).keyup(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> ev = <span class="built_in">document</span>.all ? <span class="built_in">window</span>.event : e;  </div><div class="line">    <span class="keyword">if</span>(ev.keyCode==<span class="number">13</span>) &#123;<span class="comment">// 如（ev.ctrlKey &amp;&amp; ev.keyCode==13）为ctrl+Center 触发</span></div><div class="line">        $(<span class="string">"#ulogin"</span>).click();</div><div class="line">    &#125;  </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Javascript键盘事件。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="javascript" scheme="http://www.yangkai0725.com/categories/javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://www.yangkai0725.com/tags/javascript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Dubbo简介</title>
+    <link href="http://www.yangkai0725.com/20160827/20160827Dubbo%E7%AE%80%E4%BB%8B.html"/>
+    <id>http://www.yangkai0725.com/20160827/20160827Dubbo简介.html</id>
+    <published>2016-08-27T04:01:06.000Z</published>
+    <updated>2016-09-18T07:47:36.938Z</updated>
+    
+    <content type="html"><![CDATA[<p>DUBBO是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。</p>
+<a id="more"></a>
+<h1 id="Dubbo-Feature-Road-Map"><a href="#Dubbo-Feature-Road-Map" class="headerlink" title="Dubbo Feature Road Map"></a>Dubbo Feature Road Map</h1><p><img src="/images/dubbo/1.png" alt=""></p>
+<h1 id="Dubbo-Extension-Road-Map"><a href="#Dubbo-Extension-Road-Map" class="headerlink" title="Dubbo Extension Road Map"></a>Dubbo Extension Road Map</h1><p><img src="/images/dubbo/2.png" alt=""></p>
+<h1 id="依赖关系"><a href="#依赖关系" class="headerlink" title="依赖关系"></a>依赖关系</h1><p><img src="/images/dubbo/3.png" alt=""></p>
+<h1 id="Dubbo代码框架"><a href="#Dubbo代码框架" class="headerlink" title="Dubbo代码框架"></a>Dubbo代码框架</h1><p><img src="/images/dubbo/5.bmp" alt=""></p>
+<h1 id="启动顺序"><a href="#启动顺序" class="headerlink" title="启动顺序"></a>启动顺序</h1><p>1、zookeeper注册中心<br>2、监控中心simple-monitor<br>3、提供者provider<br>4、消费者consumer<br>5、可选的admin控制台</p>
+<h1 id="暴露服务与消费服务"><a href="#暴露服务与消费服务" class="headerlink" title="暴露服务与消费服务"></a>暴露服务与消费服务</h1><p><img src="/images/dubbo/4.bmp" alt=""></p>
+<p>service–&gt;ServiceConfig–&gt;ProxyFactory(getInvoker)–&gt;Invoker–&gt;protocol(dubbo,hessian,rmi)–&gt;exporter</p>
+<p>service—&gt;&gt;invoker—&gt;&gt;exporter</p>
+<p>..–&gt;ReferenceConfig.init–&gt;protocol.refer(dubbo,hessian,rmi)–&gt;invoker–&gt;ProxyFactory(getProxy)–&gt;ref</p>
+<h1 id="线程派发模式"><a href="#线程派发模式" class="headerlink" title="线程派发模式"></a>线程派发模式</h1><p><img src="/images/dubbo/6.bmp" alt=""></p>
+<h1 id="调用链"><a href="#调用链" class="headerlink" title="调用链"></a>调用链</h1><p><img src="/images/dubbo/7.bmp" alt=""></p>
+<h1 id="模块扩展"><a href="#模块扩展" class="headerlink" title="模块扩展"></a>模块扩展</h1><p>RPC协议扩展，封装远程调用协议<br>rpc.Protocol/Exporter/Invoker<br>调用拦截扩展<br>rpc.Filter/rpc.filter.XXXFilter<br>引用监听扩展<br>rpc.InvokerListener/rpc.listener.XXXInvokerListener<br>暴露监听扩展<br>rpc.ExporterListener/registry.directory.ResistryExporterListener<br>集群扩展<br>rpc.cluster.Cluster/rpc.cluster.support.XXXCluster<br>路由扩展<br>rpc.cluster.Router/RouterFactory/rpc.cluster.router.XXXRouterFactory<br>负载均衡扩展<br>rpc.cluster.LoadBalance/rpc.cluster.loadbalance.XXXLoadBalance<br>合并结果扩展<br>rpc.cluster.Merge/rpc.cluster.merge.XXXMerge<br>注册中心扩展<br>registry.Registry/RegistryFactory/registry.support.dubbo.DubboRegistryFactory<br>监控中心扩展<br>monitor.Monitor/MonitorFactory/monitor.support.dubbo.DubboMonitorFactory<br>扩展点加载扩展<br>common.extension.ExtensionFactory/common.extension.factory.SpiExtensionFactory/config.spring.extension.SpringExtensionFactory<br>动态代理扩展<br>rpc.proxy.ProxyFactory/JdkProxyFactory/JavassistProxyFactory<br>编译器扩展<br>common.compiler.Compiler/common.compiler.support.JdkCompiler/JavassistCompiler<br>消息派发扩展<br>remoting.Dispater<br>线程池扩展<br>common.thredpool.ThreadPool/FixedThreadPool/CachedThreadPool<br>序列化扩展<br>common.serializer.Serialization/ObjectInput/ObjectOutput<br>网络传输扩展<br>remoting.Transporter/Server/Client Netty/Mina/GrizzlyTransporter<br>信息交换扩展<br>remoting.exchange.Exchanger/ExchangeServer/ExchangeClient<br>组网扩展<br>remoting.p2p.NetWorker/remoting.p2p.supporter.MulticastNetworker/FileNetworker<br>Telnet命令扩展<br>remoting.telnet.TelnetHandler/remoting.telnet.XXXTelnetHandler/rpc.dubbo.telnet.XXXTelnetHandler<br>状态检查扩展<br>common.status.StatusChecker<br>容器扩展<br>container.Container/container.spring.SpringContainer/JettyContainer/Log4jContainer<br>页面扩展<br>container.page.PageHandler/container.page.pages.Home/Status/Log/SystemPageHandler<br>缓存扩展<br>cache.CacheFactory/cache.support.xxx.Lru/ThreadLocal/JCacheFactory<br>验证扩展<br>validation.Validation/validation.support.jvalidation.JValidation<br>日志适配扩展<br>common.logger.LoggerAdapter/common.logger.xxx.Slf4j/Jcl/Log4j/JdkLoggerAdapter</p>
+<h1 id="源码结构"><a href="#源码结构" class="headerlink" title="源码结构"></a>源码结构</h1><p>dubbo.cache<br>缓存相关，filter、support<br>dubbo.common<br>util类及通用模型，io、json、log、threadpool、serializer等<br>dubbo.config<br>配置模块，是Dubbo对外的API，用户通过Config使用Dubbo，隐藏Dubbo所有细节，annotation、spring、support等<br>dubbo.container<br>容器模块，是一个Standlone的容器，以简单的Main加载Spring启动，因为服务通常不需要Tomcat/JBoss等Web容器的特性，没必要用Web容器去加载服务<br>dubbo.monitor<br>监控模块，统计服务调用次数，调用时间的，调用链跟踪的服务<br>dubbo.registry<br>注册中心模块，基于注册中心下发地址的集群方式，以及对各种注册中心的抽象<br>dubbo.remoting<br>远程通讯模块，相当于Dubbo协议的实现，如果RPC用RMI协议则不需要使用此包<br>dubbo.rpc<br>远程调用模块，抽象各种协议，以及动态代理，只包含一对一的调用，不关心集群的管理<br>dubbo.validation</p>
+<h1 id="dubbo-XXX配置"><a href="#dubbo-XXX配置" class="headerlink" title="dubbo-XXX配置"></a>dubbo-XXX配置</h1><p><dubbo:service><br>服务配置，用于暴露一个服务，定义服务的元信息，一个服务可以用多个协议暴露，一个服务也可以注册到多个注册中心。</dubbo:service></p>
+<p><dubbo:reference><br>引用配置，用于创建一个远程服务代理，一个引用可以指向多个注册中心。</dubbo:reference></p>
+<p><dubbo:protocol><br>协议配置，用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受。</dubbo:protocol></p>
+<p><dubbo:application><br>应用配置，用于配置当前应用信息，不管该应用是提供者还是消费者。</dubbo:application></p>
+<p><dubbo:module><br>模块配置，用于配置当前模块信息，可选。</dubbo:module></p>
+<p><dubbo:registry><br>注册中心配置，用于配置连接注册中心相关信息。</dubbo:registry></p>
+<p><dubbo:monitor><br>监控中心配置，用于配置连接监控中心相关信息，可选。</dubbo:monitor></p>
+<p><dubbo:provider><br>提供方的缺省值，当ProtocolConfig和ServiceConfig某属性没有配置时，采用此缺省值，可选。</dubbo:provider></p>
+<p><dubbo:consumer><br>消费方缺省配置，当ReferenceConfig某属性没有配置时，采用此缺省值，可选。</dubbo:consumer></p>
+<p><dubbo:method><br>方法配置，用于ServiceConfig和ReferenceConfig指定方法级的配置信息。</dubbo:method></p>
+<p><dubbo:argument><br>用于指定方法参数配置。</dubbo:argument></p>
+<p><img src="/images/dubbo/8.bmp" alt=""></p>
+<h1 id="dubbo-protocol"><a href="#dubbo-protocol" class="headerlink" title="dubbo:protocol"></a>dubbo:protocol</h1><pre><code>&lt;dubbo:protocol name=&quot;dubbo&quot; port=&quot;9090&quot;    
+    client=&quot;netty&quot;  serialization=&quot;hessian2&quot; charset=&quot;UTF-8&quot;    
+    threadpool=&quot;fixed&quot; threads=&quot;100&quot; queues=&quot;0&quot; iothreads=&quot;9&quot; buffer=&quot;8192&quot;    
+    accepts=&quot;1000&quot; payload=&quot;8388608&quot; /&gt;
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;DUBBO是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.yangkai0725.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://www.yangkai0725.com/tags/java/"/>
+    
+      <category term="dubbo" scheme="http://www.yangkai0725.com/tags/dubbo/"/>
+    
+  </entry>
   
   <entry>
     <title>ORACLE常用数值函数、转换函数、字符串函数</title>
@@ -825,14 +1311,52 @@ target
     <link href="http://www.yangkai0725.com/20160818/20160818mybatis%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%A8%A1%E6%9D%BF.html"/>
     <id>http://www.yangkai0725.com/20160818/20160818mybatis常用方法模板.html</id>
     <published>2016-08-18T13:00:41.000Z</published>
-    <updated>2016-08-22T01:35:38.565Z</updated>
+    <updated>2016-09-18T07:47:36.937Z</updated>
     
     <content type="html"><![CDATA[<p><em>常用mybatis模板批量删除、list查询、注解查询@Select。</em></p>
 <a id="more"></a>
-<h1 id="UUID主键"><a href="#UUID主键" class="headerlink" title="UUID主键"></a>UUID主键</h1><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;selectKey keyProperty=<span class="string">"id"</span> resultType=<span class="string">"String"</span> <span class="keyword">order</span>=<span class="string">"BEFORE"</span>&gt;</div><div class="line">   <span class="keyword">select</span> sys_guid() <span class="keyword">from</span> dual</div><div class="line">&lt;/selectKey&gt;</div></pre></td></tr></table></figure>
-<h1 id="根据主键集合删除"><a href="#根据主键集合删除" class="headerlink" title="根据主键集合删除"></a>根据主键集合删除</h1><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public int delete(Object[] ids) throws Exception;</div><div class="line">&lt;delete id="delete"&gt;</div><div class="line">	delete from t_table where id in</div><div class="line">	&lt;foreach collection="array" index="index" item="ids" open="(" separator="," close=")"&gt;</div><div class="line">		#&#123;ids&#125;</div><div class="line">	&lt;/foreach&gt;</div><div class="line">&lt;/delete&gt;</div></pre></td></tr></table></figure>
-<h1 id="根据属性值查找"><a href="#根据属性值查找" class="headerlink" title="根据属性值查找"></a>根据属性值查找</h1><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public List&lt;T&gt; findByList(Map&lt;String, Object&gt; map);</div><div class="line">&lt;sql id="sample_where_clause"&gt;</div><div class="line">	where 1=1</div><div class="line">	&lt;trim suffixOverrides=","&gt;</div><div class="line">		&lt;if test="id !=null and id !=''"&gt;</div><div class="line">			and id = #&#123;id&#125;</div><div class="line">		&lt;/if&gt;</div><div class="line">		&lt;if test="username !=null and username !=''"&gt;</div><div class="line">			and username = #&#123;username&#125;</div><div class="line">		&lt;/if&gt;</div><div class="line">	&lt;/trim&gt;</div><div class="line">&lt;/sql&gt;</div><div class="line">&lt;select id="findByList" resultMap="BaseResultMap" parameterType="Object"&gt;</div><div class="line">	select * from user</div><div class="line">	&lt;include refid="sample_where_clause" /&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
-<h1 id="Select注解"><a href="#Select注解" class="headerlink" title="@Select注解"></a>@Select注解</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Param;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Select;</div><div class="line"><span class="meta">@Select</span>(<span class="string">"select * from work_log where id = #&#123;id&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> WorkLog <span class="title">queryById</span><span class="params">(@Param(<span class="string">"id"</span>)</span>Integer id)</span>;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>   UUID主键</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">selectKey</span> <span class="attr">keyProperty</span>=<span class="string">"id"</span> <span class="attr">resultType</span>=<span class="string">"String"</span> <span class="attr">order</span>=<span class="string">"BEFORE"</span>&gt;</span></div><div class="line">   select sys_guid() from dual</div><div class="line"><span class="tag">&lt;/<span class="name">selectKey</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>   foreach    </p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public int delete(Object[] ids) throws Exception;</div><div class="line"><span class="tag">&lt;<span class="name">delete</span> <span class="attr">id</span>=<span class="string">"delete"</span>&gt;</span></div><div class="line">	delete from t_table where id in</div><div class="line">	<span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"array"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">item</span>=<span class="string">"ids"</span> <span class="attr">open</span>=<span class="string">"("</span> <span class="attr">separator</span>=<span class="string">","</span> <span class="attr">close</span>=<span class="string">")"</span>&gt;</span></div><div class="line">		#&#123;ids&#125;</div><div class="line">	<span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">delete</span>&gt;</span></div><div class="line"></div><div class="line">public List<span class="tag">&lt;<span class="name">Blog</span>&gt;</span> dynamicForeachTest(List<span class="tag">&lt;<span class="name">Integer</span>&gt;</span> ids);</div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"dynamicForeachTest"</span> <span class="attr">resultType</span>=<span class="string">"Blog"</span>&gt;</span></div><div class="line">	select * from t_blog where id in</div><div class="line">    <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"list"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">item</span>=<span class="string">"item"</span> <span class="attr">open</span>=<span class="string">"("</span> <span class="attr">separator</span>=<span class="string">","</span> <span class="attr">close</span>=<span class="string">")"</span>&gt;</span></div><div class="line">    	#&#123;item&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>   根据属性值查找</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public List<span class="tag">&lt;<span class="name">T</span>&gt;</span> findByList(Map<span class="tag">&lt;<span class="name">String,</span> <span class="attr">Object</span>&gt;</span> map);</div><div class="line"><span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"sample_where_clause"</span>&gt;</span></div><div class="line">	where 1=1</div><div class="line">	<span class="tag">&lt;<span class="name">trim</span> <span class="attr">suffixOverrides</span>=<span class="string">","</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"id !=null and id !=''"</span>&gt;</span></div><div class="line">			and id = #&#123;id&#125;</div><div class="line">		<span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username !=null and username !=''"</span>&gt;</span></div><div class="line">			and username = #&#123;username&#125;</div><div class="line">		<span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">trim</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">sql</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findByList"</span> <span class="attr">resultMap</span>=<span class="string">"BaseResultMap"</span> <span class="attr">parameterType</span>=<span class="string">"Object"</span>&gt;</span></div><div class="line">	select * from user</div><div class="line">	<span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"sample_where_clause"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>   @Select注解</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Param;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Select;</div><div class="line"><span class="meta">@Select</span>(<span class="string">"select * from work_log where id = #&#123;id&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> WorkLog <span class="title">queryById</span><span class="params">(@Param(<span class="string">"id"</span>)</span>Integer id)</span>;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>   choose, when, otherwise</p>
+</blockquote>
+<p>提供了“title”就按“title”查找，提供了“author”就按“author”查找，若两者都没有提供，就返回所有符合条件的BLOG（实际情况可能是由管理员按一定策略选出BLOG列表，而不是返回大量无意义的随机结果）。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findActiveBlogLike"</span></span></div><div class="line">     <span class="attr">resultType</span>=<span class="string">"Blog"</span>&gt;</div><div class="line">  SELECT * FROM BLOG WHERE state = ‘ACTIVE’</div><div class="line">  <span class="tag">&lt;<span class="name">choose</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">when</span> <span class="attr">test</span>=<span class="string">"title != null"</span>&gt;</span></div><div class="line">      AND title like #&#123;title&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">when</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">when</span> <span class="attr">test</span>=<span class="string">"author != null and author.name != null"</span>&gt;</span></div><div class="line">      AND author_name like #&#123;author.name&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">when</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">otherwise</span>&gt;</span></div><div class="line">      AND featured = 1</div><div class="line">    <span class="tag">&lt;/<span class="name">otherwise</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">choose</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>   where使用</p>
+</blockquote>
+<p>避免SELECT * FROM BLOG WHERE AND title like ‘someTitle’出现<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findActiveBlogLike"</span></span></div><div class="line">     <span class="attr">resultType</span>=<span class="string">"Blog"</span>&gt;</div><div class="line">  SELECT * FROM BLOG </div><div class="line">  <span class="tag">&lt;<span class="name">trim</span> <span class="attr">prefix</span>=<span class="string">"where"</span> <span class="attr">prefixOverrides</span>=<span class="string">"AND |OR"</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"state != null"</span>&gt;</span></div><div class="line">         state = #&#123;state&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"title != null"</span>&gt;</span></div><div class="line">        AND title like #&#123;title&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"author != null and author.name != null"</span>&gt;</span></div><div class="line">        AND author_name like #&#123;author.name&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">trim</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>update trim</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateAuthorIfNecessary"</span>&gt;</span></div><div class="line">  update Author</div><div class="line">    <span class="tag">&lt;<span class="name">trim</span> <span class="attr">prefix</span>=<span class="string">"set"</span> <span class="attr">suffixOverrides</span>=<span class="string">","</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username != null"</span>&gt;</span>username=#&#123;username&#125;<span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"password != null"</span>&gt;</span>password=#&#123;password&#125;<span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"email != null"</span>&gt;</span>email=#&#123;email&#125;<span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"bio != null"</span>&gt;</span>bio=#&#123;bio&#125;<span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">trim</span>&gt;</span></div><div class="line">  where id=#&#123;id&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>   bind</p>
+</blockquote>
+<p>bind 元素可以从 OGNL 表达式中创建一个变量并将其绑定到上下文。比如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectBlogsLike"</span> <span class="attr">resultType</span>=<span class="string">"Blog"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">bind</span> <span class="attr">name</span>=<span class="string">"pattern"</span> <span class="attr">value</span>=<span class="string">"'%' + _parameter.getTitle() + '%'"</span> /&gt;</span></div><div class="line">  SELECT * FROM BLOG</div><div class="line">  WHERE title LIKE #&#123;pattern&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>   枚举</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"psettlementType != null"</span>&gt;</span></div><div class="line">	deal_settle_type = #&#123;psettlementType, jdbcType=INTEGER, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler&#125;,</div><div class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"deal_settle_type"</span> <span class="attr">property</span>=<span class="string">"psettlementType"</span> <span class="attr">typeHandler</span>=<span class="string">"org.apache.ibatis.type.EnumOrdinalTypeHandler"</span> <span class="attr">jdbcType</span>=<span class="string">"INTEGER"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>   mybatis.xml配置</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE configuration</span></div><div class="line">  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"</div><div class="line">  "http://mybatis.org/dtd/mybatis-3-config.dtd"&gt;</div><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">settings</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"cacheEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"lazyLoadingEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"multipleResultSetsEnabled"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"useColumnLabel"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"useGeneratedKeys"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"autoMappingBehavior"</span> <span class="attr">value</span>=<span class="string">"PARTIAL"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"defaultExecutorType"</span> <span class="attr">value</span>=<span class="string">"SIMPLE"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"defaultStatementTimeout"</span> <span class="attr">value</span>=<span class="string">"25"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"safeRowBoundsEnabled"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"mapUnderscoreToCamelCase"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"localCacheScope"</span> <span class="attr">value</span>=<span class="string">"SESSION"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"jdbcTypeForNull"</span> <span class="attr">value</span>=<span class="string">"OTHER"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"lazyLoadTriggerMethods"</span> <span class="attr">value</span>=<span class="string">"equals,clone,hashCode,toString"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">settings</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"net.aazj.pojo"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
 ]]></content>
     
     <summary type="html">
@@ -853,16 +1377,111 @@ target
   </entry>
   
   <entry>
-    <title>Freemarker内置对象</title>
-    <link href="http://www.yangkai0725.com/20160818/20160818Freemarker%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1.html"/>
-    <id>http://www.yangkai0725.com/20160818/20160818Freemarker内置对象.html</id>
+    <title>Freemarker常用语法简介</title>
+    <link href="http://www.yangkai0725.com/20160818/20160818Freemarker%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B.html"/>
+    <id>http://www.yangkai0725.com/20160818/20160818Freemarker常用语法简介.html</id>
     <published>2016-08-18T12:32:48.000Z</published>
-    <updated>2016-08-22T01:35:38.777Z</updated>
+    <updated>2016-09-18T07:47:36.934Z</updated>
     
-    <content type="html"><![CDATA[<p><em>直接在ftl里使用内置对象:Request,Session,Application,RequestParameters,Parameters。</em></p>
+    <content type="html"><![CDATA[<p>布尔值、当前时间。直接在ftl里使用内置对象:Request,Session,Application,RequestParameters,Parameters。</p>
 <a id="more"></a>
-<h1 id="Request-amp-Session-amp-Application"><a href="#Request-amp-Session-amp-Application" class="headerlink" title="Request &amp; Session &amp; Application"></a>Request &amp; Session &amp; Application</h1><blockquote>
-<p>   用于获取Request对象中的attribute对象。<br>   例如：${Request[“method”]}是直接在页面输出属性值。相当于request.getAttribute(“method”);<br>   如果要进行判断    [#if Request[“method”] = “edit”]do something[/#if]</p>
+<blockquote>
+<p>  list处理</p>
+</blockquote>
+<pre><code>&lt;#list testMap?keys as testKey&gt; 
+       &lt; option value=&quot;${testKey}&quot; &gt; 
+              ${testMap[testKey]} 
+     &lt;/option&gt; 
+&lt;/#list&gt;
+</code></pre><p>1.sequence?first 返回sequence的第一个值。 </p>
+<p>2.sequence?last  返回sequence的最后一个值。 </p>
+<p>3.sequence?reverse 将sequence的现有顺序反转，即倒序排序 </p>
+<p>4.sequence?size    返回sequence的大小 </p>
+<p>5.sequence?sort    将sequence中的对象转化为字符串后顺序排序 </p>
+<p>6.sequence?sort_by(value) 按sequence中对象的属性value进行排序 </p>
+<p>item_index:当前变量的索引值<br>item_has_next:是否存在下一个对象<br>也可以使用&lt;#break&gt;指令跳出迭代</p>
+<blockquote>
+<p>  String字符串处理</p>
+</blockquote>
+<p>1.substring（start,end）从一个字符串中截取子串 </p>
+<pre><code>${&quot;abcde&quot;?substring(0,2)}   ab
+</code></pre><p>start:截取子串开始的索引，start必须大于等于0，小于等于end<br>end: 截取子串的长度，end必须大于等于0，小于等于字符串长度，如果省略该参数，默认为字符串长度</p>
+<pre><code>${&quot;abcde&quot;?substring(2)} cde
+</code></pre><p>2.cap_first 将字符串中的第一个单词的首字母变为大写。</p>
+<pre><code>${&quot;abcde&quot;?cap_first}
+</code></pre><p>3.uncap_first将字符串中的第一个单词的首字母变为小写。</p>
+<pre><code>${&quot;ABCDE&quot;?uncap_first}
+</code></pre><p>4.capitalize将字符串中的所有单词的首字母变为大写</p>
+<pre><code>${&quot;ABCDE fd&quot;?capitalize}    Abcde Fd
+</code></pre><p>5.date,time，datetime将字符串转换为日期 </p>
+<pre><code>[#assign date1=&quot;2015-10-25&quot;?date(&quot;yyyy-MM-dd&quot;)]
+[#assign date2=&quot;18:56:40&quot;?time(&quot;HH:mm:ss&quot;)]
+[#assign date3=&quot;2009-10-12 9:28:20&quot;?datetime(&quot;yyyy-MM-dd HH:mm:ss&quot;)]
+</code></pre><p>6.ends_with 判断某个字符串是否由某个子串结尾，返回布尔值。</p>
+<pre><code>${&quot;string&quot;?ends_with(&quot;ing&quot;)?string} 返回结果为true 
+</code></pre><p>7.html 用于将字符串中的&lt;、&gt;、&amp;和“替换为对应得&lt;&gt;&amp;quot:&amp;amp<br>8.index_of（substring,start）在字符串中查找某个子串，返回找到子串的第一个字符的索引，如果没有找到子串，则返回-1。<br>Start参数用于指定从字符串的那个索引处开始搜索，start为数字值。<br>如果start大于字符串长度，则start取值等于字符串长度，如果start小于0， 则start取值为0。</p>
+<pre><code>${&quot;string&quot;?index_of(&quot;ing&quot;)}
+</code></pre><p>9.length返回字符串的长度<br>10.lower_case将字符串转为小写<br>11.upper_case将字符串转为大写<br>12.contains 判断字符中是否包含某个子串。返回布尔值</p>
+<pre><code>${&quot;string&quot;?contains(&quot;ing&quot;)?string}
+</code></pre><p>13.number将字符串转换为数字 </p>
+<pre><code>${&quot;111.21&quot;?number}
+</code></pre><p>14.replace用于将字符串中的一部分从左到右替换为另外的字符串</p>
+<pre><code>${&quot;striabg&quot;?replace(&quot;ab&quot;,&quot;n&quot;)}
+</code></pre><p>15.split使用指定的分隔符将一个字符串拆分为一组字符串</p>
+<pre><code>[#list &quot;This|is|split&quot;?split(&quot;|&quot;) as s] ${s},[/#list]
+</code></pre><p>16.trim 删除字符串首尾空格 ${“  String “?trim}</p>
+<blockquote>
+<p>  数字处理</p>
+</blockquote>
+<p>Freemarker中预订义了三种数字格式：number,currency（货币）和percent(百分比)其中number为默认的数字格式转换</p>
+<pre><code>[#assign tempNum=20]  
+${tempNum}      
+${tempNum?string.number}或${tempNum?string(&quot;number&quot;)}  结果为20  
+${tempNum?string.currency}或${tempNum?string(&quot;currency&quot;)}  结果为￥20.00  
+${tempNum?string. percent}或${tempNum?string(&quot;percent&quot;)}  结果为2,000% 
+
+${num?string(&apos;0.00&apos;)}
+</code></pre><p>如果小数点后不足两位，用 0 代替</p>
+<pre><code>${num?string(&apos;#.##&apos;)}
+</code></pre><p>如果小数点后多余两位，就只保留两位，否则输出实际值<br>输出为：1239765.46</p>
+<pre><code>${num?string(&apos;,###.00&apos;)}
+</code></pre><p>输出为：1,239,765.46<br>整数部分每三位用 , 分割，并且保证小数点后保留两位，不足用 0 代替</p>
+<pre><code>${num?string(&apos;,###.##&apos;)}
+</code></pre><p>输出为：1,239,765.46<br>整数部分每三位用 , 分割，并且小数点后多余两位就只保留两位，不足两位就取实际位数，可以不不包含小数点</p>
+<pre><code>${num?string(&apos;000.00&apos;)}
+</code></pre><p>输出为：012.70<br>整数部分如果不足三位（000），前面用0补齐，否则取实际的整数位</p>
+<pre><code>${num?string(&apos;###.00&apos;)}
+</code></pre><p>等价于</p>
+<pre><code>${num?string(&apos;#.00&apos;)}
+</code></pre><p>输出为：12.70<br>整数取实际的位数</p>
+<p>数字格式化插值可采用#{expr;format}形式来格式化数字,其中format可以是:<br>mX:小数部分最小X位<br>MX:小数部分最大X位<br>如下面的例子:</p>
+<pre><code>&lt;#assign x=2.582/&gt;
+&lt;#assign y=4/&gt;
+#{x; M2} &lt;#-- 输出2.58 --&gt;
+#{y; M2} &lt;#-- 输出4 --&gt;
+#{x; m1} &lt;#-- 输出2.6 --&gt;
+#{y; m1} &lt;#-- 输出4.0 --&gt;
+#{x; m1M2} &lt;#-- 输出2.58 --&gt;
+#{x; m1M2} &lt;#-- 输出4.0 --&gt;
+</code></pre><blockquote>
+<p>  Boolean值处理</p>
+</blockquote>
+<pre><code>${foo?string(&quot;yes&quot;, &quot;no&quot;)}
+</code></pre><blockquote>
+<p>  ${.now?date}</p>
+</blockquote>
+<p>使用.now为当前时间<br>FreeMarker会将 java.sql.Date java.sql.Time java.sql.Timestamp 类型的变量自动识别为 date time datetime。所以当变量是以上三种类型时，FreeMarker会自动匹配设置的格式，不需要在变量的后面加上?date ?time ?datetime 。<br>FreeMarker无法自动识别 java.util.Date 类型应该显示哪种格式，这时需要明确的指定其要显示的格式，否则FreeMarker将会抛出异常。</p>
+<blockquote>
+<p>  map</p>
+</blockquote>
+<p>hash?keys 返回hash里的所有key,返回结果为sequence<br>hash?values 返回hash里的所有value,返回结果为sequence</p>
+<pre><code>[#assign user={&quot;name&quot;:&quot;hailang&quot;, &quot;sex&quot;:&quot;man&quot;}]
+[#assign userkeys = user?keys]
+[#list userkeys as k]
+    ${k}=${user[k]},
+[/#list]
+</code></pre><h1 id="Request-amp-Session-amp-Application"><a href="#Request-amp-Session-amp-Application" class="headerlink" title="Request &amp; Session &amp; Application"></a>Request &amp; Session &amp; Application</h1><blockquote>
+<p>   用于获取Request对象中的attribute对象。<br>  例如：${Request[“method”]}是直接在页面输出属性值。<br>  相当于request.getAttribute(“method”);<br>   如果要进行判断    [#if Request[“method”] = “edit”]do something[/#if]</p>
 </blockquote>
 <p><em><strong>Session对应HttpSession,Application对应ServletContext,用法参考Request。</strong></em></p>
 <h1 id="RequestParameters"><a href="#RequestParameters" class="headerlink" title="RequestParameters"></a>RequestParameters</h1><p>用于获取Request对象的parameter,例如${RequestParameters[“method”]}相当于request.getParameter(“method”);</p>
@@ -871,7 +1490,7 @@ target
     
     <summary type="html">
     
-      &lt;p&gt;&lt;em&gt;直接在ftl里使用内置对象:Request,Session,Application,RequestParameters,Parameters。&lt;/em&gt;&lt;/p&gt;
+      &lt;p&gt;布尔值、当前时间。直接在ftl里使用内置对象:Request,Session,Application,RequestParameters,Parameters。&lt;/p&gt;
     
     </summary>
     
@@ -1129,125 +1748,6 @@ hexo g -d
     
     
       <category term="markdown" scheme="http://www.yangkai0725.com/tags/markdown/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GitHub常用命令</title>
-    <link href="http://www.yangkai0725.com/20160810/20160810GitHub%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html"/>
-    <id>http://www.yangkai0725.com/20160810/20160810GitHub常用命令.html</id>
-    <published>2016-08-10T06:11:15.000Z</published>
-    <updated>2016-08-22T01:35:38.806Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>   git clone<br>   git diff<br>   git log<br>   创建类命令<br><a id="more"></a></p>
-</blockquote>
-<h1 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h1><p>git clone 拷贝并跟踪远程的master分支。<br>跟踪的好处是以后可以直接通过pull和push命令来提交或者获取远程最新的代码，而不需要指定远程分支名字。</p>
-<h1 id="git-diff"><a href="#git-diff" class="headerlink" title="git diff"></a>git diff</h1><blockquote>
-<p>   对比工作区和stage文件的差异</p>
-</blockquote>
-<h1 id="git-log"><a href="#git-log" class="headerlink" title="git log"></a>git log</h1><blockquote>
-<p>   显示到HEAD所指向的commit为止的所有commit记录 。使用reset HEAD~n 命令使HEAD指针向前移动，会导致HEAD之后的commit记录不会被显示。</p>
-</blockquote>
-<h1 id="创建类命令"><a href="#创建类命令" class="headerlink" title="创建类命令"></a>创建类命令</h1><ul>
-<li>git brach branchName 创建名为branchName的branch </li>
-<li>git checkout branchName 切换到branchName的branch </li>
-<li>git checkout -b 创建并切换，也就是上面两个命令的合并</li>
-<li>git brach branchName ef71 从commit ef71创建名为branchName的branch</li>
-</ul>
-<h1 id="提交类命令"><a href="#提交类命令" class="headerlink" title="提交类命令"></a>提交类命令</h1><ul>
-<li>git add 跟踪新文件或者已有文件的改动，或者用来解决冲突</li>
-<li>git commit 把文件从stage提交到branch</li>
-<li>git commit -a 把修改的文件先提交到stage,然后再从stash提交到branch</li>
-</ul>
-<h1 id="删除类命令"><a href="#删除类命令" class="headerlink" title="删除类命令"></a>删除类命令</h1><ul>
-<li>git rm –cached readme.txt 只从stage中删除，保留物理文件</li>
-<li>git rm readme.txt 不但从stage中删除，同时删除物理文件</li>
-<li>git mv a.txt b.txt 把a.txt改名为b.txt<h1 id="Merge类命令"><a href="#Merge类命令" class="headerlink" title="Merge类命令"></a>Merge类命令</h1></li>
-</ul>
-<blockquote>
-<p>   在冲突状态下，需要解决冲突的文件会从index打回到工作区。</p>
-<p>   1.用工具或者手工解决冲突<br>   2.git add 命令来表明冲突已经解决。<br>   3.再次commit 已解决冲突的文件。</p>
-<p>   $ git reset –hard ORIG_HEAD 用来撤销已经commit 的merge.<br>   $ git reset –hard HEAD 用来撤销还没commit 的merge,其实原理就是放弃index和工作区的改动。</p>
-<p>   git reset –merge ORIG_HEAD，注意其中的–hard 换成了 –merge，这样就可以避免在回滚时清除working tree。</p>
-</blockquote>
-<h1 id="用户名配置"><a href="#用户名配置" class="headerlink" title="用户名配置"></a>用户名配置</h1><pre><code>git config --global user.name &lt;your_name&gt;
-例： $ git config --global user.name &quot;eagleless&quot;
-</code></pre><h1 id="邮箱配置"><a href="#邮箱配置" class="headerlink" title="邮箱配置"></a>邮箱配置</h1><pre><code>git config --global user.email &lt;your_email@…&gt;
-例： $ git config --global user.email fox22222@163.com
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;   git clone&lt;br&gt;   git diff&lt;br&gt;   git log&lt;br&gt;   创建类命令&lt;br&gt;
-    
-    </summary>
-    
-      <category term="handbook" scheme="http://www.yangkai0725.com/categories/handbook/"/>
-    
-    
-      <category term="git" scheme="http://www.yangkai0725.com/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hexo使用简介HelloWorld</title>
-    <link href="http://www.yangkai0725.com/20160809/20160809Hexo%E5%8D%9A%E5%AE%A2%E7%A4%BA%E4%BE%8B.html"/>
-    <id>http://www.yangkai0725.com/20160809/20160809Hexo博客示例.html</id>
-    <published>2016-08-09T09:37:58.000Z</published>
-    <updated>2016-08-22T01:35:38.812Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br><a id="more"></a></p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">bash</div><div class="line">$ hexo <span class="keyword">new</span> <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code>bash
-$ hexo server
-</code></pre><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code>bash
-$ hexo generate
-</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code>bash
-$ hexo deploy
-</code></pre><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;br&gt;
-    
-    </summary>
-    
-      <category term="note" scheme="http://www.yangkai0725.com/categories/note/"/>
-    
-    
-      <category term="hexo" scheme="http://www.yangkai0725.com/tags/hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>参考博客</title>
-    <link href="http://www.yangkai0725.com/20160730/20160730%E5%8F%82%E8%80%83%E5%8D%9A%E5%AE%A2.html"/>
-    <id>http://www.yangkai0725.com/20160730/20160730参考博客.html</id>
-    <published>2016-07-30T14:17:26.000Z</published>
-    <updated>2016-08-23T11:52:03.525Z</updated>
-    
-    <content type="html"><![CDATA[<p>网络博客学习缓存</p>
-<a id="more"></a>
-<h1 id="聊聊高并发系统之HTTP缓存"><a href="#聊聊高并发系统之HTTP缓存" class="headerlink" title="聊聊高并发系统之HTTP缓存"></a>聊聊高并发系统之HTTP缓存</h1><p><a href="http://geek.csdn.net/news/detail/96586" target="_blank" rel="external">http://geek.csdn.net/news/detail/96586</a></p>
-<h1 id="ORACLE常用数值函数、转换函数、字符串函数"><a href="#ORACLE常用数值函数、转换函数、字符串函数" class="headerlink" title="ORACLE常用数值函数、转换函数、字符串函数"></a>ORACLE常用数值函数、转换函数、字符串函数</h1><p><a href="http://www.jb51.net/article/20975.htm" target="_blank" rel="external">http://www.jb51.net/article/20975.htm</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;网络博客学习缓存&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="note" scheme="http://www.yangkai0725.com/categories/note/"/>
-    
-    
-      <category term="record" scheme="http://www.yangkai0725.com/tags/record/"/>
     
   </entry>
   

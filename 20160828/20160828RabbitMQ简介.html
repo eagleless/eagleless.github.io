@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>RabbitMQ简介 | Kai.Yang&#39; Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MQ是消费-生产者模型的一个典型的代表，一端往消息队列中不断写入消息，而另一端则可以读取或者订阅队列中的消息。MQ和JMS类似，但不同的是JMS是JAVA消息中间件服务的一个标准和API定义，而MQ则是遵循了AMQP协议的具体实现和产品。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ简介">
+<meta property="og:url" content="http://www.yangkai0725.com/20160828/20160828RabbitMQ简介.html">
+<meta property="og:site_name" content="Kai.Yang' Blog">
+<meta property="og:description" content="MQ是消费-生产者模型的一个典型的代表，一端往消息队列中不断写入消息，而另一端则可以读取或者订阅队列中的消息。MQ和JMS类似，但不同的是JMS是JAVA消息中间件服务的一个标准和API定义，而MQ则是遵循了AMQP协议的具体实现和产品。">
+<meta property="og:updated_time" content="2016-09-18T07:47:36.945Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RabbitMQ简介">
+<meta name="twitter:description" content="MQ是消费-生产者模型的一个典型的代表，一端往消息队列中不断写入消息，而另一端则可以读取或者订阅队列中的消息。MQ和JMS类似，但不同的是JMS是JAVA消息中间件服务的一个标准和API定义，而MQ则是遵循了AMQP协议的具体实现和产品。">
+  
+    <link rel="alternative" href="/atom.xml" title="Kai.Yang&#39; Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/avatar.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">kaiyang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">生命不止、奋斗不息</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>About Me</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/appfuse/" style="font-size: 10px;">appfuse</a> <a href="/tags/database/" style="font-size: 17.5px;">database</a> <a href="/tags/date/" style="font-size: 10px;">date</a> <a href="/tags/dubbo/" style="font-size: 10px;">dubbo</a> <a href="/tags/eclipse/" style="font-size: 10px;">eclipse</a> <a href="/tags/freemarker/" style="font-size: 10px;">freemarker</a> <a href="/tags/git/" style="font-size: 12.5px;">git</a> <a href="/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/interview/" style="font-size: 10px;">interview</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jms/" style="font-size: 10px;">jms</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 15px;">maven</a> <a href="/tags/mq/" style="font-size: 10px;">mq</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/oracle/" style="font-size: 10px;">oracle</a> <a href="/tags/redis/" style="font-size: 12.5px;">redis</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/webservice/" style="font-size: 10px;">webservice</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://testerlife.com/#blog">刘津嘉的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://eagleless.github.io/20160730/20160730%E5%8F%82%E8%80%83%E5%8D%9A%E5%AE%A2.html">博客天地</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">kaiyang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="nullavatar.png" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">kaiyang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">生命不止、奋斗不息</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-20160828RabbitMQ简介" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/20160828/20160828RabbitMQ简介.html" class="article-date">
+  	<time datetime="2016-08-28T11:10:31.000Z" itemprop="datePublished">2016-08-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      RabbitMQ简介
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jms/">jms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mq/">mq</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MQ是消费-生产者模型的一个典型的代表，一端往消息队列中不断写入消息，而另一端则可以读取或者订阅队列中的消息。MQ和JMS类似，但不同的是JMS是JAVA消息中间件服务的一个标准和API定义，而MQ则是遵循了AMQP协议的具体实现和产品。<br><a id="more"></a></p>
+<p>一个exchange能用n条routing-key规则去指向一个queue。<br>如果一个Message符合n条规则去往同一个queue，这个Message只会被投放到这个queue一次。</p>
+<blockquote>
+<p>  概念说明</p>
+</blockquote>
+<p>Broker:简单来说就是消息队列服务器实体。<br>Exchange:消息交换机，它指定消息按什么规则，路由到哪个队列。<br>Queue:消息队列载体，每个消息都会被投入到一个或多个队列。<br>Binding:绑定，它的作用就是把exchange和queue按照路由规则绑定起来。<br>Routing Key:路由关键字，exchange根据这个关键字进行消息投递。<br>vhost:虚拟主机，一个broker里可以开设多个vhost，用作不同用户的权限分离。<br>producer:消息生产者，就是投递消息的程序。<br>consumer:消息消费者，就是接受消息的程序。<br>channel:消息通道，在客户端的每个连接里，可建立多个channel，每个channel代表一个会话任务。</p>
+<blockquote>
+<p>  消息队列的使用过程</p>
+</blockquote>
+<ul>
+<li>客户端连接到消息队列服务器，打开一个channel。</li>
+<li>客户端声明一个exchange，并设置相关属性。</li>
+<li>客户端声明一个queue，并设置相关属性。</li>
+<li>客户端使用<code>routing key</code>，在exchange和queue之间建立好绑定关系。</li>
+<li>客户端投递消息到exchange。</li>
+</ul>
+<blockquote>
+<p>  消息队列持久化</p>
+</blockquote>
+<p>RabbitMQ支持消息的持久化，也就是数据写在磁盘上，为了数据安全考虑，我想大多数用户都会选择持久化。消息队列持久化包括3个部分：</p>
+<ul>
+<li>exchange持久化，在声明时指定durable =&gt; 1</li>
+<li>queue持久化，在声明时指定durable =&gt; 1</li>
+<li>消息持久化，在投递时指定delivery_mode =&gt; 2（1是非持久化）<br>如果exchange和queue都是持久化的，那么它们之间的binding也是持久化的。如果exchange和queue两者之间有一个持久化，一个非持久化，就不允许建立绑定。</li>
+</ul>
+<blockquote>
+<p>  exchange的类型</p>
+</blockquote>
+<p>在实际的情况下，消息发送者不会直接将Message发入queue，而是发入exchange，<code>exchange</code>能通过指定的规则将message放入指定的queue中（<code>public/subscribe</code>模型）。exchange有direct，topic，headers和fanout等几种类型。</p>
+<ul>
+<li>Direct交换机:完全根据key进行投递，例如，绑定时设置了<code>routing key</code>为”abc”，那么客户端提交的消息，只有设置了key为”abc”的才会投递到队列。</li>
+<li>Topic交换机:对key进行模式匹配后进行投递，功能强大，几乎能实现其他exchange的routing规则，符号<code>#</code>匹配一个或多个词，符号<code>*</code>匹配任意一个词。routing-key不能是任意，它必须是一个一些词的数组，用”.”隔开，每个词可以是任意的，但通常是代表某些含义的。这个词的数组不能超过255个字节。例如<code>abc.#</code>匹配<code>abc.def.ghi</code>，<code>abc.*</code>只匹配<code>abc.def</code>。</li>
+<li>Fanout交换机:不需要key的，它采取广播模式，一个消息进来时，将消息派发到所有的绑定到该exchange的queque中。</li>
+</ul>
+<blockquote>
+<p>  JAVA API</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">//connecting to a broker 服务器实体</span></div><div class="line">ConnectionFactory factory = <span class="keyword">new</span> ConnectionFactory();</div><div class="line">factory.setUsername(userName);</div><div class="line">factory.setPassword(password);</div><div class="line">factory.setVirtualHost(virtualHost);</div><div class="line">factory.setHost(hostName);</div><div class="line">factory.setPort(portNumber);</div><div class="line"><span class="comment">//或者factory.setUri("amqp://userName:password@hostName:portNumber/virtualHost");</span></div><div class="line">Connection conn = factory.newConnection();</div><div class="line"><span class="comment">//或者 address array  --com.rabbitmq.client</span></div><div class="line">Address[] addrArr = <span class="keyword">new</span> Address[]&#123; <span class="keyword">new</span> Address(hostname1, portnumber1)</div><div class="line">                                 , <span class="keyword">new</span> Address(hostname2, portnumber2)&#125;;</div><div class="line">Connection conn = factory.newConnection(addrArr);</div><div class="line"><span class="comment">//open a channel</span></div><div class="line">Channel channel = conn.createChannel();</div><div class="line"><span class="comment">//disconnect</span></div><div class="line">channel.colse();</div><div class="line">conn.close();</div><div class="line">consumer thread pool --java.util.concurrent </div><div class="line">ExecutorService es = Executors.newFixedThreadPool(<span class="number">20</span>);</div><div class="line">Connection conn = factory.newConnection(es);</div><div class="line"><span class="comment">//Using exchanges and queues</span></div><div class="line">channel.exchangeDeclare(exchangeName, <span class="string">"direct"</span>, <span class="keyword">true</span>);</div><div class="line">String queueName = channel.queueDeclare().getQueue();</div><div class="line">channel.queueBind(queueName, exchangeName, routingKey);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/20160828/20160828CXFWebservice暴露方式.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          CXFWebservice暴露方式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/20160828/20160828Maven之appfuse模板.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Maven之appfuse模板</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="20160828RabbitMQ简介" data-title="RabbitMQ简介" data-url="http://www.yangkai0725.com/20160828/20160828RabbitMQ简介.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 kaiyang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
