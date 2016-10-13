@@ -4,15 +4,18 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>20160829Tomcat简介 | Kai.Yang&#39; Blog</title>
+  <title>Tomcat简介 | Kai.Yang&#39; Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
-<meta property="og:title" content="20160829Tomcat简介">
+  <meta name="description" content="tomcat参数、跨域访问、tomcat-user、tomcat服务开机后台启动、tomcat_permgen_space错误">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat简介">
 <meta property="og:url" content="http://www.yangkai0725.com/20160829/20160829Tomcat简介.html">
 <meta property="og:site_name" content="Kai.Yang' Blog">
-<meta property="og:updated_time" content="2016-09-18T07:47:36.946Z">
+<meta property="og:description" content="tomcat参数、跨域访问、tomcat-user、tomcat服务开机后台启动、tomcat_permgen_space错误">
+<meta property="og:updated_time" content="2016-10-12T10:02:08.181Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20160829Tomcat简介">
+<meta name="twitter:title" content="Tomcat简介">
+<meta name="twitter:description" content="tomcat参数、跨域访问、tomcat-user、tomcat服务开机后台启动、tomcat_permgen_space错误">
   
     <link rel="alternative" href="/atom.xml" title="Kai.Yang&#39; Blog" type="application/atom+xml">
   
@@ -106,7 +109,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/appfuse/" style="font-size: 10px;">appfuse</a> <a href="/tags/database/" style="font-size: 17.5px;">database</a> <a href="/tags/date/" style="font-size: 10px;">date</a> <a href="/tags/dubbo/" style="font-size: 10px;">dubbo</a> <a href="/tags/eclipse/" style="font-size: 10px;">eclipse</a> <a href="/tags/freemarker/" style="font-size: 10px;">freemarker</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/interview/" style="font-size: 10px;">interview</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jms/" style="font-size: 10px;">jms</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 15px;">maven</a> <a href="/tags/mq/" style="font-size: 10px;">mq</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/oracle/" style="font-size: 10px;">oracle</a> <a href="/tags/redis/" style="font-size: 12.5px;">redis</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/webservice/" style="font-size: 10px;">webservice</a>
+						<a href="/tags/appfuse/" style="font-size: 10px;">appfuse</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/database/" style="font-size: 17.5px;">database</a> <a href="/tags/date/" style="font-size: 10px;">date</a> <a href="/tags/dubbo/" style="font-size: 10px;">dubbo</a> <a href="/tags/eclipse/" style="font-size: 12.5px;">eclipse</a> <a href="/tags/freemarker/" style="font-size: 10px;">freemarker</a> <a href="/tags/gc/" style="font-size: 12.5px;">gc</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/interview/" style="font-size: 10px;">interview</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jms/" style="font-size: 10px;">jms</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 15px;">maven</a> <a href="/tags/mq/" style="font-size: 10px;">mq</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/oracle/" style="font-size: 10px;">oracle</a> <a href="/tags/redis/" style="font-size: 12.5px;">redis</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/tool/" style="font-size: 10px;">tool</a> <a href="/tags/webservice/" style="font-size: 10px;">webservice</a>
 					</div>
 				</section>
 				
@@ -191,7 +194,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      20160829Tomcat简介
+      Tomcat简介
     </h1>
   
 
@@ -211,7 +214,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
+        <p>tomcat参数、跨域访问、tomcat-user、tomcat服务开机后台启动、tomcat_permgen_space错误<br><a id="more"></a></p>
+<blockquote>
+<p>  设置tomcat参数</p>
+</blockquote>
+<p>-Xmx1024M -Xms512M -XX:MaxPermSize=256m</p>
+<blockquote>
+<p>  tomcat跨域访问</p>
+</blockquote>
+<p><a href="http://blog.csdn.net/liumm0000/article/details/8443550" target="_blank" rel="external">http://blog.csdn.net/liumm0000/article/details/8443550</a><br>若允许Tomcat所有域访问，将clientaccesspolicy.xml和crossdomain.xml加入%TOMCAT_HOME%\webapps\ROOT 目录下即可<br>clientaccesspolicy.xml示例：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span> <span class="meta">?&gt;</span></span>  </div><div class="line"><span class="tag">&lt;<span class="name">access-policy</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;<span class="name">cross-domain-access</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">policy</span>&gt;</span>  </div><div class="line">      <span class="tag">&lt;<span class="name">allow-from</span> <span class="attr">http-request-headers</span>=<span class="string">"*"</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">domain</span> <span class="attr">uri</span>=<span class="string">"*"</span>/&gt;</span>  </div><div class="line">      <span class="tag">&lt;/<span class="name">allow-from</span>&gt;</span>  </div><div class="line">      <span class="tag">&lt;<span class="name">grant-to</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">resource</span> <span class="attr">path</span>=<span class="string">"/"</span> <span class="attr">include-subpaths</span>=<span class="string">"true"</span>/&gt;</span>  </div><div class="line">      <span class="tag">&lt;/<span class="name">grant-to</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">policy</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;/<span class="name">cross-domain-access</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">access-policy</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>  设置tomcat开机后台启动</p>
+</blockquote>
+<p><a href="http://jingyan.baidu.com/article/a65957f4b12b8724e77f9b5a.html" target="_blank" rel="external">http://jingyan.baidu.com/article/a65957f4b12b8724e77f9b5a.html</a></p>
+<blockquote>
+<p>  tomcat_permgen_space错误</p>
+</blockquote>
+<p>rem permgen space<br>rem —– Execute The Requested Command —————————————<br>set JAVA_OPTS=%JAVA_OPTS% -server -XX:PermSize=128m -XX:MaxPermSize=512m</p>
+<blockquote>
+<p>  tomcat-user</p>
+</blockquote>
+<p>tomcat7<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">tomcat-users</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"tomcat"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"role1"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">user</span> <span class="attr">password</span>=<span class="string">"tomcat"</span> <span class="attr">roles</span>=<span class="string">"tomcat"</span> <span class="attr">username</span>=<span class="string">"tomcat"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">user</span> <span class="attr">password</span>=<span class="string">"tomcat"</span> <span class="attr">roles</span>=<span class="string">"tomcat,role1"</span> <span class="attr">username</span>=<span class="string">"both"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">user</span> <span class="attr">password</span>=<span class="string">"tomcat"</span> <span class="attr">roles</span>=<span class="string">"role1"</span> <span class="attr">username</span>=<span class="string">"role1"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tomcat-users</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>tomcat8<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">tomcat-users</span> <span class="attr">version</span>=<span class="string">"1.0"</span> <span class="attr">xmlns</span>=<span class="string">"http://tomcat.apache.org/xml"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://tomcat.apache.org/xml tomcat-users.xsd"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager"</span>/&gt;</span>　</div><div class="line">    <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span>　</div><div class="line">    <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin"</span>/&gt;</span>　</div><div class="line">    <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin-gui"</span>/&gt;</span>　</div><div class="line">    <span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"tomcat"</span> <span class="attr">password</span>=<span class="string">"tomcat"</span> <span class="attr">roles</span>=<span class="string">"admin-gui,admin,manager-gui,manager"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tomcat-users</span>&gt;</span></div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -248,7 +272,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20160829Tomcat简介" data-title="20160829Tomcat简介" data-url="http://www.yangkai0725.com/20160829/20160829Tomcat简介.html"></div>
+	<div class="ds-thread" data-thread-key="20160829Tomcat简介" data-title="Tomcat简介" data-url="http://www.yangkai0725.com/20160829/20160829Tomcat简介.html"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

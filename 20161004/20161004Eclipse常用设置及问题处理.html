@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Eclipse常用设置及问题处理 | Kai.Yang&#39; Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="eclipse_ini介绍;本地tld设置;设置new菜单;最佳保护色;eclipse闪退;RemoteSystemsTempFiles项目;main方法需运行两次;邮件发送失败;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eclipse常用设置及问题处理">
+<meta property="og:url" content="http://www.yangkai0725.com/20161004/20161004Eclipse常用设置及问题处理.html">
+<meta property="og:site_name" content="Kai.Yang' Blog">
+<meta property="og:description" content="eclipse_ini介绍;本地tld设置;设置new菜单;最佳保护色;eclipse闪退;RemoteSystemsTempFiles项目;main方法需运行两次;邮件发送失败;">
+<meta property="og:updated_time" content="2016-10-12T10:02:08.183Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eclipse常用设置及问题处理">
+<meta name="twitter:description" content="eclipse_ini介绍;本地tld设置;设置new菜单;最佳保护色;eclipse闪退;RemoteSystemsTempFiles项目;main方法需运行两次;邮件发送失败;">
+  
+    <link rel="alternative" href="/atom.xml" title="Kai.Yang&#39; Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/avatar.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">kaiyang</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">生命不止、奋斗不息</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>Menu</li>
+						<li>Tags</li>
+						
+						<li>Links</li>
+						
+						
+						<li>About Me</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/appfuse/" style="font-size: 10px;">appfuse</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/database/" style="font-size: 17.5px;">database</a> <a href="/tags/date/" style="font-size: 10px;">date</a> <a href="/tags/dubbo/" style="font-size: 10px;">dubbo</a> <a href="/tags/eclipse/" style="font-size: 12.5px;">eclipse</a> <a href="/tags/freemarker/" style="font-size: 10px;">freemarker</a> <a href="/tags/gc/" style="font-size: 12.5px;">gc</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/hexo/" style="font-size: 12.5px;">hexo</a> <a href="/tags/http/" style="font-size: 10px;">http</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/interview/" style="font-size: 10px;">interview</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jms/" style="font-size: 10px;">jms</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/maven/" style="font-size: 15px;">maven</a> <a href="/tags/mq/" style="font-size: 10px;">mq</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/oracle/" style="font-size: 10px;">oracle</a> <a href="/tags/redis/" style="font-size: 12.5px;">redis</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/tool/" style="font-size: 10px;">tool</a> <a href="/tags/webservice/" style="font-size: 10px;">webservice</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://testerlife.com/#blog">刘津嘉的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://eagleless.github.io/20160730/20160730%E5%8F%82%E8%80%83%E5%8D%9A%E5%AE%A2.html">博客天地</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">kaiyang</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img lazy-src="nullavatar.png" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">kaiyang</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">生命不止、奋斗不息</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-20161004Eclipse常用设置及问题处理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/20161004/20161004Eclipse常用设置及问题处理.html" class="article-date">
+  	<time datetime="2016-10-04T07:42:14.000Z" itemprop="datePublished">2016-10-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Eclipse常用设置及问题处理
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eclipse/">eclipse</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>eclipse_ini介绍;本地tld设置;设置new菜单;最佳保护色;eclipse闪退;RemoteSystemsTempFiles项目;main方法需运行两次;邮件发送失败;<br><a id="more"></a></p>
+<blockquote>
+<p>  eclipse_ini</p>
+</blockquote>
+<p>首先了解下JVM中几个相关的概念：</p>
+<p>Xms：最小堆大小<br>Xmx：最大堆大小<br>Xmn：年轻代堆大小<br>Xss：每个线程的堆大小<br>PermSize：初始持久代大小<br>MaxPermSize：最大持久代大小</p>
+<p>一般Xms、Xmx设置相同，PermSize、MaxPermSize设置相同，这样可以避免伸缩堆大小带来的性能损耗。</p>
+<blockquote>
+<p>  本地tld设置</p>
+</blockquote>
+<ol>
+<li>先找到 XML 的 dtd 文件</li>
+<li>后 window—&gt;preference—&gt;XML—&gt;XML catalog—&gt;User Specified Entries—&gt;add-&gt; 其中 key Type 选择 URI ， Key 选择 XML 文件中 docType 中引用的那个 key 地址， Location 选择 dtd 文件在本地硬盘上的完整路径。<br>注意：完成以上操作后，关闭 XML 文件，重新打开就可以了。</li>
+</ol>
+<blockquote>
+<p>  设置new菜单</p>
+</blockquote>
+<p>Windows–&gt;Customize Perspective<br>在打开的窗口里Shortcuts选中需要显示的选项</p>
+<blockquote>
+<p>  最佳保护色</p>
+</blockquote>
+<p>色调：84<br>饱和度：91<br>亮度：205</p>
+<blockquote>
+<p>  eclipse闪退</p>
+</blockquote>
+<p>删除文件 [workspace]<code>/.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi</code></p>
+<blockquote>
+<p>  RemoteSystemsTempFiles项目</p>
+</blockquote>
+<p>删除Eclipse工作空间中自动生成的RemoteSystemsTempFiles项目<br>step1、在Eclipse中依次打开Windows–&gt;Preferences–&gt;General–&gt;Startup and Shutdown将RSE UI前的对号去掉，关闭Eclipse；<br>step2、将Eclipse工作空间中的“RemoteSystemsTempFiles”项目删除掉，再启动Eclipse程序，这个项目就不会再自动生成了；</p>
+<blockquote>
+<p>  main方法需运行两次</p>
+</blockquote>
+<p>右键项目properties-&gt;builders<br>去掉JavaScript Validator前面的勾</p>
+<blockquote>
+<p>  邮件发送失败</p>
+</blockquote>
+<p>删除<code>E:\myEclipse8.5\Common\plugins\com.genuitec.eclipse.j2eedt.core_8.5.0.me201003231033\data\libraryset\EE_5</code><br>删除<code>mail.jar</code>和<code>activation.jar</code>(我的<code>javaee.jar</code>里，这两个东西是文件夹，总之删掉就OK，不过要注意备份一下)</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/20161005/20161005Java中堆内存和栈内存详解.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Java中堆内存和栈内存详解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/20161004/20161004MyBase破解.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MyBase破解</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="20161004Eclipse常用设置及问题处理" data-title="Eclipse常用设置及问题处理" data-url="http://www.yangkai0725.com/20161004/20161004Eclipse常用设置及问题处理.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 kaiyang
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
