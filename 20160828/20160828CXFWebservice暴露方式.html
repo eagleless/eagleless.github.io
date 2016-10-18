@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://www.yangkai0725.com/20160828/20160828CXFWebservice暴露方式.html">
 <meta property="og:site_name" content="Kai.Yang' Blog">
 <meta property="og:description" content="使用注解和XML方式暴露REST风格webservice，使用JAX-WS暴露SOAP风格webservice。使用wsdl2java根据wsdl生成java源码。">
-<meta property="og:updated_time" content="2016-10-12T10:02:08.179Z">
+<meta property="og:updated_time" content="2016-10-18T03:12:30.667Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CXFWebservice暴露方式">
 <meta name="twitter:description" content="使用注解和XML方式暴露REST风格webservice，使用JAX-WS暴露SOAP风格webservice。使用wsdl2java根据wsdl生成java源码。">
@@ -131,8 +131,11 @@
 <blockquote>
 <p>  wsdl2java生成java源码</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">wsdl2java <span class="_">-s</span> E:\myToolsApi\studyTools\tools\webservice\cxf\gen_src\src -uri http://localhost:8088/cxfws/services/Hellows?wsdl</div><div class="line"></div><div class="line">wsimport –s . client http://localhost:8088/cxfws/services/Hellows?wsdl</div><div class="line"></div><div class="line">wsimport <span class="_">-s</span> . http://127.0.0.1:8088/cxfws/services/Hellows?wsdl</div><div class="line"></div><div class="line">wsdl2java <span class="_">-s</span> . -uri http://localhost:8088/cxfws/services/Hellows?wsdl</div></pre></td></tr></table></figure>
-
+<pre><code>wsdl2java -s E:\myToolsApi\studyTools\tools\webservice\cxf\gen_src\src -uri http://localhost:8088/cxfws/services/Hellows?wsdl
+wsimport –s . client http://localhost:8088/cxfws/services/Hellows?wsdl
+wsimport -s . http://127.0.0.1:8088/cxfws/services/Hellows?wsdl
+wsdl2java -s . -uri http://localhost:8088/cxfws/services/Hellows?wsdl
+</code></pre>
       
     </div>
 
@@ -142,7 +145,7 @@
     
 
     <footer class="article-footer">
-      <a data-url="http://www.yangkai0725.com/20160828/20160828CXFWebservice暴露方式.html" data-id="ciuevy4s60018gwj76ft7zljr" class="article-share-link">
+      <a data-url="http://www.yangkai0725.com/20160828/20160828CXFWebservice暴露方式.html" data-id="ciuewzrtc002rakj7g0pc085a" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
