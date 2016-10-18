@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://www.yangkai0725.com/20160827/20160827Javascript键盘事件.html">
 <meta property="og:site_name" content="Kai.Yang' Blog">
 <meta property="og:description" content="Javascript键盘事件。">
-<meta property="og:updated_time" content="2016-10-18T03:05:40.136Z">
+<meta property="og:updated_time" content="2016-10-18T03:06:40.705Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Javascript键盘事件">
 <meta name="twitter:description" content="Javascript键盘事件。">
@@ -114,13 +114,8 @@
 <blockquote>
 <p>  keyup键盘弹起事件</p>
 </blockquote>
-<pre><code>$(&quot;input[name=&apos;password&apos;]&quot;,loginForm).keyup(function(e){
-    var ev = document.all ? window.event : e;  
-    if(ev.keyCode==13) {// 如（ev.ctrlKey &amp;&amp; ev.keyCode==13）为ctrl+Center 触发
-        $(&quot;#ulogin&quot;).click();
-    }  
-});
-</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"input[name='password']"</span>,loginForm).keyup(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> ev = <span class="built_in">document</span>.all ? <span class="built_in">window</span>.event : e;  </div><div class="line">    <span class="keyword">if</span>(ev.keyCode==<span class="number">13</span>) &#123;</div><div class="line">    <span class="comment">// 如（ev.ctrlKey &amp;&amp; ev.keyCode==13）为ctrl+Center 触发</span></div><div class="line">        $(<span class="string">"#ulogin"</span>).click();</div><div class="line">    &#125;  </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
       
     </div>
 
