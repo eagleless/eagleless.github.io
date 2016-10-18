@@ -710,15 +710,20 @@ mvn appfuse:gen -Dentity=com.joiest.model.YbtAccount
     <link href="http://www.yangkai0725.com/20160827/20160827Javascript%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6.html"/>
     <id>http://www.yangkai0725.com/20160827/20160827Javascript键盘事件.html</id>
     <published>2016-08-27T10:00:06.000Z</published>
-    <updated>2016-09-18T07:47:36.939Z</updated>
+    <updated>2016-10-18T03:05:40.136Z</updated>
     
     <content type="html"><![CDATA[<p>Javascript键盘事件。</p>
 <a id="more"></a>
 <blockquote>
 <p>  keyup键盘弹起事件</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"input[name='password']"</span>,loginForm).keyup(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> ev = <span class="built_in">document</span>.all ? <span class="built_in">window</span>.event : e;  </div><div class="line">    <span class="keyword">if</span>(ev.keyCode==<span class="number">13</span>) &#123;<span class="comment">// 如（ev.ctrlKey &amp;&amp; ev.keyCode==13）为ctrl+Center 触发</span></div><div class="line">        $(<span class="string">"#ulogin"</span>).click();</div><div class="line">    &#125;  </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-]]></content>
+<pre><code>$(&quot;input[name=&apos;password&apos;]&quot;,loginForm).keyup(function(e){
+    var ev = document.all ? window.event : e;  
+    if(ev.keyCode==13) {// 如（ev.ctrlKey &amp;&amp; ev.keyCode==13）为ctrl+Center 触发
+        $(&quot;#ulogin&quot;).click();
+    }  
+});
+</code></pre>]]></content>
     
     <summary type="html">
     
