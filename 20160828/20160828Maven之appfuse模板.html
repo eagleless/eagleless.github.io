@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://www.yangkai0725.com/20160828/20160828Maven之appfuse模板.html">
 <meta property="og:site_name" content="Kai.Yang' Blog">
 <meta property="og:description" content="Appfuse是由Matt Raible开发的一个指导性的入门级J2EE框架，它对如何集成流行的Spring、Hibernate、iBatis、struts、Xdoclet、junit 等基础框架给出了示范。提供了对Taperstry和JSF的支持。">
-<meta property="og:updated_time" content="2016-10-12T10:02:08.180Z">
+<meta property="og:updated_time" content="2016-10-18T02:24:12.090Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Maven之appfuse模板">
 <meta name="twitter:description" content="Appfuse是由Matt Raible开发的一个指导性的入门级J2EE框架，它对如何集成流行的Spring、Hibernate、iBatis、struts、Xdoclet、junit 等基础框架给出了示范。提供了对Taperstry和JSF的支持。">
@@ -208,7 +208,7 @@ mvn appfuse:gen -Dentity=com.joiest.model.YbtAccount
 <p>  下面是创建不同种类项目的Archetype Command：</p>
 </blockquote>
 <p><strong><em>JSF Basic</em></strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-jsf -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure>
+<p>  mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-jsf -DremoteRepositories=<a href="http://static.appfuse.org/releases-DarchetypeVersion=2.0" target="_blank" rel="external">http://static.appfuse.org/releases-DarchetypeVersion=2.0</a> -DgroupId=com.mycompany.app -DartifactId=myproject </p>
 <p><strong><em>Spring MVC Basic</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-spring -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
 <p><strong><em>Struts 2 Basic</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-struts -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
 <p><strong><em>Tapestry Basic</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-tapestry -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
