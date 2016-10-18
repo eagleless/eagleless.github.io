@@ -465,7 +465,7 @@
     <link href="http://www.yangkai0725.com/20160828/20160828Maven%E4%B9%8Bappfuse%E6%A8%A1%E6%9D%BF.html"/>
     <id>http://www.yangkai0725.com/20160828/20160828Maven之appfuse模板.html</id>
     <published>2016-08-28T10:09:55.000Z</published>
-    <updated>2016-10-18T02:25:40.091Z</updated>
+    <updated>2016-10-18T02:29:23.945Z</updated>
     
     <content type="html"><![CDATA[<p>Appfuse是由Matt Raible开发的一个指导性的入门级J2EE框架，它对如何集成流行的Spring、Hibernate、iBatis、struts、Xdoclet、junit 等基础框架给出了示范。提供了对Taperstry和JSF的支持。<br><a id="more"></a></p>
 <blockquote>
@@ -567,15 +567,23 @@ mvn appfuse:gen -Dentity=com.joiest.model.YbtAccount
 </blockquote>
 <p><strong><em>JSF Basic</em></strong></p>
 <pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-jsf -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
-</code></pre><p><strong><em>Spring MVC Basic</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-spring -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
-<p><strong><em>Struts 2 Basic</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-struts -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
-<p><strong><em>Tapestry Basic</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-tapestry -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
-<p><strong><em>JSF Modula</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-jsf -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
-<p><strong><em>Spring MVC Modular</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-spring -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
-<p><strong><em>Struts 2 Modular</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-struts -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
-<p><strong><em>Tapestry Modular</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-tapestry -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
-<p><strong><em>Core(backend only)</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-core -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject</div></pre></td></tr></table></figure></p>
-]]></content>
+</code></pre><p><strong><em>Spring MVC Basic</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-spring -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Struts 2 Basic</em></strong> </p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-struts -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Tapestry Basic</em></strong> </p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-tapestry -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>JSF Modula</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-jsf -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Spring MVC Modular</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-spring -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Struts 2 Modular</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-struts -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Tapestry Modular</em></strong> </p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-tapestry -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
+</code></pre><p><strong><em>Core(backend only)</em></strong></p>
+<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-core -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject
+</code></pre>]]></content>
     
     <summary type="html">
     
