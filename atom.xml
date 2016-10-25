@@ -597,9 +597,9 @@ mvn appfuse:gen -Dentity=com.joiest.model.YbtAccount
       <category term="maven" scheme="http://www.yangkai0725.com/categories/maven/"/>
     
     
-      <category term="appfuse" scheme="http://www.yangkai0725.com/tags/appfuse/"/>
-    
       <category term="maven" scheme="http://www.yangkai0725.com/tags/maven/"/>
+    
+      <category term="appfuse" scheme="http://www.yangkai0725.com/tags/appfuse/"/>
     
   </entry>
   
