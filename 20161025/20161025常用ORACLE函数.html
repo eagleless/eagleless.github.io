@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Maven简介及常用命令 | 无名氏无情兮</title>
+  <title>常用ORACLE函数 | 无名氏无情兮</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Maven的核心思想：约定大于配置。找那个jar的pom配置：http://mvnrepository.com/找jar包：www.findjar.com">
+  <meta name="description" content="常用oracle函数。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maven简介及常用命令">
-<meta property="og:url" content="https://eagleless.github.io/20160827/20160827Maven简介及常用命令.html">
+<meta property="og:title" content="常用ORACLE函数">
+<meta property="og:url" content="https://eagleless.github.io/20161025/20161025常用ORACLE函数.html">
 <meta property="og:site_name" content="无名氏无情兮">
-<meta property="og:description" content="Maven的核心思想：约定大于配置。找那个jar的pom配置：http://mvnrepository.com/找jar包：www.findjar.com">
-<meta property="og:updated_time" content="2016-10-12T10:02:08.178Z">
+<meta property="og:description" content="常用oracle函数。">
+<meta property="og:updated_time" content="2016-10-25T10:05:09.070Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Maven简介及常用命令">
-<meta name="twitter:description" content="Maven的核心思想：约定大于配置。找那个jar的pom配置：http://mvnrepository.com/找jar包：www.findjar.com">
+<meta name="twitter:title" content="常用ORACLE函数">
+<meta name="twitter:description" content="常用oracle函数。">
   
     <link rel="alternate" href="/atom.xml" title="无名氏无情兮" type="application/atom+xml">
   
@@ -79,13 +79,13 @@
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          <article id="post-20160827Maven简介及常用命令" class="article article-type-post" itemscope itemprop="blogPost">
+          <article id="post-20161025常用ORACLE函数" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
     
   
     <h1 class="article-title" itemprop="name">
-      Maven简介及常用命令
+      常用ORACLE函数
     </h1>
   
 
@@ -94,49 +94,27 @@
 
   <div class="article-meta">
     <div class="article-datetime">
-  <a href="/20160827/20160827Maven简介及常用命令.html" class="article-date"><time datetime="2016-08-27T10:11:14.000Z" itemprop="datePublished">2016-08-27</time></a>
+  <a href="/20161025/20161025常用ORACLE函数.html" class="article-date"><time datetime="2016-10-25T09:38:52.000Z" itemprop="datePublished">2016-10-25</time></a>
 </div>
 
     
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/maven/">maven</a>
-  </div>
-
 
   </div>
   <div class="article-inner">
 
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Maven的核心思想：约定大于配置。<br>找那个jar的pom配置：<a href="http://mvnrepository.com/" target="_blank" rel="external">http://mvnrepository.com/</a><br>找jar包：www.findjar.com<br><a id="more"></a></p>
+        <p>常用oracle函数。</p>
+<a id="more"></a>
 <blockquote>
-<p>  maven打包package</p>
+<p>  随机获取</p>
 </blockquote>
-<pre><code>mvn clean package -DskipTests
-</code></pre><p>为了生成可执行的jar需要依赖maven-shade-plugin<br>如果pom中没有指定，则默认打jar包</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> d.mobile <span class="keyword">from</span> (<span class="keyword">select</span> u.mobile <span class="keyword">from</span> itm_store s ,itm_user u <span class="keyword">where</span> s.userid =u.id <span class="keyword">and</span> s.status = <span class="number">0</span> <span class="keyword">order</span> <span class="keyword">by</span> dbms_random.value) d <span class="keyword">where</span> <span class="keyword">rownum</span> = <span class="number">1</span></div></pre></td></tr></table></figure>
 <blockquote>
-<p>  安装任务install</p>
+<p>  随机数</p>
 </blockquote>
-<pre><code>mvn clean install
-</code></pre><blockquote>
-<p>  编译compile</p>
-</blockquote>
-<pre><code>mvn clean compile
-</code></pre><blockquote>
-<p>  测试test</p>
-</blockquote>
-<pre><code>mvn clean test
-</code></pre><p>执行顺序：compile–&gt;test–&gt;package–&gt;install</p>
-<blockquote>
-<p>  maven安装jar包到仓库</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn install:install-file -DgroupId=com.yk -DartifactId=zxing-core -Dversion=2.0 -Dpackaging=jar -Dfile=E:\my\jars\zxing\zxing-core-2.0.jar</div></pre></td></tr></table></figure>
-<p>如果要上传源码把packaging=jar,jar改成java-source</p>
-<blockquote>
-<p>  maven命令创建web项目</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DgroupId=com.joiest -DartifactId=webtest -DarchetypeArtifactId=maven-archetype-webapp</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> trunc(dbms_random.value(<span class="number">0</span>, <span class="number">1000</span>)) <span class="keyword">from</span> dual; <span class="comment">--(0-1000的整数)</span></div><div class="line"><span class="keyword">select</span> dbms_random.value(<span class="number">0</span>, <span class="number">1000</span>) <span class="keyword">from</span> dual; <span class="comment">--(0-1000的浮点数)</span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -147,12 +125,12 @@
     
 
     <footer class="article-footer">
-      <a data-url="https://eagleless.github.io/20160827/20160827Maven简介及常用命令.html" data-id="ciupbtprz00121oj71co68miq" class="article-share-link">
+      <a data-url="https://eagleless.github.io/20161025/20161025常用ORACLE函数.html" data-id="ciupbtptd00271oj76jejrxxq" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/">maven</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oracle/">oracle</a></li></ul>
 
 
     </footer>
@@ -162,19 +140,12 @@
 <ul id="article-nav" class="nav nav-pills nav-justified">
   
   <li role="presentation">
-    <a href="/20160827/20160827Javascript键盘事件.html" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/20161013/20161013SpringMvc静态资源处理.html" id="article-nav-older" class="article-nav-link-wrap">
       <i class="fa fa-chevron-left pull-left"></i>
-      <span class="article-nav-link-title">Javascript键盘事件</span>
+      <span class="article-nav-link-title">SpringMvc静态资源处理</span>
     </a>
   </li>
   
-  
-  <li role="presentation">
-    <a href="/20160827/20160827Maven之pom简介.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <span class="article-nav-link-title">Maven之pom简介</span>
-      <i class="fa fa-chevron-right pull-right"></i>
-    </a>
-  </li>
   
 </ul>
 

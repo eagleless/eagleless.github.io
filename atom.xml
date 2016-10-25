@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://eagleless.github.io/"/>
-  <updated>2016-10-13T02:09:10.791Z</updated>
+  <updated>2016-10-25T10:05:09.070Z</updated>
   <id>https://eagleless.github.io/</id>
   
   <author>
@@ -14,6 +14,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>常用ORACLE函数</title>
+    <link href="https://eagleless.github.io/20161025/20161025%E5%B8%B8%E7%94%A8ORACLE%E5%87%BD%E6%95%B0.html"/>
+    <id>https://eagleless.github.io/20161025/20161025常用ORACLE函数.html</id>
+    <published>2016-10-25T09:38:52.000Z</published>
+    <updated>2016-10-25T10:05:09.070Z</updated>
+    
+    <content type="html"><![CDATA[<p>常用oracle函数。</p>
+<a id="more"></a>
+<blockquote>
+<p>  随机获取</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> d.mobile <span class="keyword">from</span> (<span class="keyword">select</span> u.mobile <span class="keyword">from</span> itm_store s ,itm_user u <span class="keyword">where</span> s.userid =u.id <span class="keyword">and</span> s.status = <span class="number">0</span> <span class="keyword">order</span> <span class="keyword">by</span> dbms_random.value) d <span class="keyword">where</span> <span class="keyword">rownum</span> = <span class="number">1</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>  随机数</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> trunc(dbms_random.value(<span class="number">0</span>, <span class="number">1000</span>)) <span class="keyword">from</span> dual; <span class="comment">--(0-1000的整数)</span></div><div class="line"><span class="keyword">select</span> dbms_random.value(<span class="number">0</span>, <span class="number">1000</span>) <span class="keyword">from</span> dual; <span class="comment">--(0-1000的浮点数)</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;常用oracle函数。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="oracle" scheme="https://eagleless.github.io/tags/oracle/"/>
+    
+  </entry>
   
   <entry>
     <title>SpringMvc静态资源处理</title>
@@ -1340,46 +1370,6 @@ ma - 使用 a 标记文本的当前位置
       <category term="database" scheme="https://eagleless.github.io/tags/database/"/>
     
       <category term="interview" scheme="https://eagleless.github.io/tags/interview/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>svn常用功能及插件使用</title>
-    <link href="https://eagleless.github.io/20160821/20160821svn%E7%AE%80%E4%BB%8B.html"/>
-    <id>https://eagleless.github.io/20160821/20160821svn简介.html</id>
-    <published>2016-08-21T08:16:01.000Z</published>
-    <updated>2016-10-12T10:02:08.175Z</updated>
-    
-    <content type="html"><![CDATA[<p>Windows平台上创建SVN服务，方便启动和关闭；Eclipse中svn提交时忽略文件；<br><a id="more"></a></p>
-<h1 id="创建svn服务"><a href="#创建svn服务" class="headerlink" title="创建svn服务"></a>创建svn服务</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sc create svn binpath= <span class="string">"D:\Program Files (x86)\Subversion\bin\svnserve.exe --service -r E:\joiest\svnRepo"</span> displayname= <span class="string">"Subversion Server"</span> depend= tcpip start= auto</div></pre></td></tr></table></figure>
-<blockquote>
-<p>  开启：net start svn<br>  关闭：net stop svn</p>
-</blockquote>
-<h1 id="Eclipse中svn提交时忽略文件"><a href="#Eclipse中svn提交时忽略文件" class="headerlink" title="Eclipse中svn提交时忽略文件"></a>Eclipse中svn提交时忽略文件</h1><p>Windows –&gt; preferences –&gt; Team –&gt; Ignore Resources –&gt; Add Pattern<br>之后分别添加下面四项，并点击OK</p>
-<pre><code>.classpath
-.project
-target
-.settings
-.externalToolBuilders
-</code></pre><blockquote>
-<p>  subeclipse切换账户</p>
-</blockquote>
-<p>C:\Users\Administrator\AppData\Roaming\Subversion\auth</p>
-<p>删除其中所有文件</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Windows平台上创建SVN服务，方便启动和关闭；Eclipse中svn提交时忽略文件；&lt;br&gt;
-    
-    </summary>
-    
-      <category term="svn" scheme="https://eagleless.github.io/categories/svn/"/>
-    
-    
-      <category term="svn" scheme="https://eagleless.github.io/tags/svn/"/>
-    
-      <category term="eclipse" scheme="https://eagleless.github.io/tags/eclipse/"/>
     
   </entry>
   

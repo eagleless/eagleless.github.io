@@ -3,18 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Maven简介及常用命令 | 无名氏无情兮</title>
+  <title>Archives | 无名氏无情兮</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Maven的核心思想：约定大于配置。找那个jar的pom配置：http://mvnrepository.com/找jar包：www.findjar.com">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Maven简介及常用命令">
-<meta property="og:url" content="https://eagleless.github.io/20160827/20160827Maven简介及常用命令.html">
+  <meta name="description" content="Walk steps step by step">
+<meta property="og:type" content="website">
+<meta property="og:title" content="无名氏无情兮">
+<meta property="og:url" content="https://eagleless.github.io/archives/page/4/index.html">
 <meta property="og:site_name" content="无名氏无情兮">
-<meta property="og:description" content="Maven的核心思想：约定大于配置。找那个jar的pom配置：http://mvnrepository.com/找jar包：www.findjar.com">
-<meta property="og:updated_time" content="2016-10-12T10:02:08.178Z">
+<meta property="og:description" content="Walk steps step by step">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Maven简介及常用命令">
-<meta name="twitter:description" content="Maven的核心思想：约定大于配置。找那个jar的pom配置：http://mvnrepository.com/找jar包：www.findjar.com">
+<meta name="twitter:title" content="无名氏无情兮">
+<meta name="twitter:description" content="Walk steps step by step">
   
     <link rel="alternate" href="/atom.xml" title="无名氏无情兮" type="application/atom+xml">
   
@@ -53,7 +52,7 @@
           <li><a class=""
                  href="/index.html">主页</a></li>
         
-          <li><a class=""
+          <li><a class="active"
                  href="/archives/">所有文章</a></li>
         
       </ul>
@@ -79,109 +78,45 @@
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          <article id="post-20160827Maven简介及常用命令" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
+          
+  
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <header class="archive-article-header">
     
   
-    <h1 class="article-title" itemprop="name">
-      Maven简介及常用命令
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/20160809/20160809Hexo博客示例.html">Hexo使用简介HelloWorld</a>
     </h1>
   
 
 
-  </header>
-
-  <div class="article-meta">
     <div class="article-datetime">
-  <a href="/20160827/20160827Maven简介及常用命令.html" class="article-date"><time datetime="2016-08-27T10:11:14.000Z" itemprop="datePublished">2016-08-27</time></a>
+  <a href="/20160809/20160809Hexo博客示例.html" class="archive-article-date"><time datetime="2016-08-09T09:37:58.000Z" itemprop="datePublished">八月 9日</time></a>
 </div>
 
-    
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/maven/">maven</a>
-  </div>
-
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Maven的核心思想：约定大于配置。<br>找那个jar的pom配置：<a href="http://mvnrepository.com/" target="_blank" rel="external">http://mvnrepository.com/</a><br>找jar包：www.findjar.com<br><a id="more"></a></p>
-<blockquote>
-<p>  maven打包package</p>
-</blockquote>
-<pre><code>mvn clean package -DskipTests
-</code></pre><p>为了生成可执行的jar需要依赖maven-shade-plugin<br>如果pom中没有指定，则默认打jar包</p>
-<blockquote>
-<p>  安装任务install</p>
-</blockquote>
-<pre><code>mvn clean install
-</code></pre><blockquote>
-<p>  编译compile</p>
-</blockquote>
-<pre><code>mvn clean compile
-</code></pre><blockquote>
-<p>  测试test</p>
-</blockquote>
-<pre><code>mvn clean test
-</code></pre><p>执行顺序：compile–&gt;test–&gt;package–&gt;install</p>
-<blockquote>
-<p>  maven安装jar包到仓库</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn install:install-file -DgroupId=com.yk -DartifactId=zxing-core -Dversion=2.0 -Dpackaging=jar -Dfile=E:\my\jars\zxing\zxing-core-2.0.jar</div></pre></td></tr></table></figure>
-<p>如果要上传源码把packaging=jar,jar改成java-source</p>
-<blockquote>
-<p>  maven命令创建web项目</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DgroupId=com.joiest -DartifactId=webtest -DarchetypeArtifactId=maven-archetype-webapp</div></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="https://eagleless.github.io/20160827/20160827Maven简介及常用命令.html" data-id="ciupbtprz00121oj71co68miq" class="article-share-link">
-        <i class="fa fa-share"></i> Share
-      </a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/">maven</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-    
-<ul id="article-nav" class="nav nav-pills nav-justified">
-  
-  <li role="presentation">
-    <a href="/20160827/20160827Javascript键盘事件.html" id="article-nav-older" class="article-nav-link-wrap">
-      <i class="fa fa-chevron-left pull-left"></i>
-      <span class="article-nav-link-title">Javascript键盘事件</span>
-    </a>
-  </li>
-  
-  
-  <li role="presentation">
-    <a href="/20160827/20160827Maven之pom简介.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <span class="article-nav-link-title">Maven之pom简介</span>
-      <i class="fa fa-chevron-right pull-right"></i>
-    </a>
-  </li>
-  
-</ul>
-
-
-  
+  </header>
 </article>
 
+  
+  
+    </div></section>
+  
+
+
+  <div id="page-nav">
+    <nav><ul class="pagination"><li><a class="page-prev" rel="prev" href="/archives/page/3/"><i class="fa fa-chevron-left"></i> Prev</a></li><li><a class="page-number" href="/archives/">1</a></li><li><a class="page-number" href="/archives/page/2/">2</a></li><li><a class="page-number" href="/archives/page/3/">3</a></li><li class="active"><span class="page-number">4</span></li><li class="disabled"><span class="page-next">Next <i class="fa fa-chevron-right"></i></a></li></ul></nav>
+  </div>
 
 
 
