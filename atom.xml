@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://eagleless.github.io/"/>
-  <updated>2016-10-25T10:05:09.070Z</updated>
+  <updated>2016-11-02T03:44:21.995Z</updated>
   <id>https://eagleless.github.io/</id>
   
   <author>
@@ -14,6 +14,308 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Spring注解Resource与Autowired的区别</title>
+    <link href="https://eagleless.github.io/20161102/20161102Spring%E6%B3%A8%E8%A7%A3Resource%E4%B8%8EAutowired%E7%9A%84%E5%8C%BA%E5%88%AB.html"/>
+    <id>https://eagleless.github.io/20161102/20161102Spring注解Resource与Autowired的区别.html</id>
+    <published>2016-11-02T03:31:46.000Z</published>
+    <updated>2016-11-02T03:44:21.995Z</updated>
+    
+    <content type="html"><![CDATA[<p>@autowired和@resource的区别</p>
+<a id="more"></a>
+<p>@Resource的作用相当于@Autowired，只不过@Autowired按byType自动注入，而@Resource默认按 byName自动注入罢了。</p>
+<p>@Resource有两个属性是比较重要的，分是name和type，Spring将@Resource注解的name属性解析为bean的名字，而type属性则解析为bean的类型。</p>
+<p>所以如果使用name属性，则使用byName的自动注入策略，而使用type属性时则使用byType自动注入策略。如果既不指定name也不指定type属性，这时将通过反射机制使用byName自动注入策略。</p>
+<blockquote>
+<p>  @Resource装配顺序</p>
+</blockquote>
+<p>这个注解属于J2EE的。</p>
+<ol>
+<li>如果同时指定了name和type，则从Spring上下文中找到唯一匹配的bean进行装配，找不到则抛出异常;</li>
+<li>如果指定了name，则从上下文中查找名称（id）匹配的bean进行装配，找不到则抛出异常;</li>
+<li>如果指定了type，则从上下文中找到类型匹配的唯一bean进行装配，找不到或者找到多个，都会抛出异常;</li>
+<li>如果既没有指定name，又没有指定type，则自动按照byName方式进行装配；如果没有匹配，则回退为一个原始类型进行匹配，如果匹配则自动装配；</li>
+</ol>
+<blockquote>
+<p>  @Autowired</p>
+</blockquote>
+<p>默认按类型装配（这个注解是属业spring的），默认情况下必须要求依赖对象必须存在，如果要允许null值，可以设置它的required属性为false，如：@Autowired(required=false),如果我们想使用名称装配可以结合@Qualifier注解进行使用，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Autowired</span>() <span class="meta">@Qualifier</span>(<span class="string">"baseDao"</span>)    </div><div class="line"><span class="keyword">private</span> BaseDao baseDao;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;@autowired和@resource的区别&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="spring" scheme="https://eagleless.github.io/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql自增长触发器</title>
+    <link href="https://eagleless.github.io/20161029/20161029Mysql%E8%87%AA%E5%A2%9E%E9%95%BF%E8%A7%A6%E5%8F%91%E5%99%A8.html"/>
+    <id>https://eagleless.github.io/20161029/20161029Mysql自增长触发器.html</id>
+    <published>2016-10-29T10:08:57.000Z</published>
+    <updated>2016-11-02T02:39:38.016Z</updated>
+    
+    <content type="html"><![CDATA[<p>Mysql自增长触发器。<br><a id="more"></a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tb(BH <span class="built_in">CHAR</span>(<span class="number">16</span>),<span class="keyword">content</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>),<span class="string">`date`</span> DATETIME,val <span class="built_in">INT</span>);</div><div class="line"><span class="keyword">DROP</span> <span class="keyword">TRIGGER</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> tri_NewBH $$</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> tri_NewBH <span class="keyword">BEFORE</span> <span class="keyword">INSERT</span> <span class="keyword">ON</span> tb</div><div class="line">    <span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span></div><div class="line">    <span class="keyword">BEGIN</span></div><div class="line">        <span class="keyword">DECLARE</span> dt <span class="built_in">CHAR</span>(<span class="number">8</span>);</div><div class="line">        <span class="keyword">DECLARE</span> bh_id <span class="built_in">CHAR</span>(<span class="number">16</span>);</div><div class="line">        <span class="keyword">DECLARE</span> <span class="built_in">number</span> <span class="built_in">INT</span>;</div><div class="line">        <span class="keyword">DECLARE</span> new_bh <span class="built_in">VARCHAR</span>(<span class="number">16</span>);</div><div class="line">    </div><div class="line">        <span class="keyword">SET</span> dt = <span class="keyword">DATE_FORMAT</span>(<span class="keyword">CURDATE</span>(),<span class="string">'%Y%m%d'</span>);</div><div class="line">    </div><div class="line">        <span class="keyword">SELECT</span></div><div class="line">            <span class="keyword">MAX</span>(BH) <span class="keyword">INTO</span> bh_id</div><div class="line">        <span class="keyword">FROM</span> tb</div><div class="line">        <span class="keyword">WHERE</span> BH <span class="keyword">LIKE</span> <span class="keyword">CONCAT</span>(dt,<span class="string">'%'</span>);</div><div class="line">    </div><div class="line">        IF bh_id = '' OR bh_id IS NULL THEN</div><div class="line">            <span class="keyword">SET</span> new_bh = <span class="keyword">CONCAT</span>(dt,<span class="string">'00000001'</span>);</div><div class="line">        ELSE</div><div class="line">            <span class="keyword">SET</span> <span class="built_in">number</span> = <span class="keyword">RIGHT</span>(bh_id,<span class="number">8</span>) + <span class="number">1</span>;</div><div class="line">            <span class="keyword">SET</span> new_bh =  <span class="keyword">RIGHT</span>(<span class="keyword">CONCAT</span>(<span class="string">'00000000'</span>,<span class="built_in">number</span>),<span class="number">8</span>);</div><div class="line">            <span class="keyword">SET</span> new_bh=<span class="keyword">CONCAT</span>(dt,new_bh);</div><div class="line">        <span class="keyword">END</span> <span class="keyword">IF</span>;</div><div class="line">    </div><div class="line">        <span class="keyword">SET</span> NEW.BH = new_bh;</div><div class="line">    <span class="keyword">END</span>$$</div><div class="line"></div><div class="line">    </div><div class="line">DELIMITER ;</div><div class="line"></div><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb(<span class="keyword">content</span>,<span class="string">`date`</span>,val) <span class="keyword">VALUES</span>(<span class="string">'LiangCK'</span>,<span class="string">'2009-05-11'</span>,<span class="number">20</span>);</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Mysql自增长触发器。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="database" scheme="https://eagleless.github.io/tags/database/"/>
+    
+      <category term="mysql" scheme="https://eagleless.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql配置简介</title>
+    <link href="https://eagleless.github.io/20161029/20161029Mysql%E9%85%8D%E7%BD%AE%E7%AE%80%E4%BB%8B.html"/>
+    <id>https://eagleless.github.io/20161029/20161029Mysql配置简介.html</id>
+    <published>2016-10-29T10:02:32.000Z</published>
+    <updated>2016-11-02T02:39:38.017Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<blockquote>
+<p>  数据文件存放</p>
+</blockquote>
+<p>在my.init中定义了数据文件的存放目录<br>datadir=”C:/ProgramData/MySQL/MySQL Server 5.1/Data/“<br>文件夹中有mysql各数据库文件</p>
+<blockquote>
+<p>  注意事项</p>
+</blockquote>
+<p>注释–之后务必添加一个空格使注释生效</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;blockquote&gt;
+&lt;p&gt;  数据文件存放&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在my.init中定义了数据文件的存放目录&lt;br&gt;datadir=”C:/ProgramData/MySQL/MySQL Server 5.1/Data
+    
+    </summary>
+    
+    
+      <category term="database" scheme="https://eagleless.github.io/tags/database/"/>
+    
+      <category term="mysql" scheme="https://eagleless.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql常用语句汇总</title>
+    <link href="https://eagleless.github.io/20161029/20161029Mysql%E5%B8%B8%E7%94%A8%E8%AF%AD%E5%8F%A5%E6%B1%87%E6%80%BB.html"/>
+    <id>https://eagleless.github.io/20161029/20161029Mysql常用语句汇总.html</id>
+    <published>2016-10-29T09:59:54.000Z</published>
+    <updated>2016-11-02T02:39:38.013Z</updated>
+    
+    <content type="html"><![CDATA[<p>修改自增长、显示建表语句。<br><a id="more"></a></p>
+<blockquote>
+<p>  修改自增长</p>
+</blockquote>
+<pre><code>ALTER TABLE test_table AUTO_INCREMENT = 100
+</code></pre><blockquote>
+<p>  显示建表语句</p>
+</blockquote>
+<pre><code>SHOW CREATE TABLE APP_USER;
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;修改自增长、显示建表语句。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="database" scheme="https://eagleless.github.io/tags/database/"/>
+    
+      <category term="mysql" scheme="https://eagleless.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql常用问题汇总</title>
+    <link href="https://eagleless.github.io/20161029/20161029Mysql%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB.html"/>
+    <id>https://eagleless.github.io/20161029/20161029Mysql常用问题汇总.html</id>
+    <published>2016-10-29T09:56:07.000Z</published>
+    <updated>2016-11-02T02:39:38.014Z</updated>
+    
+    <content type="html"><![CDATA[<p>重置root密码、数据库乱码。<br><a id="more"></a></p>
+<blockquote>
+<p>  重置root密码</p>
+</blockquote>
+<p>在my.ini中的<br>【mysqld】下添加<br>skip-grant-tables</p>
+<blockquote>
+<p>  MySql优化</p>
+</blockquote>
+<p><a href="http://blog.chinaunix.net/uid-16728139-id-3156242.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-16728139-id-3156242.html</a></p>
+<blockquote>
+<p>  关于MySQL的wait_timeout连接超时问题报错解决方案</p>
+</blockquote>
+<p><a href="http://blog.csdn.net/happyangelling/article/details/5877343" target="_blank" rel="external">http://blog.csdn.net/happyangelling/article/details/5877343</a></p>
+<blockquote>
+<p>  数据库乱码</p>
+</blockquote>
+<p>现象:用JDBC将中文字段插入MySQL数据库中，然后打开表发现，那些字段都是”??”,或者是乱码.。</p>
+<p>原因:</p>
+<ol>
+<li>创建数据库时没有指定默认的编码方式，导致数据库使用了MySql的默认字符集latin1。 </li>
+<li>Client端字符集为latin1. </li>
+<li>进行jdbc链接时使用了不匹配的字符集。</li>
+</ol>
+<p>解决办法:</p>
+<ol>
+<li>创建数据库时将数据库的缺省字符集指定为utf8。sql语句没查到…</li>
+<li>修改Client默认字符集为utft。windows下在mysql安装目录下找到my.ini,将里面的default-character-set=latin1 改为default-character-set=UTF8，然后重起mysql服务即可将数据库默认字符集改为utf8.此时应该在mysql命令行用\s命令检查一下看是否改好了。</li>
+<li>修改jdbc的链接，将原来的<code>jdbc:mysql://localhost:3306/YourDb</code><br>改为<code>jdbc:mysql://localhost:3306/YourDb?useUnicode=true&amp;characterEncoding=UTF-8</code></li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;重置root密码、数据库乱码。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="database" scheme="https://eagleless.github.io/tags/database/"/>
+    
+      <category term="mysql" scheme="https://eagleless.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mysql开机自启动</title>
+    <link href="https://eagleless.github.io/20161029/20161029Mysql%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8.html"/>
+    <id>https://eagleless.github.io/20161029/20161029Mysql开机自启动.html</id>
+    <published>2016-10-29T09:50:41.000Z</published>
+    <updated>2016-11-02T02:39:38.015Z</updated>
+    
+    <content type="html"><![CDATA[<p>添加Mysql系统服务，设置开机自启动。<br><a id="more"></a></p>
+<blockquote>
+<p>  将MYSQL服务添加进winsows services.msc</p>
+</blockquote>
+<pre><code>mysqld --install MySQL --defaults-file=&quot;C:\Program Files\MySQL\MySQL Server 5.6\my-default.ini&quot;
+</code></pre><p>成功后，开始-&gt;运行-&gt;services.msc 找MySQL服务，启动服务即可。<br>注：若启动不成功 修改注册表开始-&gt;运行-&gt;regedit<br>找HKEY_LOCAL_MECHINE—SYSTEM —ControlSet001或ControlSet002中找Services，再找MySQL项，修改 ImagePath 值改为：”C:\Program Files\MySQL\MySQL Server 5.6\bin\mysqld” –defaults-file=”C:\Program Files\MySQL\MySQL Server 5.6\my.ini” MySQL</p>
+<p>卸载mysql系统服务：mysqld –remove</p>
+<p>使用命令行手动启动:mysqld</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;添加Mysql系统服务，设置开机自启动。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="database" scheme="https://eagleless.github.io/tags/database/"/>
+    
+      <category term="mysql" scheme="https://eagleless.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CHM中文乱码</title>
+    <link href="https://eagleless.github.io/20161029/20161029CHM%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81.html"/>
+    <id>https://eagleless.github.io/20161029/20161029CHM中文乱码.html</id>
+    <published>2016-10-29T09:43:12.000Z</published>
+    <updated>2016-11-02T02:39:38.011Z</updated>
+    
+    <content type="html"><![CDATA[<p>CHM中文乱码问题。</p>
+<a id="more"></a>
+<p>经常碰到一些 CHM 格式的帮助文档出现乱码无法阅读的情况，而且 CHM 文档不像浏览器一样，右键可以选择字符编码，非常不便。究其原因，主要就是 CHM 文档在页面中没有指定合适的字符编码所致。</p>
+<p>CHM 的实质是 HTML 文件。一般情况下没有指定字符编码的 CHM 是调用 Internet Explorer 浏览器的字符编码设定来显示 CHM 文件的。</p>
+<p>在注册表 HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\International 下有 AutoDetect 和 Default_CodePage 2个键名，就是IE浏览器字符编码的相关设定键。<br>其中：AutoDetect 是表示自动侦测字符编码的意思。同 IE 浏览器“查看”菜单的“编码”中的“自动选择”。键值设置1，表示启用自动侦测。一般的，简体中文的操作系统，IE浏览器就会使用 GB2312去显示那些没有指定字符编码的页面。如果AutoDetect设置为0，那浏览器会去使用 Default_CodePage 的设定来显示页面</p>
+<p>因此，我们在简体中文的操作系统上打开简体中文的 CHM 文档出现乱码时，把 AutoDetect 设置为1就能正常显示；在简体中文的操作系统上打开繁体中文的 CHM 文档出现乱码时，先把 AutoDetect 设置为0，然后把 Default_CodePage 设置为 BIG5 的代码页 950 即可。</p>
+<p>简体中文Windows常用 ANSI 代码页936，在注册表二进制值是 A8 03 00 00；<br>繁体中文Windows常用 ANSI 代码页950，在注册表二进制值是 B6 03 00 00；<br>拉丁语系Windows常用 ANSI 代码页1252，在注册表二进制值是 E4 04 00 00</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;CHM中文乱码问题。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="CHM" scheme="https://eagleless.github.io/tags/CHM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tomcat问题汇总</title>
+    <link href="https://eagleless.github.io/20161029/20161029Tomcat%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB.html"/>
+    <id>https://eagleless.github.io/20161029/20161029Tomcat问题汇总.html</id>
+    <published>2016-10-29T09:40:47.000Z</published>
+    <updated>2016-11-02T02:39:38.017Z</updated>
+    
+    <content type="html"><![CDATA[<p>开发中遇到的一些tomcat问题汇总。</p>
+<a id="more"></a>
+<blockquote>
+<p>  CSRF Security Error</p>
+</blockquote>
+<p>利用DWR实现无刷新动态提交,结果,配置到远程服务器上竟然出现了这样的错误,弹出了错误窗口,错误信息为 “CSRF Security Error” ,左查右查,终于知道为啥了…<br>一般tomcat6是没有这样的错误,换成tomcat7就会这样,听一个老外说,tomcat7默认为<code>sessionID</code>实现HTTP,所以,解决问题的办法,就是更改这个tomcat的默认配置:<br>在<code>tomcat/conf/context.xml</code>中,在<context>中添加属性:<context usehttponly="false">.<br>重启tomcat就over啦~</context></context></p>
+<blockquote>
+<p>  welcome-list不起作用</p>
+</blockquote>
+<p>解决问题一定要从原理入手，所以要先分析welcome-file-list是怎么工作的。<br>welcome-file-list的工作原理是，按照welcome-file的.list一个一个去检查是否web目录下面存在这个文件，如果存在，继续下面的工作（或者跳转到index.html页面，或者配置有struts的，会直接struts的过滤工作）.如上例，先去webcontent(这里是Eclipse的工程目录根目录)下是否真的存在index.html这个文件，如果不存在去找是否存在index.jsp这个文件，以此类推。<br>还要说的是welcome-file不一定是html或者jsp等文件，也可以是直接访问一个action。就像我上面配置的一样，但要注意的是，一定要在webcontent下面建立一个index.action的空文件，然后使用struts配置去跳转，不然web找不到index.action这个文件，会报404错误。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;开发中遇到的一些tomcat问题汇总。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="tomcat" scheme="https://eagleless.github.io/tags/tomcat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Maven生命周期</title>
+    <link href="https://eagleless.github.io/20161029/20161029Maven%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.html"/>
+    <id>https://eagleless.github.io/20161029/20161029Maven生命周期.html</id>
+    <published>2016-10-29T09:25:37.000Z</published>
+    <updated>2016-11-02T02:39:38.012Z</updated>
+    
+    <content type="html"><![CDATA[<p>Maven的生命周期是抽象的，实际工作都是由插件来完成的。插件都在<code>org\apache\maven\plugins</code>里，运行机制类似于设计模式中的模板方法。</p>
+<a id="more"></a>
+<p>Maven生命周期不是一个整体，有三套独立的生命周期，分别是<code>clean</code>（清理项目）、<code>default</code>（构建项目）和<code>site</code>（建立项目站点）。以clean生命周期为例，有pre-clean、clean和post-clean，当执行pre-clean时只执行此命令，当执行clean时会执行pre-clean和clean，当执行post-clean时会将三个命令顺序执行。</p>
+<blockquote>
+<p>  clean生命周期</p>
+</blockquote>
+<p>pre-clean：执行一些清理前需要完成的工作。<br>clean：清理上一次构建生成的文件。<br>post-clean：执行一些清理后需要完成的工作。</p>
+<blockquote>
+<p>  default生命周期：真正的构建</p>
+</blockquote>
+<p>validate<br>initialize<br>generate-sources<br>process-sources:处理项目主资源文件。一般是对src/main/sources目录的内容进行变量替换等工作后，复制到项目输出的主classpath目录中。<br>generate-resources<br>process-resources<br>compile:编译项目的主源码。一般是编译src/main/java目录中的java文件至项目输出的主classpath目录中。<br>process-classes<br>generate-test-sources<br>process-test-sources:处理项目测试资源文件。一般是对src/test/sources目录的内容进行变量替换等工作后，复制到项目输出的主classpath目录中。<br>generate-test-resources<br>process-test-resources<br>test-compile:编译测试代码。一般是编译src/test/java目录中的java文件至项目输出的主classpath目录中。<br>process-test-classes<br>test:使用单元测试框架运行测试，测试代码不会被打包或部署。<br>prepare-package<br>package:接受编译好的代码，打包成可发布的格式，如jar。<br>pre-integration-test<br>integration-test<br>post-integration-test<br>verify<br>install:将包安装到本地Maven仓库，供本地的其他项目使用。<br>deploy：将最终的包复制到远程仓库，供其他开发人员和Maven项目使用。</p>
+<blockquote>
+<p>  site生命周期</p>
+</blockquote>
+<p>建立和发布项目站点，基于POM所包含的信息，自动生成一个友好的站点，方便团队交流和项目发布。<br>pre-site执行一些在生成项目站点之前需要完成的工作。<br>site生成项目站点文档。<br>post-site执行一些在生成项目站点之后需要完成的工作。<br>site-deploy将生成的项目站点发布到服务器上。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Maven的生命周期是抽象的，实际工作都是由插件来完成的。插件都在&lt;code&gt;org\apache\maven\plugins&lt;/code&gt;里，运行机制类似于设计模式中的模板方法。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="maven" scheme="https://eagleless.github.io/tags/maven/"/>
+    
+  </entry>
   
   <entry>
     <title>常用ORACLE函数</title>
@@ -87,13 +389,19 @@
     <link href="https://eagleless.github.io/20161005/20161005%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.html"/>
     <id>https://eagleless.github.io/20161005/20161005对象的生命周期.html</id>
     <published>2016-10-05T08:13:29.000Z</published>
-    <updated>2016-10-12T10:02:08.186Z</updated>
+    <updated>2016-11-02T02:39:38.010Z</updated>
     
     <content type="html"><![CDATA[<p>对象的生命周期分为七个阶段。<br><a id="more"></a></p>
 <blockquote>
 <p>  对象的生命周期</p>
 </blockquote>
 <p>大致分为七个阶段<br>1、创建阶段Creation<br>2、应用阶段Using<br>3、不可视阶段Invisible<br>4、不可到达阶段Unreachable<br>5、可收集阶段Collected<br>6、终结阶段Finalized<br>7、释放阶段Free</p>
+<blockquote>
+<blockquote>
+<p> 对象的创建过程</p>
+</blockquote>
+</blockquote>
+<p>1、为对象分配存储空间<br>2、开始构造对象<br>3、递归调用其超类的构造方法</p>
 ]]></content>
     
     <summary type="html">
@@ -428,948 +736,6 @@ wsdl2java -s . -uri http://localhost:8088/cxfws/services/Hellows?wsdl
       <category term="java" scheme="https://eagleless.github.io/tags/java/"/>
     
       <category term="webservice" scheme="https://eagleless.github.io/tags/webservice/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RabbitMQ简介</title>
-    <link href="https://eagleless.github.io/20160828/20160828RabbitMQ%E7%AE%80%E4%BB%8B.html"/>
-    <id>https://eagleless.github.io/20160828/20160828RabbitMQ简介.html</id>
-    <published>2016-08-28T11:10:31.000Z</published>
-    <updated>2016-09-18T07:47:36.945Z</updated>
-    
-    <content type="html"><![CDATA[<p>MQ是消费-生产者模型的一个典型的代表，一端往消息队列中不断写入消息，而另一端则可以读取或者订阅队列中的消息。MQ和JMS类似，但不同的是JMS是JAVA消息中间件服务的一个标准和API定义，而MQ则是遵循了AMQP协议的具体实现和产品。<br><a id="more"></a></p>
-<p>一个exchange能用n条routing-key规则去指向一个queue。<br>如果一个Message符合n条规则去往同一个queue，这个Message只会被投放到这个queue一次。</p>
-<blockquote>
-<p>  概念说明</p>
-</blockquote>
-<p>Broker:简单来说就是消息队列服务器实体。<br>Exchange:消息交换机，它指定消息按什么规则，路由到哪个队列。<br>Queue:消息队列载体，每个消息都会被投入到一个或多个队列。<br>Binding:绑定，它的作用就是把exchange和queue按照路由规则绑定起来。<br>Routing Key:路由关键字，exchange根据这个关键字进行消息投递。<br>vhost:虚拟主机，一个broker里可以开设多个vhost，用作不同用户的权限分离。<br>producer:消息生产者，就是投递消息的程序。<br>consumer:消息消费者，就是接受消息的程序。<br>channel:消息通道，在客户端的每个连接里，可建立多个channel，每个channel代表一个会话任务。</p>
-<blockquote>
-<p>  消息队列的使用过程</p>
-</blockquote>
-<ul>
-<li>客户端连接到消息队列服务器，打开一个channel。</li>
-<li>客户端声明一个exchange，并设置相关属性。</li>
-<li>客户端声明一个queue，并设置相关属性。</li>
-<li>客户端使用<code>routing key</code>，在exchange和queue之间建立好绑定关系。</li>
-<li>客户端投递消息到exchange。</li>
-</ul>
-<blockquote>
-<p>  消息队列持久化</p>
-</blockquote>
-<p>RabbitMQ支持消息的持久化，也就是数据写在磁盘上，为了数据安全考虑，我想大多数用户都会选择持久化。消息队列持久化包括3个部分：</p>
-<ul>
-<li>exchange持久化，在声明时指定durable =&gt; 1</li>
-<li>queue持久化，在声明时指定durable =&gt; 1</li>
-<li>消息持久化，在投递时指定delivery_mode =&gt; 2（1是非持久化）<br>如果exchange和queue都是持久化的，那么它们之间的binding也是持久化的。如果exchange和queue两者之间有一个持久化，一个非持久化，就不允许建立绑定。</li>
-</ul>
-<blockquote>
-<p>  exchange的类型</p>
-</blockquote>
-<p>在实际的情况下，消息发送者不会直接将Message发入queue，而是发入exchange，<code>exchange</code>能通过指定的规则将message放入指定的queue中（<code>public/subscribe</code>模型）。exchange有direct，topic，headers和fanout等几种类型。</p>
-<ul>
-<li>Direct交换机:完全根据key进行投递，例如，绑定时设置了<code>routing key</code>为”abc”，那么客户端提交的消息，只有设置了key为”abc”的才会投递到队列。</li>
-<li>Topic交换机:对key进行模式匹配后进行投递，功能强大，几乎能实现其他exchange的routing规则，符号<code>#</code>匹配一个或多个词，符号<code>*</code>匹配任意一个词。routing-key不能是任意，它必须是一个一些词的数组，用”.”隔开，每个词可以是任意的，但通常是代表某些含义的。这个词的数组不能超过255个字节。例如<code>abc.#</code>匹配<code>abc.def.ghi</code>，<code>abc.*</code>只匹配<code>abc.def</code>。</li>
-<li>Fanout交换机:不需要key的，它采取广播模式，一个消息进来时，将消息派发到所有的绑定到该exchange的queque中。</li>
-</ul>
-<blockquote>
-<p>  JAVA API</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">//connecting to a broker 服务器实体</span></div><div class="line">ConnectionFactory factory = <span class="keyword">new</span> ConnectionFactory();</div><div class="line">factory.setUsername(userName);</div><div class="line">factory.setPassword(password);</div><div class="line">factory.setVirtualHost(virtualHost);</div><div class="line">factory.setHost(hostName);</div><div class="line">factory.setPort(portNumber);</div><div class="line"><span class="comment">//或者factory.setUri("amqp://userName:password@hostName:portNumber/virtualHost");</span></div><div class="line">Connection conn = factory.newConnection();</div><div class="line"><span class="comment">//或者 address array  --com.rabbitmq.client</span></div><div class="line">Address[] addrArr = <span class="keyword">new</span> Address[]&#123; <span class="keyword">new</span> Address(hostname1, portnumber1)</div><div class="line">                                 , <span class="keyword">new</span> Address(hostname2, portnumber2)&#125;;</div><div class="line">Connection conn = factory.newConnection(addrArr);</div><div class="line"><span class="comment">//open a channel</span></div><div class="line">Channel channel = conn.createChannel();</div><div class="line"><span class="comment">//disconnect</span></div><div class="line">channel.colse();</div><div class="line">conn.close();</div><div class="line">consumer thread pool --java.util.concurrent </div><div class="line">ExecutorService es = Executors.newFixedThreadPool(<span class="number">20</span>);</div><div class="line">Connection conn = factory.newConnection(es);</div><div class="line"><span class="comment">//Using exchanges and queues</span></div><div class="line">channel.exchangeDeclare(exchangeName, <span class="string">"direct"</span>, <span class="keyword">true</span>);</div><div class="line">String queueName = channel.queueDeclare().getQueue();</div><div class="line">channel.queueBind(queueName, exchangeName, routingKey);</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;MQ是消费-生产者模型的一个典型的代表，一端往消息队列中不断写入消息，而另一端则可以读取或者订阅队列中的消息。MQ和JMS类似，但不同的是JMS是JAVA消息中间件服务的一个标准和API定义，而MQ则是遵循了AMQP协议的具体实现和产品。&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="java" scheme="https://eagleless.github.io/tags/java/"/>
-    
-      <category term="mq" scheme="https://eagleless.github.io/tags/mq/"/>
-    
-      <category term="jms" scheme="https://eagleless.github.io/tags/jms/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Maven之appfuse模板</title>
-    <link href="https://eagleless.github.io/20160828/20160828Maven%E4%B9%8Bappfuse%E6%A8%A1%E6%9D%BF.html"/>
-    <id>https://eagleless.github.io/20160828/20160828Maven之appfuse模板.html</id>
-    <published>2016-08-28T10:09:55.000Z</published>
-    <updated>2016-10-18T02:29:23.945Z</updated>
-    
-    <content type="html"><![CDATA[<p>Appfuse是由Matt Raible开发的一个指导性的入门级J2EE框架，它对如何集成流行的Spring、Hibernate、iBatis、struts、Xdoclet、junit 等基础框架给出了示范。提供了对Taperstry和JSF的支持。<br><a id="more"></a></p>
-<blockquote>
-<p>  常用命令</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th style="text-align:left">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>mvn appfuse:gen-model</td>
-<td style="text-align:left">根据数据库的表生成java类</td>
-</tr>
-<tr>
-<td>mvn appfuse:gen</td>
-<td style="text-align:left">根据 POJOs.生成并安装Tests, DAO, Managers, Controllers and Views</td>
-</tr>
-<tr>
-<td>mvn appfuse:full-source</td>
-<td style="text-align:left">把运行所需要的org.appfuse中的依赖类转换成你的包名称</td>
-</tr>
-<tr>
-<td>mvn eclipse:eclipse</td>
-<td style="text-align:left">生成eclipse的项目的配置文件，用户可以直接把项目导入到eclipse中</td>
-</tr>
-<tr>
-<td>mvn jetty:run-war</td>
-<td style="text-align:left">打包并且发布你的应用程序到Jetty, 查看在 <a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a></td>
-</tr>
-<tr>
-<td>mvn appfuse:install</td>
-<td style="text-align:left">把生成的源代码及配置文件写入到src中</td>
-</tr>
-<tr>
-<td>mvn integration-test</td>
-<td style="text-align:left">启动TOMCAT(或别的服务器)进行测试</td>
-</tr>
-<tr>
-<td>mvn appfuse:remove</td>
-<td style="text-align:left">删除appfuse:gen.生成的代码mvn</td>
-</tr>
-<tr>
-<td>appfuse:clean</td>
-<td style="text-align:left">清除target下的所有内容</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>  生成实体类</p>
-</blockquote>
-<p>mvn appfuse:gen-model</p>
-<blockquote>
-<p>  生成dao、service等</p>
-</blockquote>
-<pre><code>mvn appfuse:gen -Dentity=com.joiest.model.MqConfig
-mvn appfuse:gen -Dentity=YbtTransaction
-</code></pre><blockquote>
-<p>  使用appfuse创建maven项目</p>
-</blockquote>
-<p>使用maven创建项目</p>
-<pre><code>mvn archetype:create -DgroupId=com.joiest -DartifactId=webtest -DarchetypeArtifactId=maven-archetype-webapp
-</code></pre><p><em>说明：DartifactId:项目名称   DgroupId：包结构</em></p>
-<p>生成项目文件生成.classpath,.project,.setting文件</p>
-<pre><code>mvn eclipse:eclipse
-</code></pre><p>更改appFuse的代码生成方式，修改pom中<br>修改生成代码方式，找到 </p>
-<pre><code>&lt;genericCore&gt;${amp.genericCore}&lt;/genericCore&gt; 
-&lt;fullSource&gt;${amp.fullSource}&lt;/fullSource&gt; 
-</code></pre><p>修改成：</p>
-<pre><code> &lt;genericCore&gt;false&lt;/genericCore&gt; 
-&lt;fullSource&gt;true&lt;/fullSource&gt; 
-</code></pre><p>注意，这里必须吧pom.xml中的genericCore属性设为false 否则只会生成Action<br>数据库配置信息(mysql在最底下)</p>
-<p>执行项目创建命令后，进入项目主目录后，更改AppFuse到全源代码模式</p>
-<pre><code>mvn appfuse:full-source
-</code></pre><p>生成Model类</p>
-<pre><code>mvn appfuse:gen-mode
-
-
-mvn appfuse:gen -Dentity=com.joiest.model.YbtAccount 
-</code></pre><p>把生成的配置文件写入到src目录下的配置文件中</p>
-<pre><code>mvn appfuse:install
-</code></pre><p>下载项目的依赖jar包到本地，并进行集成测试</p>
-<pre><code>mvn
-</code></pre><p>打包并运行项目</p>
-<pre><code>mvn jetty:run-war
-</code></pre><p>通过浏览器访问admin/admin</p>
-<pre><code>http://localhost:8080
-</code></pre><p>修改pom.xml</p>
-<pre><code>&lt;artifactId&gt;maven-eclipse-plugin&lt;/artifactId&gt;
-&lt;version&gt;2.4&lt;/version&gt;
-</code></pre><p>配置repositories,M2_REPO</p>
-<p>运行服务器查看生成的crud实例</p>
-<pre><code>mvn jetty:run
-</code></pre><blockquote>
-<p>  下面是创建不同种类项目的Archetype Command：</p>
-</blockquote>
-<p><strong><em>JSF Basic</em></strong></p>
-<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-jsf -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
-</code></pre><p><strong><em>Spring MVC Basic</em></strong></p>
-<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-spring -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
-</code></pre><p><strong><em>Struts 2 Basic</em></strong> </p>
-<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-struts -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
-</code></pre><p><strong><em>Tapestry Basic</em></strong> </p>
-<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-basic-tapestry -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
-</code></pre><p><strong><em>JSF Modula</em></strong></p>
-<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-jsf -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
-</code></pre><p><strong><em>Spring MVC Modular</em></strong></p>
-<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-spring -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
-</code></pre><p><strong><em>Struts 2 Modular</em></strong></p>
-<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-struts -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
-</code></pre><p><strong><em>Tapestry Modular</em></strong> </p>
-<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-modular-tapestry -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject 
-</code></pre><p><strong><em>Core(backend only)</em></strong></p>
-<pre><code>mvn archetype:create -DarchetypeGroupId=org.appfuse.archetypes -DarchetypeArtifactId=appfuse-core -DremoteRepositories=http://static.appfuse.org/releases-DarchetypeVersion=2.0 -DgroupId=com.mycompany.app -DartifactId=myproject
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Appfuse是由Matt Raible开发的一个指导性的入门级J2EE框架，它对如何集成流行的Spring、Hibernate、iBatis、struts、Xdoclet、junit 等基础框架给出了示范。提供了对Taperstry和JSF的支持。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="maven" scheme="https://eagleless.github.io/categories/maven/"/>
-    
-    
-      <category term="maven" scheme="https://eagleless.github.io/tags/maven/"/>
-    
-      <category term="appfuse" scheme="https://eagleless.github.io/tags/appfuse/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Maven之pom简介</title>
-    <link href="https://eagleless.github.io/20160827/20160827Maven%E4%B9%8Bpom%E7%AE%80%E4%BB%8B.html"/>
-    <id>https://eagleless.github.io/20160827/20160827Maven之pom简介.html</id>
-    <published>2016-08-27T10:52:54.000Z</published>
-    <updated>2016-10-12T10:02:08.177Z</updated>
-    
-    <content type="html"><![CDATA[<p>pom.xml简介。</p>
-<a id="more"></a>
-<blockquote>
-<p>  pom.xml 文件基本节点介绍</p>
-</blockquote>
-<p><code>&lt;project&gt;</code>：文件的根节点<br><code>&lt;modelversion&gt;</code> ： pom.xml 使用的对象模型版本<br><code>&lt;groupId&gt;</code> ：创建项目的组织或团体的唯一 Id<br><code>&lt;artifactId&gt;</code> ：项目的唯一 Id, 可视为项目名<br><code>&lt;packaging&gt;</code> ：打包物的扩展名，一般有 JAR,WAR,EAR 等<br><code>&lt;version&gt;</code> ：产品的版本号<br><code>&lt;name&gt;</code> ：项目的显示名，常用于 Maven 生成的文档。<br><code>&lt;url&gt;</code> ：组织的站点，常用于 Maven 生成的文档。<br><code>&lt;description&gt;</code> ：项目的描述，常用于 Maven 生成的文档。<br><code>&lt;finalName&gt;</code>:项目打包的名称。</p>
-<blockquote>
-<p>  Maven自定义源码目录</p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">sourceDirectory</span>&gt;</span>src/java<span class="tag">&lt;/<span class="name">sourceDirectory</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>如此源码目录就变成了src/java，而不是默认的src/main/java</p>
-<blockquote>
-<p>  超级POM</p>
-</blockquote>
-<p>对于maven3，超级POM位于<br><code>$MAVEN_HOME/lib/maven-model-builder-x.x.x.jar</code><br>中的<code>org\apache\maven\model\pom-4.0.0.xml</code><br>超级POM中定义了诸多关于项目目录</p>
-<p>项目的主输出目录directory：<code>${project.basedir}/target</code></p>
-<p>主代码输入目录outputDirectory:<code>${project.build.directory}/classes</code></p>
-<p>最终构建的名称格式finalName：<code>${project.artifactId}-${project.version}</code></p>
-<p>测试代码输出目录testOutputDirectory：<code>${project.build.directory}/test-classes</code></p>
-<p>主源码目录sourceDirectory：<code>${project.basedir}/src/main/java</code></p>
-<p>脚本源码目录scriptSourceDirectory：<code>src/main/scripts</code></p>
-<p>测试源码目录testSourceDirectory：<code>${project.basedir}/src/test/java</code></p>
-<p>主资源目录<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">resource</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.basedir&#125;/src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>测试资源目录</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">testResources</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">testResource</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.basedir&#125;/src/test/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">testResource</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">testResources</span>&gt;</span></div></pre></td></tr></table></figure>
-<blockquote>
-<p>  跳过测试</p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">skip</span>&gt;</span>true<span class="tag">&lt;/<span class="name">skip</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;pom.xml简介。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="maven" scheme="https://eagleless.github.io/categories/maven/"/>
-    
-    
-      <category term="java" scheme="https://eagleless.github.io/tags/java/"/>
-    
-      <category term="maven" scheme="https://eagleless.github.io/tags/maven/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Maven简介及常用命令</title>
-    <link href="https://eagleless.github.io/20160827/20160827Maven%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.html"/>
-    <id>https://eagleless.github.io/20160827/20160827Maven简介及常用命令.html</id>
-    <published>2016-08-27T10:11:14.000Z</published>
-    <updated>2016-10-12T10:02:08.178Z</updated>
-    
-    <content type="html"><![CDATA[<p>Maven的核心思想：约定大于配置。<br>找那个jar的pom配置：<a href="http://mvnrepository.com/" target="_blank" rel="external">http://mvnrepository.com/</a><br>找jar包：www.findjar.com<br><a id="more"></a></p>
-<blockquote>
-<p>  maven打包package</p>
-</blockquote>
-<pre><code>mvn clean package -DskipTests
-</code></pre><p>为了生成可执行的jar需要依赖maven-shade-plugin<br>如果pom中没有指定，则默认打jar包</p>
-<blockquote>
-<p>  安装任务install</p>
-</blockquote>
-<pre><code>mvn clean install
-</code></pre><blockquote>
-<p>  编译compile</p>
-</blockquote>
-<pre><code>mvn clean compile
-</code></pre><blockquote>
-<p>  测试test</p>
-</blockquote>
-<pre><code>mvn clean test
-</code></pre><p>执行顺序：compile–&gt;test–&gt;package–&gt;install</p>
-<blockquote>
-<p>  maven安装jar包到仓库</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn install:install-file -DgroupId=com.yk -DartifactId=zxing-core -Dversion=2.0 -Dpackaging=jar -Dfile=E:\my\jars\zxing\zxing-core-2.0.jar</div></pre></td></tr></table></figure>
-<p>如果要上传源码把packaging=jar,jar改成java-source</p>
-<blockquote>
-<p>  maven命令创建web项目</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mvn archetype:create -DgroupId=com.joiest -DartifactId=webtest -DarchetypeArtifactId=maven-archetype-webapp</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Maven的核心思想：约定大于配置。&lt;br&gt;找那个jar的pom配置：&lt;a href=&quot;http://mvnrepository.com/&quot;&gt;http://mvnrepository.com/&lt;/a&gt;&lt;br&gt;找jar包：www.findjar.com&lt;br&gt;
-    
-    </summary>
-    
-      <category term="maven" scheme="https://eagleless.github.io/categories/maven/"/>
-    
-    
-      <category term="java" scheme="https://eagleless.github.io/tags/java/"/>
-    
-      <category term="maven" scheme="https://eagleless.github.io/tags/maven/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Javascript键盘事件</title>
-    <link href="https://eagleless.github.io/20160827/20160827Javascript%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6.html"/>
-    <id>https://eagleless.github.io/20160827/20160827Javascript键盘事件.html</id>
-    <published>2016-08-27T10:00:06.000Z</published>
-    <updated>2016-10-18T03:06:40.705Z</updated>
-    
-    <content type="html"><![CDATA[<p>Javascript键盘事件。</p>
-<a id="more"></a>
-<blockquote>
-<p>  keyup键盘弹起事件</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"input[name='password']"</span>,loginForm).keyup(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> ev = <span class="built_in">document</span>.all ? <span class="built_in">window</span>.event : e;  </div><div class="line">    <span class="keyword">if</span>(ev.keyCode==<span class="number">13</span>) &#123;</div><div class="line">    <span class="comment">// 如（ev.ctrlKey &amp;&amp; ev.keyCode==13）为ctrl+Center 触发</span></div><div class="line">        $(<span class="string">"#ulogin"</span>).click();</div><div class="line">    &#125;  </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Javascript键盘事件。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="javascript" scheme="https://eagleless.github.io/categories/javascript/"/>
-    
-    
-      <category term="javascript" scheme="https://eagleless.github.io/tags/javascript/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Dubbo简介</title>
-    <link href="https://eagleless.github.io/20160827/20160827Dubbo%E7%AE%80%E4%BB%8B.html"/>
-    <id>https://eagleless.github.io/20160827/20160827Dubbo简介.html</id>
-    <published>2016-08-27T04:01:06.000Z</published>
-    <updated>2016-09-18T07:47:36.938Z</updated>
-    
-    <content type="html"><![CDATA[<p>DUBBO是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。</p>
-<a id="more"></a>
-<h1 id="Dubbo-Feature-Road-Map"><a href="#Dubbo-Feature-Road-Map" class="headerlink" title="Dubbo Feature Road Map"></a>Dubbo Feature Road Map</h1><p><img src="/images/dubbo/1.png" alt=""></p>
-<h1 id="Dubbo-Extension-Road-Map"><a href="#Dubbo-Extension-Road-Map" class="headerlink" title="Dubbo Extension Road Map"></a>Dubbo Extension Road Map</h1><p><img src="/images/dubbo/2.png" alt=""></p>
-<h1 id="依赖关系"><a href="#依赖关系" class="headerlink" title="依赖关系"></a>依赖关系</h1><p><img src="/images/dubbo/3.png" alt=""></p>
-<h1 id="Dubbo代码框架"><a href="#Dubbo代码框架" class="headerlink" title="Dubbo代码框架"></a>Dubbo代码框架</h1><p><img src="/images/dubbo/5.bmp" alt=""></p>
-<h1 id="启动顺序"><a href="#启动顺序" class="headerlink" title="启动顺序"></a>启动顺序</h1><p>1、zookeeper注册中心<br>2、监控中心simple-monitor<br>3、提供者provider<br>4、消费者consumer<br>5、可选的admin控制台</p>
-<h1 id="暴露服务与消费服务"><a href="#暴露服务与消费服务" class="headerlink" title="暴露服务与消费服务"></a>暴露服务与消费服务</h1><p><img src="/images/dubbo/4.bmp" alt=""></p>
-<p>service–&gt;ServiceConfig–&gt;ProxyFactory(getInvoker)–&gt;Invoker–&gt;protocol(dubbo,hessian,rmi)–&gt;exporter</p>
-<p>service—&gt;&gt;invoker—&gt;&gt;exporter</p>
-<p>..–&gt;ReferenceConfig.init–&gt;protocol.refer(dubbo,hessian,rmi)–&gt;invoker–&gt;ProxyFactory(getProxy)–&gt;ref</p>
-<h1 id="线程派发模式"><a href="#线程派发模式" class="headerlink" title="线程派发模式"></a>线程派发模式</h1><p><img src="/images/dubbo/6.bmp" alt=""></p>
-<h1 id="调用链"><a href="#调用链" class="headerlink" title="调用链"></a>调用链</h1><p><img src="/images/dubbo/7.bmp" alt=""></p>
-<h1 id="模块扩展"><a href="#模块扩展" class="headerlink" title="模块扩展"></a>模块扩展</h1><p>RPC协议扩展，封装远程调用协议<br>rpc.Protocol/Exporter/Invoker<br>调用拦截扩展<br>rpc.Filter/rpc.filter.XXXFilter<br>引用监听扩展<br>rpc.InvokerListener/rpc.listener.XXXInvokerListener<br>暴露监听扩展<br>rpc.ExporterListener/registry.directory.ResistryExporterListener<br>集群扩展<br>rpc.cluster.Cluster/rpc.cluster.support.XXXCluster<br>路由扩展<br>rpc.cluster.Router/RouterFactory/rpc.cluster.router.XXXRouterFactory<br>负载均衡扩展<br>rpc.cluster.LoadBalance/rpc.cluster.loadbalance.XXXLoadBalance<br>合并结果扩展<br>rpc.cluster.Merge/rpc.cluster.merge.XXXMerge<br>注册中心扩展<br>registry.Registry/RegistryFactory/registry.support.dubbo.DubboRegistryFactory<br>监控中心扩展<br>monitor.Monitor/MonitorFactory/monitor.support.dubbo.DubboMonitorFactory<br>扩展点加载扩展<br>common.extension.ExtensionFactory/common.extension.factory.SpiExtensionFactory/config.spring.extension.SpringExtensionFactory<br>动态代理扩展<br>rpc.proxy.ProxyFactory/JdkProxyFactory/JavassistProxyFactory<br>编译器扩展<br>common.compiler.Compiler/common.compiler.support.JdkCompiler/JavassistCompiler<br>消息派发扩展<br>remoting.Dispater<br>线程池扩展<br>common.thredpool.ThreadPool/FixedThreadPool/CachedThreadPool<br>序列化扩展<br>common.serializer.Serialization/ObjectInput/ObjectOutput<br>网络传输扩展<br>remoting.Transporter/Server/Client Netty/Mina/GrizzlyTransporter<br>信息交换扩展<br>remoting.exchange.Exchanger/ExchangeServer/ExchangeClient<br>组网扩展<br>remoting.p2p.NetWorker/remoting.p2p.supporter.MulticastNetworker/FileNetworker<br>Telnet命令扩展<br>remoting.telnet.TelnetHandler/remoting.telnet.XXXTelnetHandler/rpc.dubbo.telnet.XXXTelnetHandler<br>状态检查扩展<br>common.status.StatusChecker<br>容器扩展<br>container.Container/container.spring.SpringContainer/JettyContainer/Log4jContainer<br>页面扩展<br>container.page.PageHandler/container.page.pages.Home/Status/Log/SystemPageHandler<br>缓存扩展<br>cache.CacheFactory/cache.support.xxx.Lru/ThreadLocal/JCacheFactory<br>验证扩展<br>validation.Validation/validation.support.jvalidation.JValidation<br>日志适配扩展<br>common.logger.LoggerAdapter/common.logger.xxx.Slf4j/Jcl/Log4j/JdkLoggerAdapter</p>
-<h1 id="源码结构"><a href="#源码结构" class="headerlink" title="源码结构"></a>源码结构</h1><p>dubbo.cache<br>缓存相关，filter、support<br>dubbo.common<br>util类及通用模型，io、json、log、threadpool、serializer等<br>dubbo.config<br>配置模块，是Dubbo对外的API，用户通过Config使用Dubbo，隐藏Dubbo所有细节，annotation、spring、support等<br>dubbo.container<br>容器模块，是一个Standlone的容器，以简单的Main加载Spring启动，因为服务通常不需要Tomcat/JBoss等Web容器的特性，没必要用Web容器去加载服务<br>dubbo.monitor<br>监控模块，统计服务调用次数，调用时间的，调用链跟踪的服务<br>dubbo.registry<br>注册中心模块，基于注册中心下发地址的集群方式，以及对各种注册中心的抽象<br>dubbo.remoting<br>远程通讯模块，相当于Dubbo协议的实现，如果RPC用RMI协议则不需要使用此包<br>dubbo.rpc<br>远程调用模块，抽象各种协议，以及动态代理，只包含一对一的调用，不关心集群的管理<br>dubbo.validation</p>
-<h1 id="dubbo-XXX配置"><a href="#dubbo-XXX配置" class="headerlink" title="dubbo-XXX配置"></a>dubbo-XXX配置</h1><p><dubbo:service><br>服务配置，用于暴露一个服务，定义服务的元信息，一个服务可以用多个协议暴露，一个服务也可以注册到多个注册中心。</dubbo:service></p>
-<p><dubbo:reference><br>引用配置，用于创建一个远程服务代理，一个引用可以指向多个注册中心。</dubbo:reference></p>
-<p><dubbo:protocol><br>协议配置，用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受。</dubbo:protocol></p>
-<p><dubbo:application><br>应用配置，用于配置当前应用信息，不管该应用是提供者还是消费者。</dubbo:application></p>
-<p><dubbo:module><br>模块配置，用于配置当前模块信息，可选。</dubbo:module></p>
-<p><dubbo:registry><br>注册中心配置，用于配置连接注册中心相关信息。</dubbo:registry></p>
-<p><dubbo:monitor><br>监控中心配置，用于配置连接监控中心相关信息，可选。</dubbo:monitor></p>
-<p><dubbo:provider><br>提供方的缺省值，当ProtocolConfig和ServiceConfig某属性没有配置时，采用此缺省值，可选。</dubbo:provider></p>
-<p><dubbo:consumer><br>消费方缺省配置，当ReferenceConfig某属性没有配置时，采用此缺省值，可选。</dubbo:consumer></p>
-<p><dubbo:method><br>方法配置，用于ServiceConfig和ReferenceConfig指定方法级的配置信息。</dubbo:method></p>
-<p><dubbo:argument><br>用于指定方法参数配置。</dubbo:argument></p>
-<p><img src="/images/dubbo/8.bmp" alt=""></p>
-<h1 id="dubbo-protocol"><a href="#dubbo-protocol" class="headerlink" title="dubbo:protocol"></a>dubbo:protocol</h1><pre><code>&lt;dubbo:protocol name=&quot;dubbo&quot; port=&quot;9090&quot;    
-    client=&quot;netty&quot;  serialization=&quot;hessian2&quot; charset=&quot;UTF-8&quot;    
-    threadpool=&quot;fixed&quot; threads=&quot;100&quot; queues=&quot;0&quot; iothreads=&quot;9&quot; buffer=&quot;8192&quot;    
-    accepts=&quot;1000&quot; payload=&quot;8388608&quot; /&gt;
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;DUBBO是一个分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，是阿里巴巴SOA服务化治理方案的核心框架，每天为2,000+个服务提供3,000,000,000+次访问量支持，并被广泛应用于阿里巴巴集团的各成员站点。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://eagleless.github.io/categories/java/"/>
-    
-    
-      <category term="java" scheme="https://eagleless.github.io/tags/java/"/>
-    
-      <category term="dubbo" scheme="https://eagleless.github.io/tags/dubbo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ORACLE常用数值函数、转换函数、字符串函数</title>
-    <link href="https://eagleless.github.io/20160823/20160823Oracle%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0.html"/>
-    <id>https://eagleless.github.io/20160823/20160823Oracle常用函数.html</id>
-    <published>2016-08-23T11:56:30.000Z</published>
-    <updated>2016-08-23T12:42:31.641Z</updated>
-    
-    <content type="html"><![CDATA[<p>N表示数字型，C表示字符型，D表示日期型，[]表示内中参数可被忽略，fmt表示格式。</p>
-<a id="more"></a>
-<p><strong><em>单值函数在查询中返回单个值，可被应用到select，where子句，start with以及connect by 子句和having子句.</em></strong></p>
-<blockquote>
-<blockquote>
-<p> <strong><em>数值型函数(Number Functions)</em></strong> </p>
-</blockquote>
-</blockquote>
-<p><em>数值型函数输入数字型参数并返回数值型的值。多数该类函数的返回值支持38位小数点，诸如：COS, COSH, EXP, LN, LOG, SIN, SINH, SQRT, TAN, and TANH 支持36位小数点。ACOS, ASIN, ATAN, and ATAN2支持30位小数点。</em> </p>
-<ol>
-<li><p>MOD(n1,n2) 返回n1除n2的余数，如果n2=0则返回n1的值。<br>例如：SELECT MOD(24,5) FROM DUAL; </p>
-</li>
-<li><p>ROUND(n1[,n2]) 返回四舍五入小数点右边n2位后n1的值，n2缺省值为0，如果n2为负数就舍入到小数点左边相应的位上(虽然oracle documents上提到n2的值必须为整数，事实上执行时此处的判断并不严谨，即使n2为非整数，它也会自动将n2取整后做处理，但是我文档中其它提到必须为整的地方需要特别注意，如果不为整执行时会报错的)。<br>例如：SELECT ROUND(23.56),ROUND(23.56,1),ROUND(23.56,-1) FROM DUAL; </p>
-</li>
-<li><p>TRUNC(n1[,n2] 返回截尾到n2位小数的n1的值，n2缺省设置为0，当n2为缺省设置时会将n1截尾为整数，如果n2为负值，就截尾在小数点左边相应的位上。<br>例如：SELECT TRUNC(23.56),TRUNC(23.56,1),TRUNC(23.56,-1) FROM DUAL; </p>
-</li>
-</ol>
-<blockquote>
-<blockquote>
-<p> <strong><em>字符型函数返回字符值(Character Functions Returning Character Values)</em></strong> </p>
-</blockquote>
-</blockquote>
-<p><em>该类函数返回与输入类型相同的类型。</em><br><em>返回的CHAR类型值长度不超过2000字节；</em><br><em>返回的VCHAR2类型值长度不超过4000字节；</em><br><em>如果上述应返回的字符长度超出，oracle并不会报错而是直接截断至最大可支持长度返回</em><br><em>返回的CLOB类型值长度不超过4G；</em><br><em>对于CLOB类型的函数，如果返回值长度超出，oracle不会返回任何错误而是直接抛出错误</em></p>
-<ol>
-<li><p>LOWER(c) 将指定字符串内字符变为小写，支持CHAR,VARCHAR2,NCHAR,NVARCHAR2,CLOB,NCLOB类型<br>例如：SELECT LOWER(‘WhaT is tHis’) FROM DUAL; </p>
-</li>
-<li><p>UPPER(c) 将指定字符串内字符变为大写，支持CHAR,VARCHAR2,NCHAR,NVARCHAR2,CLOB,NCLOB类型<br>例如：SELECT UPPER(‘WhaT is tHis’) FROM DUAL; </p>
-</li>
-<li><p>LPAD(c1,n[,c2])<br>返回指定长度=n的字符串，需要注意的有几点：<br>如果n<c1.length则从右到左截取指定长度返回； 如果n="">c1.length and c2 is null，以空格从左向右补充字符长度至n并返回；<br>如果n&gt;c1.length and c2 is not null，以指定字符c2从左向右补充c1长度至n并返回；<br>例如：SELECT LPAD(‘WhaT is tHis’,5),LPAD(‘WhaT is tHis’,25),LPAD(‘WhaT is tHis’,25,’-‘) FROM DUAL;<br>最后大家再猜一猜，如果n&lt;0，结果会怎么样 </c1.length则从右到左截取指定长度返回；></p>
-</li>
-<li><p>RPAD(c1,n[,c2])<br>返回指定长度=n的字符串，基本与上同，不过补充字符是从右向左方向正好与上相反；<br>例如：SELECT RPAD(‘WhaT is tHis’,5),RPAD(‘WhaT is tHis’,25),RPAD(‘WhaT is tHis’,25,’-‘) FROM DUAL; </p>
-</li>
-<li><p>TRIM([[LEADING||TRAILING||BOTH] c2 FROM] c1) 哈哈，被俺无敌的形容方式搞晕头了吧，这个地方还是看图更明了一些。<br>看起来很复杂，理解起来很简单：<br>如果没有指定任何参数则oracle去除c1头尾空格<br>例如：SELECT TRIM(‘ WhaT is tHis ‘) FROM DUAL;<br>如果指定了c2参数，则oracle去掉c1头尾c2(这个建议细致测试，有多种不同情形的哟)<br>例如：SELECT TRIM(‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL;<br>如果指定了leading参数则会去掉c1头部c2<br>例如：SELECT TRIM(leading ‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL;<br>如果指定了trailing参数则会去掉c1尾部c2<br>例如：SELECT TRIM(trailing ‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL;<br>如果指定了both参数则会去掉c1头尾c2(跟不指定有区别吗？没区别！)<br>例如：SELECT TRIM(both ‘W’ FROM ‘WhaT is tHis w W’) FROM DUAL;<br>注意：c2长度=1 </p>
-</li>
-<li>LTRIM(c1[,c2]) 千万表以为与上面那个长的像，功能也与上面的类似，本函数是从字符串c1左侧截取掉与指定字符串c2相同的字符并返回。如果c2为空则默认截取空格。<br>例如：SELECT LTRIM(‘WWhhhhhaT is tHis w W’,’Wh’) FROM DUAL; </li>
-<li>RTRIM(c1,c2)与上同，不过方向相反<br>例如：SELECT RTRIM(‘WWhhhhhaT is tHis w W’,’W w’) FROM DUAL; </li>
-<li>REPLACE(c1,c2[,c3]) 将c1字符串中的c2替换为c3，如果c3为空，则从c1中删除所有c2。<br>例如：SELECT REPLACE(‘WWhhhhhaT is tHis w W’,’W’,’-‘) FROM DUAL; </li>
-<li><p>SOUNDEX(c) 神奇的函数啊，该函数返回字符串参数的语音表示形式，对于比较一些读音相同，但是拼写不同的单词非常有用。计算语音的算法如下：<br>保留字符串首字母，但删除a、e、h、i、o、w、y。<br>将下表中的数字赋给相对应的字母</p>
-<p> 1：b、f、p、v<br> 2：c、g、k、q、s、x、z<br> 3：d、t<br> 4：l<br> 5：m、n<br> 6：R </p>
-</li>
-</ol>
-<p>如果字符串中存在拥有相同数字的2个以上（包含2个）的字母在一起（例如b和f），或者只有h或w，则删除其他的，只保留1个；<br>只返回前4个字节，不够用0填充<br>例如：SELECT SOUNDEX(‘dog’),soundex(‘boy’) FROM DUAL; </p>
-<ol>
-<li>SUBSTR(c1,n1[,n2]) 截取指定长度的字符串。稍不注意就可能充满了陷阱的函数。<br>n1=开始长度；<br>n2=截取的字符串长度，如果为空，默认截取到字符串结尾；<br>如果n1=0 then n1=1<br>如果n1&gt;0，则oracle从左向右确认起始位置截取<br>例如：SELECT SUBSTR(‘What is this’,5,3) FROM DUAL;<br>如果n1<0，则oracle从右向左数确认起始位置 例如：select="" substr('what="" is="" this',-5,3)="" from="" dual;="" 如果n1="">c1.length则返回空<br>例如：SELECT SUBSTR(‘What is this’,50,3) FROM DUAL;<br>然后再请你猜猜，如果n2&lt;1，会如何返回值呢 </0，则oracle从右向左数确认起始位置></li>
-<li>TRANSLATE(c1,c2,c3) 就功能而言，此函数与replace有些相似。但需要注意的一点是，translate是绝对匹配替换，这点与replace函数具有非常大区别。什么是绝对匹配替换呢？简单的说，是将字符串c1中按一定的格式c2替换为c3。如果文字形容仍然无法理解，我们通过几具实例来说明：<br>例如：<br>SELECT TRANSLATE(‘What is this’,’’,’-‘) FROM DUAL;<br>SELECT TRANSLATE(‘What is this’,’-‘,’’) FROM DUAL;<br>结果都是空。来试试这个：<br>SELECT TRANSLATE(‘What is this’,’ ‘,’ ‘) FROM DUAL;<br>再来看这个：<br>SELECT TRANSLATE(‘What is this’,’ait’,’-*’) FROM DUAL;<br>是否明白了点呢？Replace函数理解比较简单，它是将字符串中指定字符替换成其它字符，它的字符必须是连续的。而translate中，则是指定字符串c1中出现的c2，将c2中各个字符替换成c3中位置顺序与其相同的c3中的字符。明白了？Replace是替换，而translate则像是过滤 </li>
-</ol>
-<blockquote>
-<blockquote>
-<p> <strong><em>字符型函数返回数字值(Character Functions Returning Number Values)</em></strong><br>本类函数支持所有的数据类型 </p>
-</blockquote>
-</blockquote>
-<ol>
-<li><p>INSTR(c1,c2[,n1[,n2]]) 返回c2在c1中位置<br>c1:原字符串<br>c2:要寻找的字符串<br>n1:查询起始位置，正值表示从左到右，负值表示从右到左 (大小表示位置,比如3表示左面第3处开始,-3表示右面第3处开始)。黑黑，如果为0的话，则返回的也是0<br>n2:第几个匹配项。大于0<br>例如：SELECT INSTR(‘abcdefg’,’e’,-3) FROM DUAL; </p>
-</li>
-<li><p>LENGTH(c) 返回指定字符串的长度。如果<br>例如：SELECT LENGTH(‘A123中’) FROM DUAL;<br>猜猜SELECT LENGTH(‘’) FROM DUAL;的返回值是什么 </p>
-</li>
-</ol>
-<blockquote>
-<blockquote>
-<p> <strong><em>日期函数(Datetime Functions)</em></strong><br>本类函数中，除months_between返回数值外，其它都将返回日期。 </p>
-</blockquote>
-</blockquote>
-<ol>
-<li><p>ADD_MONTHS() 返回指定日期月份+n之后的值，n可以为任何整数。<br>例如：SELECT ADD_MONTHS(sysdate,12),ADD_MONTHS(sysdate,-12) FROM DUAL; </p>
-</li>
-<li><p>CURRENT_DATE 返回当前session所在时区的默认时间<br>例如：<br> SQL&gt; alter session set nls_date_format = ‘mm-dd-yyyy’ ;<br> SQL&gt; select current_date from dual; </p>
-</li>
-<li><p>SYSDATE 功能与上相同，返回当前session所在时区的默认时间。但是需要注意的一点是，如果同时使用sysdate与current_date获得的时间不一定相同，某些情况下current_date会比sysdate快一秒。经过与xyf_tck(兄台的大作ORACLE的工作机制写的很好，深入浅出)的短暂交流，我们认为current_date是将current_timestamp中毫秒四舍五入后的返回，虽然没有找到文档支持，但是想来应该八九不离十。同时，仅是某些情况下会有一秒的误差，一般情况下并不会对你的操作造成影响，所以了解即可。<br>例如：SELECT SYSDATE,CURRENT_DATE FROM DUAL; </p>
-</li>
-<li><p>LAST_DAY(d) 返回指定时间所在月的最后一天<br>例如：SELECT last_day(SYSDATE) FROM DUAL; </p>
-</li>
-<li><p>NEXT_DAY(d,n) 返回指定日期后第一个n的日期，n为一周中的某一天。但是，需要注意的是n如果为字符的话，它的星期形式需要与当前session默认时区中的星期形式相同。<br>例如：三思用的中文nt，nls_language值为SIMPLIFIED CHINESE<br>SELECT NEXT_DAY(SYSDATE,5) FROM DUAL;<br>SELECT NEXT_DAY(SYSDATE,’星期四’) FROM DUAL;<br>两种方式都可以取到正确的返回，但是：<br>SELECT NEXT_DAY(SYSDATE,’Thursday’) FROM DUAL;<br>则会执行出错，提供你说周中的日无效，就是这个原因了。 </p>
-</li>
-<li><p>MONTHS_BETWEEN(d1,d2) 返回d1与d2间的月份差，视d1,d2的值大小，结果可正可负，当然也有可能为0<br>例如：<br>SELECT months_between(SYSDATE, sysdate),<br>months_between(SYSDATE, add_months(sysdate, -1)),<br>months_between(SYSDATE, add_months(sysdate, 1))<br>FROM DUAL; </p>
-</li>
-<li><p>ROUND(d[,fmt]) 前面讲数值型函数的时候介绍过ROUND，此处与上功能基本相似，不过此处操作的是日期。如果不指定fmt参数，则默认返回距离指定日期最近的日期。<br>例如：SELECT ROUND(SYSDATE,’HH24’) FROM DUAL; </p>
-</li>
-<li><p>TRUNC(d[,fmt]) 与前面介绍的数值型TRUNC原理相同，不过此处也是操作的日期型。<br>例如：SELECT TRUNC(SYSDATE,’HH24’) FROM DUAL; </p>
-</li>
-</ol>
-<blockquote>
-<blockquote>
-<p><strong><em>转换函数(Conversion Functions) </em></strong></p>
-</blockquote>
-</blockquote>
-<p>转换函数将指定字符从一种类型转换为另一种，通常这类函数遵循如下惯例：函数名称后面跟着待转换类型以及输出类型。 </p>
-<ol>
-<li>TO_CHAR() 本函数又可以分三小类，分别是<br>转换字符-&gt;字符TO_CHAR(c)：将nchar,nvarchar2,clob,nclob类型转换为char类型；<br>例如：SELECT TO_CHAR(‘AABBCC’) FROM DUAL;<br>转换时间-&gt;字符TO_CHAR(d[,fmt])：将指定的时间(data,timestamp,timestamp with time zone)按照指定格式转换为varchar2类型；<br>例如：SELECT TO_CHAR(sysdate,’yyyy-mm-dd hh24:mi:ss’) FROM DUAL;<br>转换数值-&gt;字符TO_CHAR(n[,fmt]):将指定数值n按照指定格式fmt转换为varchar2类型并返回;例如：SELECT TO_CHAR(-100, ‘L99G999D99MI’) FROM DUAL; </li>
-<li>TO_DATE(c[,fmt[,nls]]) 将char,nchar,varchar2,nvarchar2转换为日期类型，如果fmt参数不为空，则按照fmt中指定格式进行转换。注意这里的fmt参数。如果ftm为’J’则表示按照公元制(Julian day)转换，c则必须为大于0并小于5373484的正整数。<br>例如：<br>SELECT TO_DATE(2454336, ‘J’) FROM DUAL;<br>SELECT TO_DATE(‘2007-8-23 23:25:00’, ‘yyyy-mm-dd hh24:mi:ss’) FROM DUAL;<br>为什么公元制的话，c的值必须不大于5373484呢？因为Oracle的DATE类型的取值范围是公元前4712年1月1日至公元9999年12月31日。看看下面这个语句：<br>SELECT TO_CHAR(TO_DATE(‘9999-12-31’,’yyyy-mm-dd’),’j’) FROM DUAL; </li>
-<li>TO_NUMBER(c[,fmt[,nls]]) 将char,nchar,varchar2,nvarchar2型字串按照fmt中指定格式转换为数值类型并返回。<br>例如：SELECT TO_NUMBER(‘-100.00’, ‘9G999D99’) FROM DUAL; </li>
-</ol>
-<blockquote>
-<blockquote>
-<p> <strong><em>其它辅助函数(Miscellaneous Single-Row Functions)</em></strong></p>
-</blockquote>
-</blockquote>
-<ol>
-<li>DECODE(exp,s1,r1,s2,r2..s,r[,def])</li>
-</ol>
-<p>可以把它理解成一个增强型的if else，只不过它并不通过多行语句，而是在一个函数内实现if else的功能。<br>exp做为初始参数。s做为对比值，相同则返回r，如果s有多个，则持续遍历所有s，直到某个条件为真为止，否则返回默认值def(如果指定了的话)，如果没有默认值，并且前面的对比也都没有为真，则返回空。<br>毫无疑问，decode是个非常重要的函数，在实现行转列等功能时都会用到，需要牢记和熟练使用。<br>例如：select decode(‘a2’,’a1’,’true1’,’a2’,’true2’,’default’) from dual; </p>
-<ol>
-<li><p>GREATEST(n1,n2,…n) 返回序列中的最大值<br>例如：SELECT GREATEST(15,5,75,8) “Greatest” FROM DUAL; </p>
-</li>
-<li><p>LEAST(n1,n2….n) 返回序列中的最小值<br>例如：SELECT LEAST(15,5,75,8) LEAST FROM DUAL; </p>
-</li>
-<li><p>NULLIF(c1,c2)<br>Nullif也是个很有意思的函数。逻辑等价于：CASE WHEN c1 = c2 THEN NULL ELSE c1 END<br>例如：SELECT NULLIF(‘a’,’b’),NULLIF(‘a’,’a’) FROM DUAL; </p>
-</li>
-<li><p>NVL(c1,c2) 逻辑等价于IF c1 is null THEN c2 ELSE c1 END。c1,c2可以是任何类型。如果两者类型不同，则oracle会自动将c2转换为c1的类型。<br>例如：SELECT NVL(null, ‘12’) FROM DUAL; </p>
-</li>
-<li><p>NVL2(c1,c2,c3) 大家可能都用到nvl，但你用过nvl2吗？如果c1非空则返回c2,如果c1为空则返回c3<br>例如：select nvl2(‘a’, ‘b’, ‘c’) isNull,nvl2(null, ‘b’, ‘c’) isNotNull from dual; </p>
-</li>
-<li><p>SYS_CONNECT_BY_PATH(col,c) 该函数只能应用于树状查询。返回通过c1连接的从根到节点的路径。该函数必须与connect by 子句共同使用。<br>例如：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> tmp3(rootcol varchar2(<span class="number">10</span>),nodecol varchar2(<span class="number">10</span>)); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">''</span>,<span class="string">'a001'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">''</span>,<span class="string">'b001'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'a001'</span>,<span class="string">'a002'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'a002'</span>,<span class="string">'a004'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'a001'</span>,<span class="string">'a003'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'a003'</span>,<span class="string">'a005'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'a005'</span>,<span class="string">'a008'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'b001'</span>,<span class="string">'b003'</span>); </div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tmp3 <span class="keyword">values</span> (<span class="string">'b003'</span>,<span class="string">'b005'</span>); </div><div class="line"><span class="keyword">select</span> <span class="keyword">lpad</span>(<span class="string">' '</span>, <span class="keyword">level</span>*<span class="number">10</span>,<span class="string">'='</span>) ||<span class="string">'&gt;'</span>|| sys_connect_by_path(nodecol,<span class="string">'/'</span>) </div><div class="line"><span class="keyword">from</span> tmp3 </div><div class="line"><span class="keyword">start</span> <span class="keyword">with</span> rootcol = <span class="string">'a001'</span> </div><div class="line"><span class="keyword">connect</span> <span class="keyword">by</span> <span class="keyword">prior</span> nodecol =rootcol;</div></pre></td></tr></table></figure>
-</li>
-<li><p>SYS_CONTEXT(c1,c2[,n]) 将指定命名空间c1的指定参数c2的值按照指定长度n截取后返回。<br>Oracle9i提供内置了一个命名空间USERENV，描述了当前session的各项信息，其拥有下列参数：<br>CURRENT_SCHEMA:当前模式名<br>CURRENT_USER:当前用户<br>IP_ADDRESS:当前客户端IP地址<br>OS_USER:当前客户端操作系统用户<br>等等数十项，更详细的参数列还请大家直接参考Oracle Online Documents </p>
-</li>
-</ol>
-<p>例如：SELECT SYS_CONTEXT(‘USERENV’, ‘SESSION_USER’) FROM DUAL;<br>注：N表示数字型，C表示字符型，D表示日期型，[]表示内中参数可被忽略，fmt表示格式。 </p>
-<p>单值函数在查询中返回单个值，可被应用到select，where子句，start with以及connect by 子句和having子句。</p>
-<blockquote>
-<blockquote>
-<p> <strong><em>数值型函数(Number Functions)</em></strong> </p>
-</blockquote>
-</blockquote>
-<p>数值型函数输入数字型参数并返回数值型的值。多数该类函数的返回值支持38位小数点，诸如：COS, COSH, EXP, LN, LOG, SIN, SINH, SQRT, TAN, and TANH 支持36位小数点。ACOS, ASIN, ATAN, and ATAN2支持30位小数点。 </p>
-<ol>
-<li><p>ABS(n) 返回数字的绝对值<br>例如：SELECT ABS(-1000000.01) FROM DUAL; </p>
-</li>
-<li><p>COS(n) 返回n的余弦值<br>例如：SELECT COS(-2) FROM DUAL; </p>
-</li>
-<li><p>ACOS(n) 反余弦函数，n between -1 and 1，返回值between 0 and pi。<br>例如：SELECT ACOS(0.9) FROM DUAL; </p>
-</li>
-<li><p>BITAND(n1,n2) 位与运算，这个太有意思了，虽然没想到可能用到哪里，详细说明一下：<br>假设3,9做位与运算，3的二进制形式为：0011，9的二进制形式为：1001，则结果是0001，转换成10进制数为1。<br>例如：SELECT BITAND(3,9) FROM DUAL; </p>
-</li>
-<li><p>CEIL(n) 返回大于或等于n的最小的整数值<br>例如：SELECT ceil(18.2) FROM DUAL;<br>考你一下，猜猜ceil(-18.2)的值会是什么呢 </p>
-</li>
-<li><p>FLOOR(n) 返回小于等于n的最大整数值<br>例如：SELECT FLOOR(2.2) FROM DUAL;<br>再猜猜floor(-2.2)的值会是什么呢 </p>
-</li>
-<li><p>BIN_TO_NUM(n1,n2,….n) 二进制转向十进制<br>例如：SELECT BIN_TO_NUM(1),BIN_TO_NUM(1,0),BIN_TO_NUM(1,1) FROM DUAL; </p>
-</li>
-<li><p>SIN(n) 返回n的正玄值,n为弧度。<br>例如：SELECT SIN(10) FROM DUAL; </p>
-</li>
-<li><p>SINH(n) 返回n的双曲正玄值,n为弧度。<br>例如：SELECT SINH(10) FROM DUAL; </p>
-</li>
-<li><p>ASIN(n) 反正玄函数，n between -1 and 1，返回值between pi/2 and -pi/2。<br>例如：SELECT ASIN(0.8) FROM DUAL; </p>
-</li>
-<li><p>TAN(n) 返回n的正切值,n为弧度<br>例如：SELECT TAN(0.8) FROM DUAL; </p>
-</li>
-<li><p>TANH(n) 返回n的双曲正切值,n为弧度<br>例如：SELECT TANH(0.8) FROM DUAL; </p>
-</li>
-<li><p>ATAN(n) 反正切函数，n表示弧度，返回值between pi/2 and -pi/2。<br>例如：SELECT ATAN(-444444.9999999) FROM DUAL; </p>
-</li>
-<li><p>EXP(n) 返回e的n次幂，e = 2.71828183 …<br>例如：SELECT EXP(3) FROM DUAL; </p>
-</li>
-<li><p>LN(n) 返回n的自然对数，n&gt;0<br>例如：SELECT LN(0.9) FROM DUAL; </p>
-</li>
-<li><p>LOG(n1,n2) 返回以n1为底n2的对数，n1 &gt;0 and not 1 ，n2&gt;0<br>例如：SELECT LOG(1.1,2.2) FROM DUAL; </p>
-</li>
-<li><p>POWER(n1,n2) 返回n1的n2次方。n1,n2可以为任意数值，不过如果m是负数，则n必须为整数<br>例如：SELECT POWER(2.2,2.2) FROM DUAL; </p>
-</li>
-<li><p>SIGN(n) 如果n<0返回-1,如果n>0返回1，如果n=0返回0.<br>例如：SELECT SIGN(14),SIGN(-14),SIGN(0) FROM DUAL; </0返回-1,如果n></p>
-</li>
-<li><p>SQRT(n) 返回n的平方根,n为弧度。n&gt;=0<br>例如：SELECT SQRT(0.1) FROM DUAL; </p>
-</li>
-</ol>
-<blockquote>
-<blockquote>
-<p> <strong><em>字符型函数返回字符值(Character Functions Returning Character Values)</em></strong></p>
-</blockquote>
-</blockquote>
-<p>该类函数返回与输入类型相同的类型。<br>返回的CHAR类型值长度不超过2000字节；<br>返回的VCHAR2类型值长度不超过4000字节；<br>如果上述应返回的字符长度超出，oracle并不会报错而是直接截断至最大可支持长度返回。<br>返回的CLOB类型值长度不超过4G；<br>对于CLOB类型的函数，如果返回值长度超出，oracle不会返回任何错误而是直接抛出错误。 </p>
-<ol>
-<li><p>CHR(N[ USING NCHAR_CS]) 返回指定数值在当前字符集中对应的字符<br>例如：SELECT CHR(95) FROM DUAL; </p>
-</li>
-<li><p>CONCAT(c1,c2) 连接字符串，等同于||<br>例如：SELECT concat(‘aa’,’bb’) FROM DUAL; </p>
-</li>
-<li><p>INITCAP(c) 将字符串中单词的第一个字母转换为大写，其它则转换为小写<br>例如：SELECT INITCAP(‘whaT is this’) FROM DUAL; </p>
-</li>
-<li><p>NLS_INITCAP(c) 返回指定字符串，并将字符串中第一个字母变大写，其它字母变小写<br>例如：SELECT NLS_INITCAP(‘中华miNZHu’) FROM DUAL;<br>它还具有一个参数：Nlsparam用来指定排序规则，可以忽略，默认状态该参数为当前session的排序规则。 </p>
-</li>
-</ol>
-<blockquote>
-<blockquote>
-<p> <strong><em>字符型函数返回数字值(Character Functions Returning Number Values) </em></strong></p>
-</blockquote>
-</blockquote>
-<p>本类函数支持所有的数据类型 </p>
-<ol>
-<li>ASCII(c) 与chr函数的用途刚刚相反，本函数返回指定字符在当前字符集下对应的数值。<br>例如：SELECT ASCII(‘_’) FROM DUAL; </li>
-</ol>
-<blockquote>
-<blockquote>
-<p> <strong><em>日期函数(Datetime Functions) </em></strong></p>
-</blockquote>
-</blockquote>
-<p>本类函数中，除months_between返回数值外，其它都将返回日期。 </p>
-<ol>
-<li><p>CURRENT_TIMESTAMP([n]) 返回当前session所在时区的日期和时间。n表示毫秒级的精度，不大于6<br>例如：SELECT CURRENT_TIMESTAMP(3) FROM DUAL; </p>
-</li>
-<li><p>LOCALTIMESTAMP([n]) 与上同，返回当前session所在时区的日期和时间。n表示毫秒级的精度，不大于6<br>例如：SELECT LOCALTIMESTAMP(3) FROM DUAL; </p>
-</li>
-<li><p>SYSTIMESTAMP([n]) 与上同，返回当前数据库所在时区的日期和时间，n表示毫秒级的精度，&gt;0 and &lt;6<br>例如：SELECT SYSTIMESTAMP(4) FROM DUAL; </p>
-</li>
-<li><p>DBTIMEZONE 返回数据库的当前时区<br>例如：SELECT DBTIMEZONE FROM DUAL; </p>
-</li>
-<li><p>SESSIONTIMEZONE 返回当前session所在时区<br>例如：SELECT SESSIONTIMEZONE FROM DUAL; </p>
-</li>
-<li><p>EXTRACT(key from date) key=(year,month,day,hour,minute,second) 从指定时间提到指定日期列<br>例如：SELECT EXTRACT(year from sysdate) FROM DUAL; </p>
-</li>
-<li><p>TO_TIMESTAMP(c1[,fmt]) 将指定字符按指定格式转换为timestamp格式。<br>例如：SELECT TO_TIMESTAMP(‘2007-8-22’, ‘YYYY-MM-DD HH:MI:SS’) FROM DUAL; </p>
-</li>
-</ol>
-<blockquote>
-<blockquote>
-<p> <strong><em>转换函数(Conversion Functions)</em></strong> </p>
-</blockquote>
-</blockquote>
-<p>转换函数将指定字符从一种类型转换为另一种，通常这类函数遵循如下惯例：函数名称后面跟着待转换类型以及输出类型。 </p>
-<ol>
-<li><p>BIN_TO_NUM(n1,n2…n) 将一组位向量转换为等价的十进制形式。<br>例如：SELECT BIN_TO_NUM(1,1,0) FROM DUAL; </p>
-</li>
-<li><p>CAST(c as newtype) 将指定字串转换为指定类型，基本只对字符类型有效，比如char,number,date,rowid等。此类转换有一个专门的表列明了哪种类型可以转换为哪种类型，此处就不作酹述。<br>例如：SELECT CAST(‘1101’ AS NUMBER(5)) FROM DUAL; </p>
-</li>
-<li><p>CHARTOROWID(c) 将字符串转换为rowid类型<br>例如：SELECT CHARTOROWID(‘A003D1ABBEFAABSAA0’) FROM DUAL; </p>
-</li>
-<li><p>ROWIDTOCHAR(rowid) 转换rowid值为varchar2类型。返回串长度为18个字节。<br>例如：SELECT ROWIDTOCHAR(rowid) FROM DUAL; </p>
-</li>
-<li><p>TO_MULTI_BYTE(c) 将指定字符转换为全角并返回char类型字串<br>例如：SELECT TO_MULTI_BYTE(‘ABC abc　中华’) FROM DUAL; </p>
-</li>
-<li><p>TO_SINGLE_BYTE(c) 将指定字符转换为半角并返回char类型字串<br>例如：SELECT TO_SINGLE_BYTE(‘ＡＢＣ　ａｂｃ中华’) FROM DUAL; </p>
-</li>
-</ol>
-<blockquote>
-<blockquote>
-<p> <strong><em>其它辅助函数(Miscellaneous Single-Row Functions)</em></strong> </p>
-</blockquote>
-</blockquote>
-<ol>
-<li><p>COALESCE(n1,n2,….n) 返回序列中的第一个非空值<br>例如：SELECT COALESCE(null,5,6,null,9) FROM DUAL; </p>
-</li>
-<li><p>DUMP(exp[,fmt[,start[,length]]])<br>dump是个功能非常强悍的函数，对于深入了解oracle存储的人而言相当有用。所以对于我们这些仅仅只是应用的人而言就不知道能将其应用于何处了。此处仅介绍用法，不对其功能做深入分析。如上所示，dump拥有不少参数。其本质是以指定格式，返回指定长度的exp的内部表示形式的varchar2值。fmt含4种格式：8||10||16||17，分别表示8进制，10进制，16进制和单字符，默认为10进制。start参数表示开始位置，length表示以,分隔的字串数。<br>例如：SELECT DUMP(‘abcdefg’,17,2,4) FROM DUAL; </p>
-</li>
-<li><p>EMPTY_BLOB,EMPTY_CLOB 这两个函数都是返回空lob类型，通常被用于insert和update等语句以初始化lob列，或者将其置为空。EMPTY表示LOB已经被初始化，只不过还没有用来存储数据。 </p>
-</li>
-<li><p>NLS_CHARSET_NAME(n) 返回指定数值对应的字符集名称。<br>例如：SELECT NLS_CHARSET_NAME(1) FROM DUAL; </p>
-</li>
-<li><p>NLS_CHARSET_ID(c) 返回指定字符对应的字符集id。<br>例如：SELECT NLS_CHARSET_ID(‘US7ASCII’) FROM DUAL; </p>
-</li>
-<li><p>NLS_CHARSET_DECL_LEN(n1,n2) 返回一个NCHAR值的声明宽度(以字符为单位).n1是该值以字节为单位的长度，n2是该值的字符集ID<br>例如：SELECT NLS_CHARSET_DECL_LEN(100, nls_charset_id(‘US7ASCII’)) FROM DUAL; </p>
-</li>
-<li><p>SYS_EXTRACT_UTC(timestamp) 返回标准通用时间即格林威治时间。<br>例如：SELECT SYS_EXTRACT_UTC(current_timestamp) FROM DUAL; </p>
-</li>
-<li><p>SYS_TYPEID(object_type) 返回对象类型对应的id。<br>例如：这个这个，没有建立过自定义对象，咋做示例？ </p>
-</li>
-<li><p>UID 返回一个唯一标识当前数据库用户的整数。<br>例如：SELECT UID FROM DUAL; </p>
-</li>
-<li><p>USER 返回当前session用户<br>例如：SELECT USER FROM DUAL; </p>
-</li>
-<li><p>USERENV(c) 该函数用来返回当前session的信息，据oracle文档的说明，userenv是为了保持向下兼容的遗留函数。oracle公司推荐你使用sys_context函数调用USERENV命名空间来获取相关信息，所以大家了解下就行了。<br>例如：SELECT USERENV(‘LANGUAGE’) FROM DUAL; </p>
-</li>
-<li><p>VSIZE(c) 返回c的字节数。<br>例如：SELECT VSIZE(‘abc中华’) FROM DUAL;</p>
-</li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;N表示数字型，C表示字符型，D表示日期型，[]表示内中参数可被忽略，fmt表示格式。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="handbook" scheme="https://eagleless.github.io/categories/handbook/"/>
-    
-    
-      <category term="database" scheme="https://eagleless.github.io/tags/database/"/>
-    
-      <category term="oracle" scheme="https://eagleless.github.io/tags/oracle/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux之less命令</title>
-    <link href="https://eagleless.github.io/20160822/20160822linux-less-command.html"/>
-    <id>https://eagleless.github.io/20160822/20160822linux-less-command.html</id>
-    <published>2016-08-22T15:16:03.000Z</published>
-    <updated>2016-08-23T11:49:03.676Z</updated>
-    
-    <content type="html"><![CDATA[<p>Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分。</p>
-<a id="more"></a>
-<p>参考：<a href="http://www.xitongzhijia.net/xtjc/20141209/32242.html" target="_blank" rel="external">http://www.xitongzhijia.net/xtjc/20141209/32242.html</a><br>less 的用法比起 more 更加的有弹性。在 more 的时候，我们并没有办法向前面翻， 只能往后面看，但若使用了 less 时，就可以使用 ［pageup］ ［pagedown］ 等按键的功能来往前往后翻看文件，更容易用来查看一个文件的内容！除此之外，在 less 里头可以拥有更多的搜索功能，不止可以向下搜，也可以向上搜。</p>
-<h1 id="1．命令格式"><a href="#1．命令格式" class="headerlink" title="1．命令格式"></a>1．命令格式</h1><p>　　less［参数］ 文件</p>
-<h1 id="2．命令功能"><a href="#2．命令功能" class="headerlink" title="2．命令功能"></a>2．命令功能</h1><p>less与more类似,但使用less可以随意浏览文件，而more仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。</p>
-<h1 id="3．命令参数"><a href="#3．命令参数" class="headerlink" title="3．命令参数"></a>3．命令参数</h1><pre><code>-b 《缓冲区大小》 设置缓冲区的大小
--e 当文件显示结束后，自动离开
--f 强迫打开特殊文件，例如外围设备代号、目录和二进制文件
--g 只标志最后搜索的关键词
--i 忽略搜索时的大小写
--m 显示类似more命令的百分比
--N 显示每行的行号
--o 《文件名》 将less 输出的内容在指定文件中保存起来
--Q 不使用警告音
--s 显示连续空行为一行
--S 行过长时间将超出部分舍弃
--x 《数字》 将“tab”键显示为规定的数字空格
-/字符串：向下搜索“字符串”的功能
-？字符串：向上搜索“字符串”的功能
-n：重复前一个搜索（与 / 或 ？ 有关）
-N：反向重复前一个搜索（与 / 或 ？ 有关）
-b 向后翻一页
-d 向后翻半页
-h 显示帮助界面
-Q 退出less 命令
-u 向前滚动半页
-y 向前滚动一行
-空格键 滚动一行
-回车键 滚动一页
-[pagedown］： 向下翻动一页
-［pageup］： 向上翻动一页
-</code></pre><h1 id="4．使用实例"><a href="#4．使用实例" class="headerlink" title="4．使用实例"></a>4．使用实例</h1><blockquote>
-<p> 实例1：查看文件</p>
-</blockquote>
-<pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ less 2016.log 
-a2016
-
-
-b2015
-
-
-c3333333333333
-2016.log (END) 
-</code></pre><p>　　</p>
-<blockquote>
-<p> 实例2：ps查看进程信息并通过less分页显示</p>
-</blockquote>
-<pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ ps -ef |less
-UID        PID  PPID  C STIME TTY          TIME CMD
-root         1     0  0 Jul30 ?        00:00:00 /sbin/init
-root         2     0  0 Jul30 ?        00:00:00 [kthreadd]
-root         3     2  0 Jul30 ?        00:00:00 [migration/0]
-root         4     2  0 Jul30 ?        00:00:03 [ksoftirqd/0]
-root         5     2  0 Jul30 ?        00:00:00 [migration/0]
-root         6     2  0 Jul30 ?        00:00:03 [watchdog/0]
-root         7     2  0 Jul30 ?        00:38:46 [events/0]
-root         8     2  0 Jul30 ?        00:00:00 [cgroup]
-root         9     2  0 Jul30 ?        00:00:00 [khelper]
-root        10     2  0 Jul30 ?        00:00:00 [netns]
-root        11     2  0 Jul30 ?        00:00:00 [async/mgr]
-root        12     2  0 Jul30 ?        00:00:00 [pm]
-root        13     2  0 Jul30 ?        00:00:08 [sync_supers]
-root        14     2  0 Jul30 ?        00:00:08 [bdi-default]
-root        15     2  0 Jul30 ?        00:00:00 [kintegrityd/0]
-root        16     2  0 Jul30 ?        00:00:16 [kblockd/0]
-root        17     2  0 Jul30 ?        00:00:00 [kacpid]
-root        18     2  0 Jul30 ?        00:00:00 [kacpi_notify]
-root        19     2  0 Jul30 ?        00:00:00 [kacpi_hotplug]
-root        20     2  0 Jul30 ?        00:00:00 [ata_aux]
-root        21     2  0 Jul30 ?        00:00:00 [ata_sff/0]
-root        22     2  0 Jul30 ?        00:00:00 [ksuspend_usbd]
-root        23     2  0 Jul30 ?        00:00:00 [khubd]
-root        24     2  0 Jul30 ?        00:00:00 [kseriod]
-root        25     2  0 Jul30 ?        00:00:00 [md/0]
-</code></pre><blockquote>
-<p>  实例3：查看命令历史使用记录并通过less分页显示</p>
-</blockquote>
-<pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ history | less
-54  cd logs/
-55  ll
-56  rm catalina.out 
-57  ll
-58  cd ..
-59  ll
-60  cd work/Catalina/localhost/
-61  ll
-62  rm -rf *
-63  cd ..
-64  ll
-65  cd bin/
-66  ll
-67  vi startup.sh 
-68  ll
-69  cd ..
-70  cd conf/
-71  ll
-72  vi server.xml 
-73  cd ..
-74  cd yangkai/
-</code></pre><blockquote>
-<p>  实例4：浏览多个文件</p>
-</blockquote>
-<pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ less 2016.log 2015.log 
-a2016
-
-
-b2015
-
-
-c3333333333333
-</code></pre><p>2016.log (file 1 of 2) (END) - Next: 2015.log</p>
-<p>:n</p>
-<pre><code>2015
-2015
-~
-~
-~
-~
-~
-2015.log (file 2 of 2) (END) 
-</code></pre><blockquote>
-<p>　　<em>说明：<br>　　输入 ：n后，切换到 log2014.log<br>　　输入 ：p 后，切换到log2013.log</em></p>
-</blockquote>
-<h1 id="5．附加备注"><a href="#5．附加备注" class="headerlink" title="5．附加备注"></a>5．附加备注</h1><blockquote>
-<p>  全屏导航</p>
-</blockquote>
-<pre><code>ctrl + F - 向前移动一屏
-ctrl + B - 向后移动一屏
-ctrl + D - 向前移动半屏
-ctrl + U - 向后移动半屏
-</code></pre><blockquote>
-<p>　单行导航</p>
-</blockquote>
-<pre><code>j - 向前移动一行
-k - 向后移动一行
-3.其它导航
-G - 移动到最后一行
-g - 移动到第一行
-q / ZZ - 退出 less 命令
-</code></pre><blockquote>
-<p>  其它有用的命令</p>
-</blockquote>
-<pre><code>v - 使用配置的编辑器编辑当前文件
-h - 显示 less 的帮助文档
-&amp;pattern - 仅显示匹配模式的行，而不是整个文件
-</code></pre><blockquote>
-<p>  标记导航</p>
-</blockquote>
-<pre><code>当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：
-ma - 使用 a 标记文本的当前位置
-‘a - 导航到标记 a 处
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="linux" scheme="https://eagleless.github.io/categories/linux/"/>
-    
-    
-      <category term="java" scheme="https://eagleless.github.io/tags/java/"/>
-    
-      <category term="linux" scheme="https://eagleless.github.io/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>数据库面试常问的一些基本概念</title>
-    <link href="https://eagleless.github.io/20160822/20160822%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9D%A2%E8%AF%95%E5%B8%B8%E9%97%AE%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.html"/>
-    <id>https://eagleless.github.io/20160822/20160822数据库面试常问的一些基本概念.html</id>
-    <published>2016-08-22T04:29:12.000Z</published>
-    <updated>2016-08-23T01:29:15.733Z</updated>
-    
-    <content type="html"><![CDATA[<ul>
-<li>超键、候选键、主键、外键</li>
-<li>什么是事务？什么是锁？</li>
-<li>数据库事务的四个特性及含义</li>
-<li>什么是视图？</li>
-<li>触发器的作用？</li>
-<li>维护数据库的完整性和一致性，你喜欢用触发器还是自写业务逻辑？为什么？</li>
-<li>索引的作用？和它的优点缺点是什么？</li>
-<li>drop,delete与truncate的区别</li>
-</ul>
-<a id="more"></a>
-<h1 id="1-超键、候选键、主键、外键"><a href="#1-超键、候选键、主键、外键" class="headerlink" title="1. 超键、候选键、主键、外键"></a>1. 超键、候选键、主键、外键</h1><p>超键：在关系中能唯一标识元组的属性集称为关系模式的超键。一个属性可以为作为一个超键，多个属性组合在一起也可以作为一个超键。超键包含候选键和主键。</p>
-<p>候选键：是最小超键，即没有冗余元素的超键。</p>
-<p>主键：数据库表中对储存数据对象予以唯一和完整标识的数据列或属性的组合。一个数据列只能有一个主键，且主键的取值不能缺失，即不能为空值（Null）。</p>
-<p>外键：在一个表中存在的另一个表的主键称此表的外键。</p>
-<h1 id="2-什么是事务？什么是锁？"><a href="#2-什么是事务？什么是锁？" class="headerlink" title="2.  什么是事务？什么是锁？"></a>2.  什么是事务？什么是锁？</h1><p>事务：就是被绑定在一起作为一个逻辑工作单元的 SQL 语句分组，如果任何一个语句操作失败那么整个操作就被失败，以后操作就会回滚到操作前状态，或者是上有个节点。为了确保要么执行，要么不执行，就可以使用事务。要将有组语句作为事务考虑，就需要通过 ACID 测试，即原子性，一致性，隔离性和持久性。</p>
-<p>锁：在所以的 DBMS 中，锁是实现事务的关键，锁可以保证事务的完整性和并发性。与现实生活中锁一样，它可以使某些数据的拥有者，在某段时间内不能使用某些数据或数据结构。当然锁还分级别的。</p>
-<h1 id="3-数据库事务的四个特性及含义"><a href="#3-数据库事务的四个特性及含义" class="headerlink" title="3. 数据库事务的四个特性及含义"></a>3. 数据库事务的四个特性及含义</h1><p>原子性：整个事务中的所有操作，要么全部完成，要么全部不完成，不可能停滞在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。</p>
-<p>一致性：在事务开始之前和事务结束以后，数据库的完整性约束没有被破坏。<br>隔离性：隔离状态执行事务，使它们好像是系统在给定时间内执行的唯一操作。如果有两个事务，运行在相同的时间内，执行 相同的功能，事务的隔离性将确保每一事务在系统中认为只有该事务在使用系统。这种属性有时称为串行化，为了防止事务操作间的混淆，必须串行化或序列化请 求，使得在同一时间仅有一个请求用于同一数据。</p>
-<p>持久性：在事务完成以后，该事务所对数据库所作的更改便持久的保存在数据库之中，并不会被回滚。</p>
-<h1 id="4-什么是视图？"><a href="#4-什么是视图？" class="headerlink" title="4. 什么是视图？"></a>4. 什么是视图？</h1><p>视图是一种虚拟的表，具有和物理表相同的功能。可以对视图进行增，改，查，操作，试图通常是有一个表或者多个表的行或列的子集。对视图的修改不影响基本表。它使得我们获取数据更容易，相比多表查询。</p>
-<p>如下两种场景一般会使用到视图：</p>
-<p>（1）不希望访问者获取整个表的信息，只暴露部分字段给访问者，所以就建一个虚表，就是视图。<br>（2）查询的数据来源于不同的表，而查询者希望以统一的方式查询，这样也可以建立一个视图，把多个表查询结果联合起来，查询者只需要直接从视图中获取数据，不必考虑数据来源于不同表所带来的差异。</p>
-<p>注：这个视图是在数据库中创建的 而不是用代码创建的。</p>
-<h1 id="5-触发器的作用？"><a href="#5-触发器的作用？" class="headerlink" title="5. 触发器的作用？"></a>5. 触发器的作用？</h1><p>触发器是一中特殊的存储过程，主要是通过事件来触发而被执行的。它可以强化约束，来维护数据的完整性和一致性，可以跟踪数据库内的操作从而不允许未经许可的更新和变化。可以联级运算。如，某表上的触发器上包含对另一个表的数据操作，而该操作又会导致该表触发器被触发。</p>
-<h1 id="6-维护数据库的完整性和一致性，你喜欢用触发器还是自写业务逻辑？为什么？"><a href="#6-维护数据库的完整性和一致性，你喜欢用触发器还是自写业务逻辑？为什么？" class="headerlink" title="6. 维护数据库的完整性和一致性，你喜欢用触发器还是自写业务逻辑？为什么？"></a>6. 维护数据库的完整性和一致性，你喜欢用触发器还是自写业务逻辑？为什么？</h1><p>尽可能使用约束，如 check, 主键，外键，非空字段等来约束，这样做效率最高，也最方便。其次是使用触发器，这种方法可以保证，无论什么业务系统访问数据库都可以保证数据的完整新和一致性。最后考虑的是自写业务逻辑，但这样做麻烦，编程复杂，效率低下。</p>
-<h1 id="7-索引的作用？和它的优点缺点是什么？"><a href="#7-索引的作用？和它的优点缺点是什么？" class="headerlink" title="7. 索引的作用？和它的优点缺点是什么？"></a>7. 索引的作用？和它的优点缺点是什么？</h1><p>数据库索引，是数据库管理系统中一个排序的数据结构，以协助快速查询、更新数据库表中数据。索引的实现通常使用B树及其变种B+树。</p>
-<p>在数据之外，数据库系统还维护着满足特定查找算法的数据结构，这些数据结构以某种方式引用（指向）数据，这样就可以在这些数据结构上实现高级查找算法。这种数据结构，就是索引。</p>
-<p>为表设置索引要付出代价的：一是增加了数据库的存储空间，二是在插入和修改数据时要花费较多的时间(因为索引也要随之变动)。</p>
-<p>创建索引可以大大提高系统的性能（优点）：</p>
-<p>第一、通过创建唯一性索引，可以保证数据库表中每一行数据的唯一性。<br>第二，可以大大加快数据的检索速度，这也是创建索引的最主要的原因。<br>第三，可以加速表和表之间的连接，特别是在实现数据的参考完整性方面特别有意义。<br>第四，在使用分组和排序子句进行数据检索时，同样可以显著减少查询中分组和排序的时间。<br>第五，通过使用索引，可以在查询的过程中，使用优化隐藏器，提高系统的性能。</p>
-<p>也许会有人要问：增加索引有如此多的优点，为什么不对表中的每一个列创建一个索引呢？因为，增加索引也有许多不利的方面：</p>
-<p>第一，创建索引和维护索引要耗费时间，这种时间随着数据量的增加而增加。<br>第二，索引需要占物理空间，除了数据表占数据空间之外，每一个索引还要占一定的物理空间，如果要建立聚簇索引，那么需要的空间就会更大。</p>
-<p>第三，当对表中的数据进行增加、删除和修改的时候，索引也要动态的维护，这样就降低了数据的维护速度。</p>
-<p>索引是建立在数据库表中的某些列的上面。在创建索引的时候，应该考虑在哪些列上可以创建索引，在哪些列上不能创建索引。</p>
-<p>一般来说，应该在这些列上创建索引：</p>
-<p>（1）在经常需要搜索的列上，可以加快搜索的速度；<br>（2）在作为主键的列上，强制该列的唯一性和组织表中数据的排列结构；<br>（3）在经常用在连接的列上，这些列主要是一些外键，可以加快连接的速度；<br>（4）在经常需要根据范围进行搜索的列上创建索引，因为索引已经排序，其指定的范围是连续的；<br>（5）在经常需要排序的列上创建索引，因为索引已经排序，这样查询可以利用索引的排序，加快排序查询时间；<br>（6）在经常使用在WHERE子句中的列上面创建索引，加快条件的判断速度。<br>同样，对于有些列不应该创建索引：</p>
-<p>第一，对于那些在查询中很少使用或者参考的列不应该创建索引。这是因为，既然这些列很少使用到，因此有索引或者无索引，并不能提高查询速度。相反，由于增加了索引，反而降低了系统的维护速度和增大了空间需求。</p>
-<p>第二，对于那些只有很少数据值的列也不应该增加索引。这是因为，由于这些列的取值很少，例如人事表的性别列，在查询的结果中，结果集的数据行占了表中数据行的很大比例，即需要在表中搜索的数据行的比例很大。增加索引，并不能明显加快检索速度。</p>
-<p>第三，对于那些定义为text, image和bit数据类型的列不应该增加索引。这是因为，这些列的数据量要么相当大，要么取值很少。</p>
-<p>第四，当修改性能远远大于检索性能时，不应该创建索引。这是因为，修改性能和检索性能是互相矛盾的。当增加索引时，会提高检索性能，但是会降低修改性能。当减少索引时，会提高修改性能，降低检索性能。因此，当修改性能远远大于检索性能时，不应该创建索引。</p>
-<h1 id="8-drop-delete与truncate的区别"><a href="#8-drop-delete与truncate的区别" class="headerlink" title="8. drop,delete与truncate的区别"></a>8. drop,delete与truncate的区别</h1><p>drop直接删掉表 。 </p>
-<p>truncate删除表中数据，再插入时自增长id又从1开始 。 </p>
-<p>delete删除表中数据，可以加where字句。</p>
-<p>（1） DELETE语句执行删除的过程是每次从表中删除一行，并且同时将该行的删除操作作为事务记录在日志中保存以便进行进行回滚操作。TRUNCATE TABLE 则一次性地从表中删除所有的数据并不把单独的删除操作记录记入日志保存，删除行是不能恢复的。并且在删除的过程中不会激活与表有关的删除触发器。执行速度快。</p>
-<p>（2） 表和索引所占空间。当表被TRUNCATE 后，这个表和索引所占用的空间会恢复到初始大小，而DELETE操作不会减少表或索引所占用的空间。drop语句将表所占用的空间全释放掉。</p>
-<p>（3） 一般而言，drop &gt; truncate &gt; delete</p>
-<p>（4） 应用范围。TRUNCATE 只能对TABLE；DELETE可以是table和view</p>
-<p>（5） TRUNCATE 和DELETE只删除数据，而DROP则删除整个表（结构和数据）。</p>
-<p>（6） truncate与不带where的delete ：只删除数据，而不删除表的结构（定义）drop语句将删除表的结构被依赖的约束（constrain),触发器（trigger)索引（index);依赖于该表的存储过程/函数将被保留，但其状态会变为：invalid。</p>
-<p>（7） delete语句为DML（data maintain Language),这个操作会被放到 rollback segment中,事务提交后才生效。如果有相应的 tigger,执行的时候将被触发。</p>
-<p>（8） truncate、drop是DLL（data define language),操作立即生效，原数据不放到 rollback segment中，不能回滚。</p>
-<p>（9） 在没有备份情况下，谨慎使用 drop 与 truncate。要删除部分数据行采用delete且注意结合where来约束影响范围。回滚段要足够大。要删除表用drop;若想保留表而将表中数据删除，如果于事务无关，用truncate即可实现。如果和事务有关，或老师想触发trigger,还是用delete。</p>
-<p>（10） Truncate table 表名 速度快,而且效率高,因为: </p>
-<p>truncate table 在功能上与不带 WHERE 子句的 DELETE 语句相同：二者均删除表中的全部行。但 TRUNCATE TABLE 比 DELETE 速度快，且使用的系统和事务日志资源少。DELETE 语句每次删除一行，并在事务日志中为所删除的每行记录一项。TRUNCATE TABLE 通过释放存储表数据所用的数据页来删除数据，并且只在事务日志中记录页的释放。</p>
-<p>（11） TRUNCATE TABLE 删除表中的所有行，但表结构及其列、约束、索引等保持不变。新行标识所用的计数值重置为该列的种子。如果想保留标识计数值，请改用 DELETE。如果要删除表定义及其数据，请使用 DROP TABLE 语句。</p>
-<p>（12） 对于由 FOREIGN KEY 约束引用的表，不能使用 TRUNCATE TABLE，而应使用不带 WHERE 子句的 DELETE 语句。由于 TRUNCATE TABLE 不记录在日志中，所以它不能激活触发器。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;ul&gt;
-&lt;li&gt;超键、候选键、主键、外键&lt;/li&gt;
-&lt;li&gt;什么是事务？什么是锁？&lt;/li&gt;
-&lt;li&gt;数据库事务的四个特性及含义&lt;/li&gt;
-&lt;li&gt;什么是视图？&lt;/li&gt;
-&lt;li&gt;触发器的作用？&lt;/li&gt;
-&lt;li&gt;维护数据库的完整性和一致性，你喜欢用触发器还是自写业务逻辑？为什么？&lt;/li&gt;
-&lt;li&gt;索引的作用？和它的优点缺点是什么？&lt;/li&gt;
-&lt;li&gt;drop,delete与truncate的区别&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="interview" scheme="https://eagleless.github.io/categories/interview/"/>
-    
-    
-      <category term="database" scheme="https://eagleless.github.io/tags/database/"/>
-    
-      <category term="interview" scheme="https://eagleless.github.io/tags/interview/"/>
     
   </entry>
   
