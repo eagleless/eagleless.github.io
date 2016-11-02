@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://eagleless.github.io/"/>
-  <updated>2016-11-02T03:44:21.995Z</updated>
+  <updated>2016-11-02T09:19:31.029Z</updated>
   <id>https://eagleless.github.io/</id>
   
   <author>
@@ -14,6 +14,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>RedirectAttributes使用</title>
+    <link href="https://eagleless.github.io/20161102/20161102RedirectAttributes%E4%BD%BF%E7%94%A8.html"/>
+    <id>https://eagleless.github.io/20161102/20161102RedirectAttributes使用.html</id>
+    <published>2016-11-02T09:14:38.000Z</published>
+    <updated>2016-11-02T09:19:31.029Z</updated>
+    
+    <content type="html"><![CDATA[<p>SpringMVC重定向传参数的实现。<br><a id="more"></a></p>
+<p>addFlashAttribute这个方法原理是放到session中，session在跳到页面后马上移除对象。所以你刷新一下后这个值就会丢失。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.demo.controller;  </div><div class="line">  </div><div class="line"><span class="keyword">import</span> java.util.Map;  </div><div class="line">  </div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;  </div><div class="line"><span class="keyword">import</span> org.springframework.ui.Model;  </div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.ModelAttribute;  </div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;  </div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestParam;  </div><div class="line"><span class="keyword">import</span> org.springframework.web.servlet.mvc.support.RedirectAttributes;  </div><div class="line"> </div><div class="line"><span class="meta">@Controller</span>  </div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoController</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>)  </div><div class="line"><span class="comment">//  public String login(@RequestParam Map&lt;String, String&gt; user, Model model) &#123;  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">login</span><span class="params">(@RequestParam Map&lt;String, String&gt; user, RedirectAttributes model)</span> </span>&#123;  </div><div class="line">        System.out.println(<span class="string">"用户提交了一次表单"</span>);  </div><div class="line">        String username;  </div><div class="line">        <span class="keyword">if</span> (user.get(<span class="string">"name"</span>).isEmpty()) &#123;  </div><div class="line">            username = <span class="string">"Tom"</span>;  </div><div class="line">        &#125; <span class="keyword">else</span> &#123;  </div><div class="line">            username = user.get(<span class="string">"name"</span>);  </div><div class="line">        &#125;  </div><div class="line">        model.addFlashAttribute(<span class="string">"msg"</span>, username);  </div><div class="line"><span class="comment">//      return "home";//此方式跳转，页面刷新会重复提交表单  </span></div><div class="line">        <span class="keyword">return</span> <span class="string">"redirect:/user/toHome"</span>;  </div><div class="line">    &#125;  </div><div class="line">      </div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/toHome"</span>)  </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">home</span><span class="params">(@ModelAttribute(<span class="string">"msg"</span>)</span> String msg, Model model) </span>&#123;  </div><div class="line">        System.out.println(<span class="string">"拿到重定向得到的参数msg:"</span> + msg);  </div><div class="line">        model.addAttribute(<span class="string">"msg"</span>, msg);  </div><div class="line">        <span class="keyword">return</span> <span class="string">"home"</span>;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这边我们使用@ModelAttribute注解，获取之前addFlashAttribute添加的数据，之后就可以正常使用啦。<br>或者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Map&lt;String,?&gt; map = RequestContextUtils.getInputFlashMap(request); </div><div class="line">System.out.println(map.get(<span class="string">"test"</span>).toString());</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;SpringMVC重定向传参数的实现。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="spring" scheme="https://eagleless.github.io/tags/spring/"/>
+    
+  </entry>
   
   <entry>
     <title>Spring注解Resource与Autowired的区别</title>
@@ -684,58 +709,6 @@
       <category term="tomcat" scheme="https://eagleless.github.io/tags/tomcat/"/>
     
       <category term="server" scheme="https://eagleless.github.io/tags/server/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CXFWebservice暴露方式</title>
-    <link href="https://eagleless.github.io/20160828/20160828CXFWebservice%E6%9A%B4%E9%9C%B2%E6%96%B9%E5%BC%8F.html"/>
-    <id>https://eagleless.github.io/20160828/20160828CXFWebservice暴露方式.html</id>
-    <published>2016-08-28T14:39:18.000Z</published>
-    <updated>2016-10-18T03:12:30.667Z</updated>
-    
-    <content type="html"><![CDATA[<p>使用注解和XML方式暴露REST风格webservice，使用JAX-WS暴露SOAP风格webservice。<br>使用wsdl2java根据wsdl生成java源码。<br><a id="more"></a></p>
-<blockquote>
-<p>  REST风格 注解方式</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//接口使用注解</span></div><div class="line"><span class="meta">@WebService</span></div><div class="line"><span class="meta">@Path</span>(<span class="string">"/users"</span>)</div><div class="line"><span class="comment">//方法声明如下</span></div><div class="line"><span class="meta">@GET</span>    </div><div class="line"><span class="meta">@Path</span>(<span class="string">"&#123;lastname&#125;"</span>)    </div><div class="line"><span class="function">List&lt;Person&gt; <span class="title">findByLastName</span><span class="params">(@PathParam(<span class="string">"lastname"</span>)</span> String lastName)</span>;     </div><div class="line"><span class="meta">@GET</span>    </div><div class="line"><span class="function">List&lt;Person&gt; <span class="title">getPeople</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>  REST风格 XML配置方式</p>
-</blockquote>
-<p>使用了JAX-RS，无需在接口中声明任何注解<br><code>src/main/webapp/WEB-INF/cxf-servlet.xml</code>中添加</p>
-<pre><code>&lt;jaxrs:serviceBeans&gt;
-    &lt;ref bean=&quot;userManager&quot;/&gt;
-&lt;/jaxrs:serviceBeans&gt;
-</code></pre><p><code>http://localhost:8080/services/api/users.json</code><br>也可以这样访问<code>http://localhost:8080/services/api/users</code><br>但必须给User添加@XmlRootElement注解</p>
-<blockquote>
-<p>  暴露SOAP WebService</p>
-</blockquote>
-<p>SOAP:Simple Object Access Protocol简单对象访问协议<br>接口UserService使用@WebService注解</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@WebService</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserService</span></span>&#123;</div><div class="line">    <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>实现类UserServiceImpl使用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service</span>(<span class="string">"userManager"</span>)</div><div class="line"><span class="meta">@WebService</span>(serviceName = <span class="string">"UserService"</span>,  endpointInterface = <span class="string">"com.joiest.service.UserService"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title">UserService</span></span>&#123;</div><div class="line">    <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最好提供无参构造器，以满足JAX-WS<br><code>src/main/webapp/WEB-INF/cxf-servlet.xml</code> 中添加</p>
-<pre><code>&lt;jaxws:endpoint id=&quot;userService&quot; implementor=&quot;#userManager&quot; address=&quot;/UserService&quot;/&gt;
-</code></pre><p>运行mvn jetty:run<br><a href="http://localhost:8080/services/UserService?wsdl" target="_blank" rel="external">http://localhost:8080/services/UserService?wsdl</a><br>即可查看userService的wsdl描述</p>
-<blockquote>
-<p>  wsdl2java生成java源码</p>
-</blockquote>
-<pre><code>wsdl2java -s E:\myToolsApi\studyTools\tools\webservice\cxf\gen_src\src -uri http://localhost:8088/cxfws/services/Hellows?wsdl
-wsimport –s . client http://localhost:8088/cxfws/services/Hellows?wsdl
-wsimport -s . http://127.0.0.1:8088/cxfws/services/Hellows?wsdl
-wsdl2java -s . -uri http://localhost:8088/cxfws/services/Hellows?wsdl
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;使用注解和XML方式暴露REST风格webservice，使用JAX-WS暴露SOAP风格webservice。&lt;br&gt;使用wsdl2java根据wsdl生成java源码。&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="java" scheme="https://eagleless.github.io/tags/java/"/>
-    
-      <category term="webservice" scheme="https://eagleless.github.io/tags/webservice/"/>
     
   </entry>
   

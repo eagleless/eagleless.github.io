@@ -3,18 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Linux之less命令 | 无名氏无情兮</title>
+  <title>Archives: 2016 | 无名氏无情兮</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Linux之less命令">
-<meta property="og:url" content="https://eagleless.github.io/20160822/20160822linux-less-command.html">
+  <meta name="description" content="Walk steps step by step">
+<meta property="og:type" content="website">
+<meta property="og:title" content="无名氏无情兮">
+<meta property="og:url" content="https://eagleless.github.io/archives/2016/page/5/index.html">
 <meta property="og:site_name" content="无名氏无情兮">
-<meta property="og:description" content="Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分。">
-<meta property="og:updated_time" content="2016-08-23T11:49:03.676Z">
+<meta property="og:description" content="Walk steps step by step">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux之less命令">
-<meta name="twitter:description" content="Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分。">
+<meta name="twitter:title" content="无名氏无情兮">
+<meta name="twitter:description" content="Walk steps step by step">
   
     <link rel="alternate" href="/atom.xml" title="无名氏无情兮" type="application/atom+xml">
   
@@ -53,7 +52,7 @@
           <li><a class=""
                  href="/index.html">主页</a></li>
         
-          <li><a class=""
+          <li><a class="active"
                  href="/archives/">所有文章</a></li>
         
       </ul>
@@ -79,232 +78,45 @@
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          <article id="post-20160822linux-less-command" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
+          
+  
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <header class="archive-article-header">
     
   
-    <h1 class="article-title" itemprop="name">
-      Linux之less命令
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/20160809/20160809Hexo博客示例.html">Hexo使用简介HelloWorld</a>
     </h1>
   
 
 
-  </header>
-
-  <div class="article-meta">
     <div class="article-datetime">
-  <a href="/20160822/20160822linux-less-command.html" class="article-date"><time datetime="2016-08-22T15:16:03.000Z" itemprop="datePublished">2016-08-22</time></a>
+  <a href="/20160809/20160809Hexo博客示例.html" class="archive-article-date"><time datetime="2016-08-09T09:37:58.000Z" itemprop="datePublished">八月 9日</time></a>
 </div>
 
-    
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/linux/">linux</a>
-  </div>
-
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Linux中的less命令主要用来浏览文件内容，与more命令的用法相似，不同于more命令的是，less命令可往回卷动浏览以看过的部分。</p>
-<a id="more"></a>
-<p>参考：<a href="http://www.xitongzhijia.net/xtjc/20141209/32242.html" target="_blank" rel="external">http://www.xitongzhijia.net/xtjc/20141209/32242.html</a><br>less 的用法比起 more 更加的有弹性。在 more 的时候，我们并没有办法向前面翻， 只能往后面看，但若使用了 less 时，就可以使用 ［pageup］ ［pagedown］ 等按键的功能来往前往后翻看文件，更容易用来查看一个文件的内容！除此之外，在 less 里头可以拥有更多的搜索功能，不止可以向下搜，也可以向上搜。</p>
-<h1 id="1．命令格式"><a href="#1．命令格式" class="headerlink" title="1．命令格式"></a>1．命令格式</h1><p>　　less［参数］ 文件</p>
-<h1 id="2．命令功能"><a href="#2．命令功能" class="headerlink" title="2．命令功能"></a>2．命令功能</h1><p>less与more类似,但使用less可以随意浏览文件，而more仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。</p>
-<h1 id="3．命令参数"><a href="#3．命令参数" class="headerlink" title="3．命令参数"></a>3．命令参数</h1><pre><code>-b 《缓冲区大小》 设置缓冲区的大小
--e 当文件显示结束后，自动离开
--f 强迫打开特殊文件，例如外围设备代号、目录和二进制文件
--g 只标志最后搜索的关键词
--i 忽略搜索时的大小写
--m 显示类似more命令的百分比
--N 显示每行的行号
--o 《文件名》 将less 输出的内容在指定文件中保存起来
--Q 不使用警告音
--s 显示连续空行为一行
--S 行过长时间将超出部分舍弃
--x 《数字》 将“tab”键显示为规定的数字空格
-/字符串：向下搜索“字符串”的功能
-？字符串：向上搜索“字符串”的功能
-n：重复前一个搜索（与 / 或 ？ 有关）
-N：反向重复前一个搜索（与 / 或 ？ 有关）
-b 向后翻一页
-d 向后翻半页
-h 显示帮助界面
-Q 退出less 命令
-u 向前滚动半页
-y 向前滚动一行
-空格键 滚动一行
-回车键 滚动一页
-[pagedown］： 向下翻动一页
-［pageup］： 向上翻动一页
-</code></pre><h1 id="4．使用实例"><a href="#4．使用实例" class="headerlink" title="4．使用实例"></a>4．使用实例</h1><blockquote>
-<p> 实例1：查看文件</p>
-</blockquote>
-<pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ less 2016.log 
-a2016
-
-
-b2015
-
-
-c3333333333333
-2016.log (END) 
-</code></pre><p>　　</p>
-<blockquote>
-<p> 实例2：ps查看进程信息并通过less分页显示</p>
-</blockquote>
-<pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ ps -ef |less
-UID        PID  PPID  C STIME TTY          TIME CMD
-root         1     0  0 Jul30 ?        00:00:00 /sbin/init
-root         2     0  0 Jul30 ?        00:00:00 [kthreadd]
-root         3     2  0 Jul30 ?        00:00:00 [migration/0]
-root         4     2  0 Jul30 ?        00:00:03 [ksoftirqd/0]
-root         5     2  0 Jul30 ?        00:00:00 [migration/0]
-root         6     2  0 Jul30 ?        00:00:03 [watchdog/0]
-root         7     2  0 Jul30 ?        00:38:46 [events/0]
-root         8     2  0 Jul30 ?        00:00:00 [cgroup]
-root         9     2  0 Jul30 ?        00:00:00 [khelper]
-root        10     2  0 Jul30 ?        00:00:00 [netns]
-root        11     2  0 Jul30 ?        00:00:00 [async/mgr]
-root        12     2  0 Jul30 ?        00:00:00 [pm]
-root        13     2  0 Jul30 ?        00:00:08 [sync_supers]
-root        14     2  0 Jul30 ?        00:00:08 [bdi-default]
-root        15     2  0 Jul30 ?        00:00:00 [kintegrityd/0]
-root        16     2  0 Jul30 ?        00:00:16 [kblockd/0]
-root        17     2  0 Jul30 ?        00:00:00 [kacpid]
-root        18     2  0 Jul30 ?        00:00:00 [kacpi_notify]
-root        19     2  0 Jul30 ?        00:00:00 [kacpi_hotplug]
-root        20     2  0 Jul30 ?        00:00:00 [ata_aux]
-root        21     2  0 Jul30 ?        00:00:00 [ata_sff/0]
-root        22     2  0 Jul30 ?        00:00:00 [ksuspend_usbd]
-root        23     2  0 Jul30 ?        00:00:00 [khubd]
-root        24     2  0 Jul30 ?        00:00:00 [kseriod]
-root        25     2  0 Jul30 ?        00:00:00 [md/0]
-</code></pre><blockquote>
-<p>  实例3：查看命令历史使用记录并通过less分页显示</p>
-</blockquote>
-<pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ history | less
-54  cd logs/
-55  ll
-56  rm catalina.out 
-57  ll
-58  cd ..
-59  ll
-60  cd work/Catalina/localhost/
-61  ll
-62  rm -rf *
-63  cd ..
-64  ll
-65  cd bin/
-66  ll
-67  vi startup.sh 
-68  ll
-69  cd ..
-70  cd conf/
-71  ll
-72  vi server.xml 
-73  cd ..
-74  cd yangkai/
-</code></pre><blockquote>
-<p>  实例4：浏览多个文件</p>
-</blockquote>
-<pre><code>[yxgly@ZC_VM_10_100_138_183 ~]$ less 2016.log 2015.log 
-a2016
-
-
-b2015
-
-
-c3333333333333
-</code></pre><p>2016.log (file 1 of 2) (END) - Next: 2015.log</p>
-<p>:n</p>
-<pre><code>2015
-2015
-~
-~
-~
-~
-~
-2015.log (file 2 of 2) (END) 
-</code></pre><blockquote>
-<p>　　<em>说明：<br>　　输入 ：n后，切换到 log2014.log<br>　　输入 ：p 后，切换到log2013.log</em></p>
-</blockquote>
-<h1 id="5．附加备注"><a href="#5．附加备注" class="headerlink" title="5．附加备注"></a>5．附加备注</h1><blockquote>
-<p>  全屏导航</p>
-</blockquote>
-<pre><code>ctrl + F - 向前移动一屏
-ctrl + B - 向后移动一屏
-ctrl + D - 向前移动半屏
-ctrl + U - 向后移动半屏
-</code></pre><blockquote>
-<p>　单行导航</p>
-</blockquote>
-<pre><code>j - 向前移动一行
-k - 向后移动一行
-3.其它导航
-G - 移动到最后一行
-g - 移动到第一行
-q / ZZ - 退出 less 命令
-</code></pre><blockquote>
-<p>  其它有用的命令</p>
-</blockquote>
-<pre><code>v - 使用配置的编辑器编辑当前文件
-h - 显示 less 的帮助文档
-&amp;pattern - 仅显示匹配模式的行，而不是整个文件
-</code></pre><blockquote>
-<p>  标记导航</p>
-</blockquote>
-<pre><code>当使用 less 查看大文件时，可以在任何一个位置作标记，可以通过命令导航到标有特定标记的文本位置：
-ma - 使用 a 标记文本的当前位置
-‘a - 导航到标记 a 处
-</code></pre>
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="https://eagleless.github.io/20160822/20160822linux-less-command.html" data-id="civ0ppi42001wmwj7g1tlvgc4" class="article-share-link">
-        <i class="fa fa-share"></i> Share
-      </a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-    
-<ul id="article-nav" class="nav nav-pills nav-justified">
-  
-  <li role="presentation">
-    <a href="/20160822/20160822数据库面试常问的一些基本概念.html" id="article-nav-older" class="article-nav-link-wrap">
-      <i class="fa fa-chevron-left pull-left"></i>
-      <span class="article-nav-link-title">数据库面试常问的一些基本概念</span>
-    </a>
-  </li>
-  
-  
-  <li role="presentation">
-    <a href="/20160823/20160823Oracle常用函数.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <span class="article-nav-link-title">ORACLE常用数值函数、转换函数、字符串函数</span>
-      <i class="fa fa-chevron-right pull-right"></i>
-    </a>
-  </li>
-  
-</ul>
-
-
-  
+  </header>
 </article>
 
+  
+  
+    </div></section>
+  
+
+
+  <div id="page-nav">
+    <nav><ul class="pagination"><li><a class="page-prev" rel="prev" href="/archives/2016/page/4/"><i class="fa fa-chevron-left"></i> Prev</a></li><li><a class="page-number" href="/archives/2016/">1</a></li><li class="disabled"><span class="page-space">&hellip;</span></li><li><a class="page-number" href="/archives/2016/page/3/">3</a></li><li><a class="page-number" href="/archives/2016/page/4/">4</a></li><li class="active"><span class="page-number">5</span></li><li class="disabled"><span class="page-next">Next <i class="fa fa-chevron-right"></i></a></li></ul></nav>
+  </div>
 
 
 
