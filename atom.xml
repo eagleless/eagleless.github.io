@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://eagleless.github.io/"/>
-  <updated>2016-11-02T09:19:31.029Z</updated>
+  <updated>2016-11-04T10:09:56.196Z</updated>
   <id>https://eagleless.github.io/</id>
   
   <author>
@@ -14,6 +14,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java爬虫HelloWorld</title>
+    <link href="https://eagleless.github.io/20161104/20161104Java%E7%88%AC%E8%99%ABHelloWorld.html"/>
+    <id>https://eagleless.github.io/20161104/20161104Java爬虫HelloWorld.html</id>
+    <published>2016-11-04T10:00:22.000Z</published>
+    <updated>2016-11-04T10:09:56.196Z</updated>
+    
+    <content type="html"><![CDATA[<p>使用爬虫获取产品信息。<br><a id="more"></a></p>
+<h1 id="jar包坐标"><a href="#jar包坐标" class="headerlink" title="jar包坐标"></a>jar包坐标</h1><pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.jsoup&lt;/groupId&gt;
+    &lt;artifactId&gt;jsoup&lt;/artifactId&gt;
+    &lt;version&gt;1.9.2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><h1 id="简单实例"><a href="#简单实例" class="headerlink" title="简单实例"></a>简单实例</h1><p>获取产品信息，根据一定的条件，选择优质债权发送给指定邮箱。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">Timer timer = <span class="keyword">new</span> Timer();</div><div class="line">timer.schedule( <span class="keyword">new</span> TimerTask() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(DateTool.format( <span class="keyword">new</span> Date(),<span class="string">"yyyy-MM-dd HH:mm:ss"</span> ));</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            String url = <span class="string">"https://xinghuo.yixin.com/wuqing?category=12"</span>;</div><div class="line">            Document doc = Jsoup.connect(url).get();</div><div class="line">            Elements els = doc.getElementsByClass(<span class="string">"ui-bg-color"</span>);</div><div class="line">            StringBuffer sb = <span class="keyword">new</span> StringBuffer();</div><div class="line">            <span class="keyword">for</span>(Iterator&lt;Element&gt; es = els.iterator();es.hasNext();)&#123;</div><div class="line">                Element e = es.next();</div><div class="line">                String info = e.text();</div><div class="line">                String[] infos = info.split( <span class="string">" "</span> ) ;</div><div class="line">                Double a = Double.valueOf( infos[<span class="number">1</span>].replaceAll( <span class="string">"%"</span>, <span class="string">""</span> ) ) ;</div><div class="line">                Integer rundays = Integer.valueOf( infos[<span class="number">3</span>].replaceAll( <span class="string">"天"</span>, <span class="string">""</span> ) );</div><div class="line">                Double result = rundays/a;</div><div class="line">                <span class="keyword">if</span>(result &lt; <span class="number">42</span>)&#123;</div><div class="line">                    sb.append( <span class="string">"【"</span>+infos[<span class="number">0</span>] +<span class="string">"】收益率为"</span> + infos[<span class="number">1</span>]+<span class="string">",当前剩余配额【"</span>+infos[<span class="number">4</span>]+<span class="string">"】,投资天数【"</span>+infos[<span class="number">3</span>]+<span class="string">"】\n"</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(sb!=<span class="keyword">null</span> &amp;&amp; sb.length()&gt;<span class="number">0</span>)&#123;</div><div class="line">                JmsTool.sendMultipartEmail( <span class="string">"变现贷好产品提醒"</span>, <span class="string">"kaiyang12@creditease.cn"</span>, <span class="keyword">null</span>, sb.toString() );</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> ( IOException e ) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;, <span class="number">60000</span>*<span class="number">5</span>,<span class="number">60000</span>*<span class="number">5</span>);</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用爬虫获取产品信息。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="splide" scheme="https://eagleless.github.io/tags/splide/"/>
+    
+  </entry>
   
   <entry>
     <title>RedirectAttributes使用</title>
@@ -665,50 +693,6 @@
     
     
       <category term="git" scheme="https://eagleless.github.io/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Tomcat简介</title>
-    <link href="https://eagleless.github.io/20160829/20160829Tomcat%E7%AE%80%E4%BB%8B.html"/>
-    <id>https://eagleless.github.io/20160829/20160829Tomcat简介.html</id>
-    <published>2016-08-29T07:59:47.000Z</published>
-    <updated>2016-10-12T10:02:08.181Z</updated>
-    
-    <content type="html"><![CDATA[<p>tomcat参数、跨域访问、tomcat-user、tomcat服务开机后台启动、tomcat_permgen_space错误<br><a id="more"></a></p>
-<blockquote>
-<p>  设置tomcat参数</p>
-</blockquote>
-<p>-Xmx1024M -Xms512M -XX:MaxPermSize=256m</p>
-<blockquote>
-<p>  tomcat跨域访问</p>
-</blockquote>
-<p><a href="http://blog.csdn.net/liumm0000/article/details/8443550" target="_blank" rel="external">http://blog.csdn.net/liumm0000/article/details/8443550</a><br>若允许Tomcat所有域访问，将clientaccesspolicy.xml和crossdomain.xml加入%TOMCAT_HOME%\webapps\ROOT 目录下即可<br>clientaccesspolicy.xml示例：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span> <span class="meta">?&gt;</span></span>  </div><div class="line"><span class="tag">&lt;<span class="name">access-policy</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;<span class="name">cross-domain-access</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">policy</span>&gt;</span>  </div><div class="line">      <span class="tag">&lt;<span class="name">allow-from</span> <span class="attr">http-request-headers</span>=<span class="string">"*"</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">domain</span> <span class="attr">uri</span>=<span class="string">"*"</span>/&gt;</span>  </div><div class="line">      <span class="tag">&lt;/<span class="name">allow-from</span>&gt;</span>  </div><div class="line">      <span class="tag">&lt;<span class="name">grant-to</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">resource</span> <span class="attr">path</span>=<span class="string">"/"</span> <span class="attr">include-subpaths</span>=<span class="string">"true"</span>/&gt;</span>  </div><div class="line">      <span class="tag">&lt;/<span class="name">grant-to</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">policy</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;/<span class="name">cross-domain-access</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">access-policy</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>  设置tomcat开机后台启动</p>
-</blockquote>
-<p><a href="http://jingyan.baidu.com/article/a65957f4b12b8724e77f9b5a.html" target="_blank" rel="external">http://jingyan.baidu.com/article/a65957f4b12b8724e77f9b5a.html</a></p>
-<blockquote>
-<p>  tomcat_permgen_space错误</p>
-</blockquote>
-<p>rem permgen space<br>rem —– Execute The Requested Command —————————————<br>set JAVA_OPTS=%JAVA_OPTS% -server -XX:PermSize=128m -XX:MaxPermSize=512m</p>
-<blockquote>
-<p>  tomcat-user</p>
-</blockquote>
-<p>tomcat7<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">tomcat-users</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"tomcat"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"role1"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">user</span> <span class="attr">password</span>=<span class="string">"tomcat"</span> <span class="attr">roles</span>=<span class="string">"tomcat"</span> <span class="attr">username</span>=<span class="string">"tomcat"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">user</span> <span class="attr">password</span>=<span class="string">"tomcat"</span> <span class="attr">roles</span>=<span class="string">"tomcat,role1"</span> <span class="attr">username</span>=<span class="string">"both"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">user</span> <span class="attr">password</span>=<span class="string">"tomcat"</span> <span class="attr">roles</span>=<span class="string">"role1"</span> <span class="attr">username</span>=<span class="string">"role1"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tomcat-users</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>tomcat8<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">tomcat-users</span> <span class="attr">version</span>=<span class="string">"1.0"</span> <span class="attr">xmlns</span>=<span class="string">"http://tomcat.apache.org/xml"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://tomcat.apache.org/xml tomcat-users.xsd"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager"</span>/&gt;</span>　</div><div class="line">    <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"manager-gui"</span>/&gt;</span>　</div><div class="line">    <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin"</span>/&gt;</span>　</div><div class="line">    <span class="tag">&lt;<span class="name">role</span> <span class="attr">rolename</span>=<span class="string">"admin-gui"</span>/&gt;</span>　</div><div class="line">    <span class="tag">&lt;<span class="name">user</span> <span class="attr">username</span>=<span class="string">"tomcat"</span> <span class="attr">password</span>=<span class="string">"tomcat"</span> <span class="attr">roles</span>=<span class="string">"admin-gui,admin,manager-gui,manager"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tomcat-users</span>&gt;</span></div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;tomcat参数、跨域访问、tomcat-user、tomcat服务开机后台启动、tomcat_permgen_space错误&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="tomcat" scheme="https://eagleless.github.io/tags/tomcat/"/>
-    
-      <category term="server" scheme="https://eagleless.github.io/tags/server/"/>
     
   </entry>
   

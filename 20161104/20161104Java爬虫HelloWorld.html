@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: markdown | 无名氏无情兮</title>
+  <title>Java爬虫HelloWorld | 无名氏无情兮</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Walk steps step by step">
-<meta property="og:type" content="website">
-<meta property="og:title" content="无名氏无情兮">
-<meta property="og:url" content="https://eagleless.github.io/tags/markdown/index.html">
+  <meta name="description" content="使用爬虫获取产品信息。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java爬虫HelloWorld">
+<meta property="og:url" content="https://eagleless.github.io/20161104/20161104Java爬虫HelloWorld.html">
 <meta property="og:site_name" content="无名氏无情兮">
-<meta property="og:description" content="Walk steps step by step">
+<meta property="og:description" content="使用爬虫获取产品信息。">
+<meta property="og:updated_time" content="2016-11-04T10:09:56.196Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="无名氏无情兮">
-<meta name="twitter:description" content="Walk steps step by step">
+<meta name="twitter:title" content="Java爬虫HelloWorld">
+<meta name="twitter:description" content="使用爬虫获取产品信息。">
   
     <link rel="alternate" href="/atom.xml" title="无名氏无情兮" type="application/atom+xml">
   
@@ -78,40 +79,77 @@
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
+          <article id="post-20161104Java爬虫HelloWorld" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
     
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/20160810/20160810markdown语法示例.html">MarkDown语法</a>
+    <h1 class="article-title" itemprop="name">
+      Java爬虫HelloWorld
     </h1>
   
 
 
+  </header>
+
+  <div class="article-meta">
     <div class="article-datetime">
-  <a href="/20160810/20160810markdown语法示例.html" class="archive-article-date"><time datetime="2016-08-10T08:16:01.000Z" itemprop="datePublished">八月 10日</time></a>
+  <a href="/20161104/20161104Java爬虫HelloWorld.html" class="article-date"><time datetime="2016-11-04T10:00:22.000Z" itemprop="datePublished">2016-11-04</time></a>
 </div>
 
-  </header>
-</article>
+    
+    
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用爬虫获取产品信息。<br><a id="more"></a></p>
+<h1 id="jar包坐标"><a href="#jar包坐标" class="headerlink" title="jar包坐标"></a>jar包坐标</h1><pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.jsoup&lt;/groupId&gt;
+    &lt;artifactId&gt;jsoup&lt;/artifactId&gt;
+    &lt;version&gt;1.9.2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><h1 id="简单实例"><a href="#简单实例" class="headerlink" title="简单实例"></a>简单实例</h1><p>获取产品信息，根据一定的条件，选择优质债权发送给指定邮箱。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">Timer timer = <span class="keyword">new</span> Timer();</div><div class="line">timer.schedule( <span class="keyword">new</span> TimerTask() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(DateTool.format( <span class="keyword">new</span> Date(),<span class="string">"yyyy-MM-dd HH:mm:ss"</span> ));</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            String url = <span class="string">"https://xinghuo.yixin.com/wuqing?category=12"</span>;</div><div class="line">            Document doc = Jsoup.connect(url).get();</div><div class="line">            Elements els = doc.getElementsByClass(<span class="string">"ui-bg-color"</span>);</div><div class="line">            StringBuffer sb = <span class="keyword">new</span> StringBuffer();</div><div class="line">            <span class="keyword">for</span>(Iterator&lt;Element&gt; es = els.iterator();es.hasNext();)&#123;</div><div class="line">                Element e = es.next();</div><div class="line">                String info = e.text();</div><div class="line">                String[] infos = info.split( <span class="string">" "</span> ) ;</div><div class="line">                Double a = Double.valueOf( infos[<span class="number">1</span>].replaceAll( <span class="string">"%"</span>, <span class="string">""</span> ) ) ;</div><div class="line">                Integer rundays = Integer.valueOf( infos[<span class="number">3</span>].replaceAll( <span class="string">"天"</span>, <span class="string">""</span> ) );</div><div class="line">                Double result = rundays/a;</div><div class="line">                <span class="keyword">if</span>(result &lt; <span class="number">42</span>)&#123;</div><div class="line">                    sb.append( <span class="string">"【"</span>+infos[<span class="number">0</span>] +<span class="string">"】收益率为"</span> + infos[<span class="number">1</span>]+<span class="string">",当前剩余配额【"</span>+infos[<span class="number">4</span>]+<span class="string">"】,投资天数【"</span>+infos[<span class="number">3</span>]+<span class="string">"】\n"</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(sb!=<span class="keyword">null</span> &amp;&amp; sb.length()&gt;<span class="number">0</span>)&#123;</div><div class="line">                JmsTool.sendMultipartEmail( <span class="string">"变现贷好产品提醒"</span>, <span class="string">"kaiyang12@creditease.cn"</span>, <span class="keyword">null</span>, sb.toString() );</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> ( IOException e ) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;, <span class="number">60000</span>*<span class="number">5</span>,<span class="number">60000</span>*<span class="number">5</span>);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="https://eagleless.github.io/20161104/20161104Java爬虫HelloWorld.html" data-id="civ3me9tp004etcj7gbmgxkj5" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/splide/">splide</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/20161102/20161102RedirectAttributes使用.html" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">RedirectAttributes使用</span>
+    </a>
+  </li>
+  
+  
+</ul>
+
 
   
-  
-    </div></section>
-  
+</article>
 
 
 
