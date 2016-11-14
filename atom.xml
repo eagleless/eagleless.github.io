@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://eagleless.github.io/"/>
-  <updated>2016-11-11T07:02:16.194Z</updated>
+  <updated>2016-11-14T04:05:28.600Z</updated>
   <id>https://eagleless.github.io/</id>
   
   <author>
@@ -14,6 +14,56 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ldap基础知识</title>
+    <link href="https://eagleless.github.io/20161114/20161114Ldap%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html"/>
+    <id>https://eagleless.github.io/20161114/20161114Ldap基础知识.html</id>
+    <published>2016-11-14T03:42:08.000Z</published>
+    <updated>2016-11-14T04:05:28.600Z</updated>
+    
+    <content type="html"><![CDATA[<p>LDAP：<code>Lightweight Directory Access Protocol</code>轻量级目录访问协议。LDAP协议基于<code>X.500</code>标准, 与<code>X.500</code>不同，LDAP支持<code>TCP/IP</code>, 是跨平台的和标准的协议。<br><a id="more"></a></p>
+<p>在LDAP中信息以树状方式组织，在树状信息中的基本数据单元是条目，而每个条目由属性构成，属性中存储有属性值<br>        O(zhangyang.com)<br>            /       /<br>         ou1     ou2<br>        /    /<br>        test</p>
+<ol>
+<li>O:Organization 组织<br>根的表示方法（参考LDAP Server）<br>a.  组织名称(x.500)<br>假设组织名称为zhangyang(o=zhangyang)<br>b.  域名<br>假设组织域名为zhangyang.com(o=zhangyang.com或dc=zhangyang, dc=com)</li>
+<li>OU: Organization Unit 组织单元</li>
+<li>Entry: 条目,记录， 由DN唯一标识</li>
+<li>DN: Distinguished Name，每个叶子结点到根的路径就是DN,如: cn=test, ou=ou1, o=zhangyang.com</li>
+<li>RDN: Relative Distinguished Name，叶子结点本身的名字是RDN,如:test就是RDN</li>
+<li>Base DN: 基准DN，指定LDAP search的起始DN,即从哪个DN下开始搜索。搜索组织单元为ou1，则base DN为 ou=ou1,o=O(ou=ou1,o=zhangyang.com 或 ou=ou1,dc=zhangyang, dc=com)</li>
+<li>AttributeType：属性类型，    </li>
+<li>ObjectClass: 对象类,由多个attributetype(属性类型)组成, 每个条目(Entry)必须属于某个或多个对象类（Object Class）</li>
+<li>schema文件: 定义对象类、属性类型、语法和匹配规则, 有系统schema，用户也可自定义schema文件</li>
+<li><p>LDIF:<code>LDAP Interchange Format</code>, 是指存储LDAP配置信息及目录内容的标准文本文件格式。LDIF文件常用来向目录导入或更改记录信息，<br>基本格式：AttributeName: value(属性名 冒号 空格 属性值)<br>例如:</p>
+<p>dn: dc=zy,dc=net<br>objectclass: dcObject<br>objectclass: organization<br>dc: zy<br>o: zhangyang</p>
+</li>
+<li><p>监听端口<br>TCP/IP port: 389<br>SSL port: 636</p>
+</li>
+</ol>
+<h1 id="Search-filter"><a href="#Search-filter" class="headerlink" title="Search filter:"></a>Search filter:</h1><p>每个表达式都放在括号内，多个表达式用与(&amp;)，或(|)，非(!)等连结</p>
+<h3 id="amp-filter1-filter2-…-filtern同时满足"><a href="#amp-filter1-filter2-…-filtern同时满足" class="headerlink" title="&amp;filter1,filter2,…,filtern同时满足"></a>&amp;filter1,filter2,…,filtern同时满足</h3><pre><code>(&amp;(filter1)(filter2)...(filtern))
+</code></pre><h3 id="filter1-filter2-…-filtern至少有一个满足"><a href="#filter1-filter2-…-filtern至少有一个满足" class="headerlink" title="|filter1,filter2,…,filtern至少有一个满足"></a>|filter1,filter2,…,filtern至少有一个满足</h3><pre><code>(|(filter1)(filter2)...(filtern))    
+</code></pre><h3 id="非filter"><a href="#非filter" class="headerlink" title="!非filter"></a>!非filter</h3><pre><code>(!(filter))                             
+</code></pre><p>filter支持通配符(wildcard)<em>
+</em>表示零或多个字符<br>如（objectclass=*）,指列出所有类型的记录（不过分类）</p>
+<h1 id="LDAP客户端和LDAP服务器端交互过程"><a href="#LDAP客户端和LDAP服务器端交互过程" class="headerlink" title="LDAP客户端和LDAP服务器端交互过程"></a>LDAP客户端和LDAP服务器端交互过程</h1><ol>
+<li>绑定。LDAP客户端与LDAP服务器建立连接。可匿名绑定，也可以用户名+密码形式绑定(具体参考LDAP Server, AD不支持匿名查询)。</li>
+<li>LDAP客户端向LDAP服务器发出查询、添加、修改、删除entry等操作。  </li>
+<li>解除绑定。LDAP客户端与LDAP服务器断开连接。</li>
+</ol>
+<h1 id="LDAP软件"><a href="#LDAP软件" class="headerlink" title="LDAP软件"></a>LDAP软件</h1><p>常见的LDAP服务器：Microsoft Active Directory, IBM Domino, openldap<br>常见的LDAP客户端： JXplorer</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;LDAP：&lt;code&gt;Lightweight Directory Access Protocol&lt;/code&gt;轻量级目录访问协议。LDAP协议基于&lt;code&gt;X.500&lt;/code&gt;标准, 与&lt;code&gt;X.500&lt;/code&gt;不同，LDAP支持&lt;code&gt;TCP/IP&lt;/code&gt;, 是跨平台的和标准的协议。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="ldap" scheme="https://eagleless.github.io/tags/ldap/"/>
+    
+  </entry>
   
   <entry>
     <title>Spider之webmagic</title>
@@ -627,39 +677,6 @@ log4j.appender.R.ConversionPattern=%p %t %c - %m%n
     
     
       <category term="spring" scheme="https://eagleless.github.io/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>对象的生命周期</title>
-    <link href="https://eagleless.github.io/20161005/20161005%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.html"/>
-    <id>https://eagleless.github.io/20161005/20161005对象的生命周期.html</id>
-    <published>2016-10-05T08:13:29.000Z</published>
-    <updated>2016-11-02T02:39:38.010Z</updated>
-    
-    <content type="html"><![CDATA[<p>对象的生命周期分为七个阶段。<br><a id="more"></a></p>
-<blockquote>
-<p>  对象的生命周期</p>
-</blockquote>
-<p>大致分为七个阶段<br>1、创建阶段Creation<br>2、应用阶段Using<br>3、不可视阶段Invisible<br>4、不可到达阶段Unreachable<br>5、可收集阶段Collected<br>6、终结阶段Finalized<br>7、释放阶段Free</p>
-<blockquote>
-<blockquote>
-<p> 对象的创建过程</p>
-</blockquote>
-</blockquote>
-<p>1、为对象分配存储空间<br>2、开始构造对象<br>3、递归调用其超类的构造方法</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;对象的生命周期分为七个阶段。&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="java" scheme="https://eagleless.github.io/tags/java/"/>
-    
-      <category term="gc" scheme="https://eagleless.github.io/tags/gc/"/>
     
   </entry>
   
