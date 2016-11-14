@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://eagleless.github.io/"/>
-  <updated>2016-11-14T04:20:32.303Z</updated>
+  <updated>2016-11-14T08:41:37.760Z</updated>
   <id>https://eagleless.github.io/</id>
   
   <author>
@@ -14,6 +14,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ReadMe</title>
+    <link href="https://eagleless.github.io/20161114/20160810ReadMe.html"/>
+    <id>https://eagleless.github.io/20161114/20160810ReadMe.html</id>
+    <published>2016-11-14T08:40:00.000Z</published>
+    <updated>2016-11-14T08:41:37.760Z</updated>
+    
+    <content type="html"><![CDATA[<p>常用地址导航。<br><a id="more"></a></p>
+<h1 id="任务变更"><a href="#任务变更" class="headerlink" title="任务变更"></a>任务变更</h1><p><a href="http://123.56.228.50:8080/taskChange?changeFlag=XXX" target="_blank" rel="external">http://123.56.228.50:8080/taskChange?changeFlag=XXX</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;常用地址导航。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="tool" scheme="https://eagleless.github.io/tags/tool/"/>
+    
+  </entry>
   
   <entry>
     <title>Ldap基础知识</title>
@@ -640,43 +662,6 @@ log4j.appender.R.ConversionPattern=%p %t %c - %m%n
     
     
       <category term="oracle" scheme="https://eagleless.github.io/tags/oracle/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SpringMvc静态资源处理</title>
-    <link href="https://eagleless.github.io/20161013/20161013SpringMvc%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86.html"/>
-    <id>https://eagleless.github.io/20161013/20161013SpringMvc静态资源处理.html</id>
-    <published>2016-10-13T02:01:52.000Z</published>
-    <updated>2016-10-13T02:09:10.791Z</updated>
-    
-    <content type="html"><![CDATA[<p>处理静态资源，我想这可能是框架搭建完成之后Web开发的”头等大事“了。<br><a id="more"></a><br>还记得Spring MVC中的DispatcherServlet吗？它是Spring MVC中的前置控制器，若配置的拦截路径为“/”，那么所有的请求都将被它拦截。对静态资源的访问也属于一个请求，那么也会被它拦截，然后进入它的匹配流 程，我们知道它是根据HandlerMapping的配置来匹配的。而对于静态资源来说，默认的Spring MVC是没有注册匹配规则的，此时若你去请求一个静态资源，则会报404错误。</p>
-<blockquote>
-<p>  如何处理静态资源的请求呢？</p>
-</blockquote>
-<p>我们可以配置一个处理静态资源的HandlerMapping<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"resourceHttpRequestHandler"</span> <span class="attr">class</span>=<span class="string">"org.springframework.web.servlet.resource.ResourceHttpRequestHandler"</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"locations"</span> <span class="attr">value</span>=<span class="string">"classpath:/META-INF/resources/"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>     </div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mappings"</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">props</span>&gt;</span>  </div><div class="line">            <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"/resources/**"</span>&gt;</span>resourceHttpRequestHandler<span class="tag">&lt;/<span class="name">prop</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;/<span class="name">props</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>另外，还可以使用mvc命名空间的resources标签来配置</p>
-<pre><code>&lt;mvc:resources mapping=&quot;/resources/**&quot; location=&quot;/resources/&quot; /&gt;
-</code></pre><blockquote>
-<p>  直接用容器的DefaultServlet</p>
-</blockquote>
-<p>比如我们将资源文件都放在resouces目录下，那么只需要在web.xml中配置：</p>
-<pre><code> &lt;servlet-mapping&gt;  
-    &lt;servlet-name&gt;default&lt;/servlet-name&gt;  
-    &lt;url-pattern&gt;/resource/*&lt;/url-pattern&gt;  
-&lt;/servlet-mapping&gt;  
-</code></pre><p>并将它放在所有Servlet的最前面（为了让它最先匹配），这样的话性能上应该比较好</p>
-<p>所以，综上所述，性能最好的应该是直接利用容器的DefaultServlet，让它最先拦截静态资源请求，这样就避免了后续的转发等操作，提高了 性能，但是无法访问classpath下的资源文件。而通过mvc:resources标签可以简单配置匹配规则和资源文件路径，应该说是最简单快捷的一 种方式，当然这大概也是mvc命名空间设计的初衷。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;处理静态资源，我想这可能是框架搭建完成之后Web开发的”头等大事“了。&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="spring" scheme="https://eagleless.github.io/tags/spring/"/>
     
   </entry>
   
