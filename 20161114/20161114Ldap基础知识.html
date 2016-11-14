@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://eagleless.github.io/20161114/20161114Ldap基础知识.html">
 <meta property="og:site_name" content="无名氏无情兮">
 <meta property="og:description" content="LDAP：Lightweight Directory Access Protocol轻量级目录访问协议。LDAP协议基于X.500标准, 与X.500不同，LDAP支持TCP/IP, 是跨平台的和标准的协议。">
-<meta property="og:updated_time" content="2016-11-14T04:05:28.600Z">
+<meta property="og:updated_time" content="2016-11-14T04:20:32.303Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ldap基础知识">
 <meta name="twitter:description" content="LDAP：Lightweight Directory Access Protocol轻量级目录访问协议。LDAP协议基于X.500标准, 与X.500不同，LDAP支持TCP/IP, 是跨平台的和标准的协议。">
@@ -106,7 +106,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>LDAP：<code>Lightweight Directory Access Protocol</code>轻量级目录访问协议。LDAP协议基于<code>X.500</code>标准, 与<code>X.500</code>不同，LDAP支持<code>TCP/IP</code>, 是跨平台的和标准的协议。<br><a id="more"></a></p>
-<p>在LDAP中信息以树状方式组织，在树状信息中的基本数据单元是条目，而每个条目由属性构成，属性中存储有属性值<br>        O(zhangyang.com)<br>            /       /<br>         ou1     ou2<br>        /    /<br>        test</p>
+<p>在LDAP中信息以树状方式组织，在树状信息中的基本数据单元是条目，而每个条目由属性构成，属性中存储有属性值<br>    <code>O(zhangyang.com)</code><br>        <code>/</code>       <code>/</code><br>     <code>ou1</code>     <code>ou2</code><br>        <code>/</code>     <code>/</code><br>        <code>test</code></p>
 <ol>
 <li>O:Organization 组织<br>根的表示方法（参考LDAP Server）<br>a.  组织名称(x.500)<br>假设组织名称为zhangyang(o=zhangyang)<br>b.  域名<br>假设组织域名为zhangyang.com(o=zhangyang.com或dc=zhangyang, dc=com)</li>
 <li>OU: Organization Unit 组织单元</li>
