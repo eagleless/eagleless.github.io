@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://eagleless.github.io/"/>
-  <updated>2016-11-14T08:41:37.760Z</updated>
+  <updated>2016-11-16T09:59:39.765Z</updated>
   <id>https://eagleless.github.io/</id>
   
   <author>
@@ -20,10 +20,11 @@
     <link href="https://eagleless.github.io/20161114/20160810ReadMe.html"/>
     <id>https://eagleless.github.io/20161114/20160810ReadMe.html</id>
     <published>2016-11-14T08:40:00.000Z</published>
-    <updated>2016-11-14T08:41:37.760Z</updated>
+    <updated>2016-11-16T09:59:39.765Z</updated>
     
     <content type="html"><![CDATA[<p>常用地址导航。<br><a id="more"></a></p>
-<h1 id="任务变更"><a href="#任务变更" class="headerlink" title="任务变更"></a>任务变更</h1><p><a href="http://123.56.228.50:8080/taskChange?changeFlag=XXX" target="_blank" rel="external">http://123.56.228.50:8080/taskChange?changeFlag=XXX</a></p>
+<h1 id="任务变更"><a href="#任务变更" class="headerlink" title="任务变更"></a>任务变更</h1><p><a href="http://123.56.228.50:8080/taskChange?changeFlag=start" target="_blank" rel="external">http://123.56.228.50:8080/taskChange?changeFlag=start</a></p>
+<p><a href="http://123.56.228.50:8080/taskChange?changeFlag=stop" target="_blank" rel="external">http://123.56.228.50:8080/taskChange?changeFlag=stop</a></p>
 ]]></content>
     
     <summary type="html">
@@ -144,9 +145,9 @@
     </summary>
     
     
-      <category term="http" scheme="https://eagleless.github.io/tags/http/"/>
-    
       <category term="server" scheme="https://eagleless.github.io/tags/server/"/>
+    
+      <category term="http" scheme="https://eagleless.github.io/tags/http/"/>
     
   </entry>
   
