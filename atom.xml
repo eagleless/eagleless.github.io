@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://eagleless.github.io/"/>
-  <updated>2016-11-16T09:59:39.765Z</updated>
+  <updated>2016-11-22T02:10:16.645Z</updated>
   <id>https://eagleless.github.io/</id>
   
   <author>
@@ -14,6 +14,74 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>NavicatForMysql快捷键</title>
+    <link href="https://eagleless.github.io/20161120/20161120NavicatForMysql%E5%BF%AB%E6%8D%B7%E9%94%AE.html"/>
+    <id>https://eagleless.github.io/20161120/20161120NavicatForMysql快捷键.html</id>
+    <published>2016-11-20T13:13:47.000Z</published>
+    <updated>2016-11-22T02:10:16.645Z</updated>
+    
+    <content type="html"><![CDATA[<p> Navicat For Mysql快捷键。<br><a id="more"></a><br>1.ctrl+q           打开查询窗口<br>2.ctrl+/            注释sql语句<br>3.ctrl+shift +/  解除注释<br>4.ctrl+r           运行查询窗口的sql语句<br>5.ctrl+shift+r   只运行选中的sql语句<br>6.F6               打开一个MySQL命令行窗口<br>7.ctrl+l            删除一行<br>8.ctrl+n           打开一个新的查询窗口<br>9.ctrl+w          关闭一个查询窗口</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt; Navicat For Mysql快捷键。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="mysql" scheme="https://eagleless.github.io/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux私房菜之计算机概论(1)</title>
+    <link href="https://eagleless.github.io/20161116/20161116Linux%E7%A7%81%E6%88%BF%E8%8F%9C%E4%B9%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A6%82%E8%AE%BA-1.html"/>
+    <id>https://eagleless.github.io/20161116/20161116Linux私房菜之计算机概论-1.html</id>
+    <published>2016-11-16T13:58:41.000Z</published>
+    <updated>2016-11-17T01:55:43.520Z</updated>
+    
+    <content type="html"><![CDATA[<p>计算机的组成部分，运行流程，计算机分类，计算机计算单位。<br><a id="more"></a></p>
+<h1 id="计算机硬件五大单元"><a href="#计算机硬件五大单元" class="headerlink" title="计算机硬件五大单元"></a>计算机硬件五大单元</h1><p>以外观看，主要分为三个部分：</p>
+<ol>
+<li>输入单元：键盘、鼠标、卡片阅读机、扫描仪、手写板、触摸屏幕等。</li>
+<li>中央处理器（CPU）：算术逻辑、控制、记忆等单元。</li>
+<li>输出单元：屏幕、打印机等。</li>
+</ol>
+<p>计算机包括输入单元、输出单元、CPU内部的控制单元、算术逻辑单元和内存五大部分。基本上数据都是流经内存再转出去，至于数据会流进还是流出内存，则是CPU所发布的控制指令。而CPU实际要处理的数据则完全来自于内存。</p>
+<h1 id="计算机运行流程"><a href="#计算机运行流程" class="headerlink" title="计算机运行流程"></a>计算机运行流程</h1><p>主机中最重要的就是CPU与内存，CPU的数据统统来自于内存，如果要由过去的经验来判断事情，也要将经验（硬盘）挪到当前记忆（内存）中，再交由CPU来判断。</p>
+<ol>
+<li>CPU：就好像大脑，主要负责所有相关事情的判断与实际处理的机制。</li>
+<li>内存（RMA）：大脑中的记录区块，将皮肤、眼睛所收到的信息记录起来！以供CPU思考使用。</li>
+<li>硬盘：大脑中的记忆区块，记录着各种经验，也就是CPU的读取/写入。</li>
+<li>主板：神经系统，将所有的元件连接在一起，包括手脚的活动都是大脑发布命令后，通过神经（主板）传输给手脚来进行活动。</li>
+<li>显卡：脑袋中的影像，将各种影像输出的装备，也是由CPU将影像传出来。</li>
+<li>电源：心脏，动力来源。</li>
+<li>各项接口设备：手脚、皮肤、眼睛等，键盘、鼠标、网卡等，操纵人体与外界环境的互动。</li>
+</ol>
+<h1 id="计算机分类"><a href="#计算机分类" class="headerlink" title="计算机分类"></a>计算机分类</h1><ol>
+<li>超级计算机Super Computer <a href="http://www.top500.org" target="_blank" rel="external">http://www.top500.org</a></li>
+<li>大型计算机Mainframe Computer 大型企业的主机、数据库服务器</li>
+<li>迷你计算机Mini Computer保持大型计算机的多用户特性，但主机在一般作业场所即可，不需要特殊的空调场所</li>
+<li>工作站Workstation，性价比最高</li>
+<li>微电脑Micro Computer，个人计算机（台式机、笔记本）</li>
+</ol>
+<h1 id="计算机计算单位"><a href="#计算机计算单位" class="headerlink" title="计算机计算单位"></a>计算机计算单位</h1><p><em>大小单位</em></p>
+<p>理论上计算机只认识0/1，称之为bit，但是bit单位太小了，因此定义byte单位：1byte=8bit。P&gt;T&gt;G&gt;M&gt;K&gt;B(byte)(1024)，一般大小，文件大小使用的是二进制的方式，所以1GB=1024<em>1024</em>1024B</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;计算机的组成部分，运行流程，计算机分类，计算机计算单位。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="https://eagleless.github.io/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>ReadMe</title>
@@ -282,34 +350,6 @@ log4j.appender.R.ConversionPattern=%p %t %c - %m%n
   </entry>
   
   <entry>
-    <title>Java爬虫HelloWorld</title>
-    <link href="https://eagleless.github.io/20161104/20161104Java%E7%88%AC%E8%99%ABHelloWorld.html"/>
-    <id>https://eagleless.github.io/20161104/20161104Java爬虫HelloWorld.html</id>
-    <published>2016-11-04T10:00:22.000Z</published>
-    <updated>2016-11-11T06:12:59.068Z</updated>
-    
-    <content type="html"><![CDATA[<p>使用爬虫获取产品信息。<br><a id="more"></a></p>
-<h1 id="jar包坐标"><a href="#jar包坐标" class="headerlink" title="jar包坐标"></a>jar包坐标</h1><pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.jsoup&lt;/groupId&gt;
-    &lt;artifactId&gt;jsoup&lt;/artifactId&gt;
-    &lt;version&gt;1.9.2&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre><h1 id="简单实例"><a href="#简单实例" class="headerlink" title="简单实例"></a>简单实例</h1><p>获取产品信息，根据一定的条件，选择优质债权发送给指定邮箱。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">Timer timer = <span class="keyword">new</span> Timer();</div><div class="line">timer.schedule( <span class="keyword">new</span> TimerTask() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(DateTool.format( <span class="keyword">new</span> Date(),<span class="string">"yyyy-MM-dd HH:mm:ss"</span> ));</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            String url = <span class="string">"https://xinghuo.yixin.com/wuqing?category=12"</span>;</div><div class="line">            Document doc = Jsoup.connect(url).get();</div><div class="line">            Elements els = doc.getElementsByClass(<span class="string">"ui-bg-color"</span>);</div><div class="line">            StringBuffer sb = <span class="keyword">new</span> StringBuffer();</div><div class="line">            <span class="keyword">for</span>(Iterator&lt;Element&gt; es = els.iterator();es.hasNext();)&#123;</div><div class="line">                Element e = es.next();</div><div class="line">                String info = e.text();</div><div class="line">                String[] infos = info.split( <span class="string">" "</span> ) ;</div><div class="line">                Double a = Double.valueOf( infos[<span class="number">1</span>].replaceAll( <span class="string">"%"</span>, <span class="string">""</span> ) ) ;</div><div class="line">                Integer rundays = Integer.valueOf( infos[<span class="number">3</span>].replaceAll( <span class="string">"天"</span>, <span class="string">""</span> ) );</div><div class="line">                Double result = rundays/a;</div><div class="line">                <span class="keyword">if</span>(result &lt; <span class="number">42</span>)&#123;</div><div class="line">                    sb.append( <span class="string">"【"</span>+infos[<span class="number">0</span>] +<span class="string">"】收益率为"</span> + infos[<span class="number">1</span>]+<span class="string">",当前剩余配额【"</span>+infos[<span class="number">4</span>]+<span class="string">"】,投资天数【"</span>+infos[<span class="number">3</span>]+<span class="string">"】\n"</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(sb!=<span class="keyword">null</span> &amp;&amp; sb.length()&gt;<span class="number">0</span>)&#123;</div><div class="line">                JmsTool.sendMultipartEmail( <span class="string">"变现贷好产品提醒"</span>, <span class="string">"kaiyang12@creditease.cn"</span>, <span class="keyword">null</span>, sb.toString() );</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> ( IOException e ) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;, <span class="number">60000</span>*<span class="number">5</span>,<span class="number">60000</span>*<span class="number">5</span>);</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;使用爬虫获取产品信息。&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="spider" scheme="https://eagleless.github.io/tags/spider/"/>
-    
-  </entry>
-  
-  <entry>
     <title>RedirectAttributes使用</title>
     <link href="https://eagleless.github.io/20161102/20161102RedirectAttributes%E4%BD%BF%E7%94%A8.html"/>
     <id>https://eagleless.github.io/20161102/20161102RedirectAttributes使用.html</id>
@@ -519,7 +559,7 @@ log4j.appender.R.ConversionPattern=%p %t %c - %m%n
     <link href="https://eagleless.github.io/20161029/20161029Mysql%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8.html"/>
     <id>https://eagleless.github.io/20161029/20161029Mysql开机自启动.html</id>
     <published>2016-10-29T09:50:41.000Z</published>
-    <updated>2016-11-02T02:39:38.015Z</updated>
+    <updated>2016-11-22T02:10:16.644Z</updated>
     
     <content type="html"><![CDATA[<p>添加Mysql系统服务，设置开机自启动。<br><a id="more"></a></p>
 <blockquote>
@@ -529,6 +569,9 @@ log4j.appender.R.ConversionPattern=%p %t %c - %m%n
 </code></pre><p>成功后，开始-&gt;运行-&gt;services.msc 找MySQL服务，启动服务即可。<br>注：若启动不成功 修改注册表开始-&gt;运行-&gt;regedit<br>找HKEY_LOCAL_MECHINE—SYSTEM —ControlSet001或ControlSet002中找Services，再找MySQL项，修改 ImagePath 值改为：”C:\Program Files\MySQL\MySQL Server 5.6\bin\mysqld” –defaults-file=”C:\Program Files\MySQL\MySQL Server 5.6\my.ini” MySQL</p>
 <p>卸载mysql系统服务：mysqld –remove</p>
 <p>使用命令行手动启动:mysqld</p>
+<p>如出现：</p>
+<pre><code>Install/Remove of the Service Denied
+</code></pre><p>解决办法：<br>打开cmd.exe程序的时候选择“用管理员身份打开”。</p>
 ]]></content>
     
     <summary type="html">
@@ -633,36 +676,6 @@ log4j.appender.R.ConversionPattern=%p %t %c - %m%n
     
     
       <category term="maven" scheme="https://eagleless.github.io/tags/maven/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>常用ORACLE函数</title>
-    <link href="https://eagleless.github.io/20161025/20161025%E5%B8%B8%E7%94%A8ORACLE%E5%87%BD%E6%95%B0.html"/>
-    <id>https://eagleless.github.io/20161025/20161025常用ORACLE函数.html</id>
-    <published>2016-10-25T09:38:52.000Z</published>
-    <updated>2016-10-25T10:05:09.070Z</updated>
-    
-    <content type="html"><![CDATA[<p>常用oracle函数。</p>
-<a id="more"></a>
-<blockquote>
-<p>  随机获取</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> d.mobile <span class="keyword">from</span> (<span class="keyword">select</span> u.mobile <span class="keyword">from</span> itm_store s ,itm_user u <span class="keyword">where</span> s.userid =u.id <span class="keyword">and</span> s.status = <span class="number">0</span> <span class="keyword">order</span> <span class="keyword">by</span> dbms_random.value) d <span class="keyword">where</span> <span class="keyword">rownum</span> = <span class="number">1</span></div></pre></td></tr></table></figure>
-<blockquote>
-<p>  随机数</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> trunc(dbms_random.value(<span class="number">0</span>, <span class="number">1000</span>)) <span class="keyword">from</span> dual; <span class="comment">--(0-1000的整数)</span></div><div class="line"><span class="keyword">select</span> dbms_random.value(<span class="number">0</span>, <span class="number">1000</span>) <span class="keyword">from</span> dual; <span class="comment">--(0-1000的浮点数)</span></div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;常用oracle函数。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="oracle" scheme="https://eagleless.github.io/tags/oracle/"/>
     
   </entry>
   
