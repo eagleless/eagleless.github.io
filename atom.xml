@@ -213,9 +213,9 @@
     </summary>
     
     
-      <category term="server" scheme="https://eagleless.github.io/tags/server/"/>
-    
       <category term="http" scheme="https://eagleless.github.io/tags/http/"/>
+    
+      <category term="server" scheme="https://eagleless.github.io/tags/server/"/>
     
   </entry>
   
