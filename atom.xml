@@ -41,7 +41,7 @@
     <link href="https://eagleless.github.io/20161116/20161116Linux%E7%A7%81%E6%88%BF%E8%8F%9C%E4%B9%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A6%82%E8%AE%BA-1.html"/>
     <id>https://eagleless.github.io/20161116/20161116Linux私房菜之计算机概论-1.html</id>
     <published>2016-11-16T13:58:41.000Z</published>
-    <updated>2016-11-17T01:55:43.520Z</updated>
+    <updated>2016-11-25T08:42:10.731Z</updated>
     
     <content type="html"><![CDATA[<p>计算机的组成部分，运行流程，计算机分类，计算机计算单位。<br><a id="more"></a></p>
 <h1 id="计算机硬件五大单元"><a href="#计算机硬件五大单元" class="headerlink" title="计算机硬件五大单元"></a>计算机硬件五大单元</h1><p>以外观看，主要分为三个部分：</p>
@@ -70,6 +70,9 @@
 </ol>
 <h1 id="计算机计算单位"><a href="#计算机计算单位" class="headerlink" title="计算机计算单位"></a>计算机计算单位</h1><p><em>大小单位</em></p>
 <p>理论上计算机只认识0/1，称之为bit，但是bit单位太小了，因此定义byte单位：1byte=8bit。P&gt;T&gt;G&gt;M&gt;K&gt;B(byte)(1024)，一般大小，文件大小使用的是二进制的方式，所以1GB=1024<em>1024</em>1024B</p>
+<p><em>速度单位</em></p>
+<p>CPU运行速度常使用MHz或者GHz之类的单位，Hz其实就是秒分之一。而在网络传输方面，由于网络使用的是bit为单位，因此网络常使用的单位为Mbit/s，即每秒多少Mbit。</p>
+<p>例如：一个500G的硬盘，格式化完毕只有460G，是因为制造商使用的十进制单位，所以500GB位500<em>1000</em>1000*1000B，转化成文件大小单位时使用二进制(以1024为底)就成了460GB左右了。</p>
 ]]></content>
     
     <summary type="html">
