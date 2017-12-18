@@ -91,7 +91,7 @@
     <link href="https://eagleless.github.io/20161114/20160810ReadMe.html"/>
     <id>https://eagleless.github.io/20161114/20160810ReadMe.html</id>
     <published>2016-11-14T08:40:00.000Z</published>
-    <updated>2016-11-16T09:59:39.765Z</updated>
+    <updated>2016-11-25T10:28:30.365Z</updated>
     
     <content type="html"><![CDATA[<p>常用地址导航。<br><a id="more"></a></p>
 <h1 id="任务变更"><a href="#任务变更" class="headerlink" title="任务变更"></a>任务变更</h1><p><a href="http://123.56.228.50:8080/taskChange?changeFlag=start" target="_blank" rel="external">http://123.56.228.50:8080/taskChange?changeFlag=start</a></p>
@@ -114,7 +114,7 @@
     <link href="https://eagleless.github.io/20161114/20161114Ldap%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html"/>
     <id>https://eagleless.github.io/20161114/20161114Ldap基础知识.html</id>
     <published>2016-11-14T03:42:08.000Z</published>
-    <updated>2016-11-14T04:20:32.303Z</updated>
+    <updated>2016-11-25T10:28:31.174Z</updated>
     
     <content type="html"><![CDATA[<p>LDAP：<code>Lightweight Directory Access Protocol</code>轻量级目录访问协议。LDAP协议基于<code>X.500</code>标准, 与<code>X.500</code>不同，LDAP支持<code>TCP/IP</code>, 是跨平台的和标准的协议。<br><a id="more"></a></p>
 <p>在LDAP中信息以树状方式组织，在树状信息中的基本数据单元是条目，而每个条目由属性构成，属性中存储有属性值<br>    <code>O(zhangyang.com)</code><br>        <code>/</code>       <code>/</code><br>     <code>ou1</code>     <code>ou2</code><br>        <code>/</code>     <code>/</code><br>        <code>test</code></p>
@@ -164,7 +164,7 @@
     <link href="https://eagleless.github.io/20161111/20161111Spider%E4%B9%8Bwebmagic.html"/>
     <id>https://eagleless.github.io/20161111/20161111Spider之webmagic.html</id>
     <published>2016-11-11T06:15:59.000Z</published>
-    <updated>2016-11-11T07:02:16.194Z</updated>
+    <updated>2016-11-25T10:28:31.145Z</updated>
     
     <content type="html"><![CDATA[<p>JAVA爬虫框架webmagic:<a href="https://github.com/code4craft/webmagic" target="_blank" rel="external">https://github.com/code4craft/webmagic</a><br><a id="more"></a><br><a href="http://webmagic.io/docs/zh/posts/ch1-overview/component.html" target="_blank" rel="external">http://webmagic.io/docs/zh/posts/ch1-overview/component.html</a></p>
 ]]></content>
@@ -357,7 +357,7 @@ log4j.appender.R.ConversionPattern=%p %t %c - %m%n
     <link href="https://eagleless.github.io/20161102/20161102RedirectAttributes%E4%BD%BF%E7%94%A8.html"/>
     <id>https://eagleless.github.io/20161102/20161102RedirectAttributes使用.html</id>
     <published>2016-11-02T09:14:38.000Z</published>
-    <updated>2016-11-02T09:19:31.029Z</updated>
+    <updated>2016-11-25T10:28:30.860Z</updated>
     
     <content type="html"><![CDATA[<p>SpringMVC重定向传参数的实现。<br><a id="more"></a></p>
 <p>addFlashAttribute这个方法原理是放到session中，session在跳到页面后马上移除对象。所以你刷新一下后这个值就会丢失。</p>
@@ -382,7 +382,7 @@ log4j.appender.R.ConversionPattern=%p %t %c - %m%n
     <link href="https://eagleless.github.io/20161102/20161102Spring%E6%B3%A8%E8%A7%A3Resource%E4%B8%8EAutowired%E7%9A%84%E5%8C%BA%E5%88%AB.html"/>
     <id>https://eagleless.github.io/20161102/20161102Spring注解Resource与Autowired的区别.html</id>
     <published>2016-11-02T03:31:46.000Z</published>
-    <updated>2016-11-02T03:44:21.995Z</updated>
+    <updated>2016-11-25T10:28:30.880Z</updated>
     
     <content type="html"><![CDATA[<p>@autowired和@resource的区别</p>
 <a id="more"></a>
